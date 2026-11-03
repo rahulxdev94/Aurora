@@ -7,6 +7,7 @@ This repository contains the desktop implementation only. It does not replace Wi
 ## What works
 
 - Atom and Dyson scenes, pointer field effects, electron exchanges and motion controls.
+- Optional atom response to Windows playback through Seelen's built-in audio feed, with no additional helper process.
 - A vertical folder library, read-only indexed file browser, search and explicit opening in File Explorer. The C: shortcut opens Explorer without scanning the whole drive.
 - Clock, month calendar, local tasks and Focus Orbit timer. Focus makes the atoms vibrate; it does not switch Windows Do not disturb on.
 - Windows notification history from Seelen, with a bounded scrolling list, fixed controls and a clear edge above the footer. Notification text is rendered as text, never executable HTML.
@@ -64,11 +65,17 @@ For a persistent installation, close Seelen normally before removing only the re
 
 Clicking the atom opens `https://chatgpt.com/` by default. The optional local draft editor does not send a prompt or start voice. Copy the draft yourself before opening ChatGPT. A local configuration can change the launch URL, but no personal chat URL is distributed here.
 
+Playback response is **off by default**. Set `audio.enabled` to `true` in your local configuration, rebuild and reload to opt in. It uses Seelen's native feed from the default Windows multimedia output device. That includes sound from any application routed through that device, not just ChatGPT or a selected process. Applications routed to a different output may not appear. This feature does not start voice or access the microphone.
+
+Aurora converts the transient playback samples into an amplitude value in memory. It does not record audio, retain sample history, write audio to disk or upload it. No extra executable, server or API account is used. Motion off, pause and hidden states stop the visual response and client activity; reduced motion keeps a restrained response. **The first enabled native getter starts Seelen's playback capture. Seelen exposes no stop command for this feed, so host capture can continue after Aurora is paused, disabled or unloaded until Seelen is restarted.** To stop that host capture, disable the option, rebuild and restart Seelen normally. Default-off initialisation makes no audio getter or subscription call.
+
+Playback integration is experimental. Its API wiring has been checked against Seelen 2.8.10 source and tested with simulated events, but it has not yet been verified against live playback. Seelen can repeat its last waveform after sound stops, so Aurora treats an unchanged nonzero waveform lasting two seconds as idle. Only a bounded fingerprint is retained for that check. An exactly repeating sustained tone can also become idle; the feed does not supply a producer timestamp to distinguish those cases.
+
 The Outlook adapter is off by default. Enabling `calendar.enabled` reads a schema-version-1 `outlook-calendar.json` file in the widget's Seelen data directory. An authorised external process must maintain that cache. This project contains no account credentials, calendar data, synchronisation job, event writer, booking reminders or phone notifications. Its parser and freshness handling are in `src/outlook/outlook-calendar.mjs`.
 
 Notification access depends on Windows and Seelen. An empty native feed cannot prove permission was granted, so the interface says access is unverified. The history view shows at most 200 notifications and offers the native notification panel for additional controls. No dismissal or clear-all operation is implemented here.
 
-The file browser uses Seelen's index, so it may miss unindexed files or empty folders. File Explorer remains the complete fallback. CPU/GPU temperatures and assistant-playback metering need additional components and are not connected in this repository. The clock, local tasks and visual effects work without those components. The project does not restyle every native Windows dialogue or animate external application windows.
+The file browser uses Seelen's index, so it may miss unindexed files or empty folders. File Explorer remains the complete fallback. CPU/GPU temperatures need additional components and are not connected in this repository. Playback response is optional and depends on Seelen's native feed; it is not a per-assistant voice meter. The clock, local tasks and visual effects work without those connections. The project does not restyle every native Windows dialogue or animate external application windows.
 
 Motion respects the interface's full/reduced/off settings. GPU acceleration is requested from the host, but no frame-rate guarantee is made. Browser visibility is not a complete native window-occlusion signal, so a covering application may not pause every effect. Keep Windows and Seelen recovery controls available.
 

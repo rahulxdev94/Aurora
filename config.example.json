@@ -11,5 +11,8 @@
   },
   "calendar": {
     "enabled": false
+  },
+  "audio": {
+    "enabled": false
   }
 }

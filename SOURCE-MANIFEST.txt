@@ -19,6 +19,7 @@ src/aurora-file-browser.css
 src/aurora-file-browser.mjs
 src/aurora-interactive-surfaces.mjs
 src/aurora-notifications.mjs
+src/aurora-playback-reactive.mjs
 src/aurora-system-controls.mjs
 src/aurora-window-launch.mjs
 src/config.mjs
@@ -35,6 +36,7 @@ tests/verify-config.mjs
 tests/verify-drive-shortcut.mjs
 tests/verify-interactive-surfaces.mjs
 tests/verify-notifications.mjs
+tests/verify-playback-reactive.mjs
 tests/verify-system-controls.mjs
 tests/verify-weather-current.mjs
 tests/verify-window-launch.mjs

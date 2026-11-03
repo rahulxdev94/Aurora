@@ -411,7 +411,7 @@
     for(const path of projected){sctx.beginPath();let connected=false;for(const p of path){if((p.z>=0)===front){if(connected)sctx.lineTo(p.x,p.y);else sctx.moveTo(p.x,p.y);connected=true;}else connected=false;}sctx.stroke();}
   }
   function drawCore(cx,cy,radius,time){
-    // This signal belongs to Codex playback, which may also include app sounds.
+    // This signal follows Windows playback on the host's default multimedia output.
     // It changes only the nucleus, never the orbit geometry or its click target.
     const pulse=1+energy*.13+(fullMotion()?audioEnergy*.06:0);
     const bloom=sctx.createRadialGradient(cx,cy,0,cx,cy,radius*.95);
@@ -507,7 +507,7 @@
   function fullMotion(){return root.dataset.motion==='full'&&!reducedMotion.matches;}
   function audioPeak(){
     if(root.dataset.motion==='off'||root.dataset.paused==='true')return null;
-    const signal=window.__auroraCodexAudio;
+    const signal=window.__auroraPlaybackAudio;
     if(!signal||!Number.isFinite(signal.at)||!Number.isFinite(signal.peak)||!['active','idle'].includes(signal.status))return null;
     const age=Date.now()-signal.at;
     if(age>2000||age< -1000)return null;
@@ -520,8 +520,9 @@
     const animated=fullMotion(),peak=audioPeak();
     if((animated||peak>0||audioEnergy>0)&&timestamp-lastDraw<33){raf=requestAnimationFrame(draw);return;}
     const delta=lastTime?Math.min((timestamp-lastTime)/1000,.08):0;lastTime=timestamp;lastDraw=timestamp;
-    if(peak===null)audioEnergy=0;
-    else{audioEnergy+=(peak-audioEnergy)*(1-Math.exp(-(delta||1/30)*(peak>audioEnergy?20:5)));if(audioEnergy<.001)audioEnergy=0;}
+    const targetPeak=peak??0;
+    if(root.dataset.motion==='off')audioEnergy=0;
+    else{audioEnergy+=(targetPeak-audioEnergy)*(1-Math.exp(-(delta||1/30)*(targetPeak>audioEnergy?20:5)));if(audioEnergy<.001)audioEnergy=0;}
     if(animated){clock+=delta;pointer.x+=(pointer.targetX-pointer.x)*.08;pointer.y+=(pointer.targetY-pointer.y)*.08;energy*=.94;focusEnergy+=((focusRunning?1:0)-focusEnergy)*(1-Math.exp(-delta*8));}
     else{pointer.x=0;pointer.y=0;energy=0;focusEnergy=0;ripples=[];}
     if(bgVisible)drawBackground(clock,animated,delta);
@@ -569,7 +570,7 @@
   },{passive:true,signal:abort.signal});
   root.addEventListener('pointercancel',()=>{drag=null;hero.dataset.dysonDragging='false';},{passive:true,signal:abort.signal});
   document.addEventListener('visibilitychange',updateState,{signal:abort.signal});
-  root.addEventListener('aurora-codex-audio',()=>{if(root.dataset.motion!=='off')requestFrame();},{signal:abort.signal});
+  root.addEventListener('aurora-playback-audio',()=>{if(root.dataset.motion!=='off')requestFrame();},{signal:abort.signal});
   window.addEventListener('resize',resize,{passive:true,signal:abort.signal});
   window.addEventListener('pagehide',cleanup,{once:true,signal:abort.signal});
   reducedMotion.addEventListener('change',updateState,{signal:abort.signal});
