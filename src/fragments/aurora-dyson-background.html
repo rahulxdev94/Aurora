@@ -500,8 +500,8 @@
       return project(rotate(rotated,yaw,pitch),cx,cy,radius);
     };
     const paths=planes.map(plane=>({plane,points:Array.from({length:113},(_,i)=>orbital(i*TAU/112,plane))}));
-    const electrons=planes.flatMap((plane,index)=>[0,1].map(twin=>{
-      const angle=(animated?time*(.55+index*.035):0)+plane.phase+twin*Math.PI;
+    const electrons=planes.flatMap((plane,index)=>[0,1,2].map(twin=>{
+      const angle=(animated?time*(.55+index*.035):0)+plane.phase+twin*TAU/3;
       return{plane,index,twin,angle,p:orbital(angle,plane)};
     }));
     const ambient=sctx.createRadialGradient(cx,cy,0,cx,cy,radius*1.65);
@@ -515,7 +515,7 @@
       }
     };
     const drawElectron=electron=>{
-      const {p,plane,angle,twin}=electron;const strength=twin?.48:1;const size=(twin?2:3.25)*p.scale;
+      const {p,plane,angle,twin}=electron;const strength=twin?.6:1;const size=(twin?2.2:3.25)*p.scale;
       if(!twin){
         for(let i=0;i<12;i++){
           const a=orbital(angle-.025*i,plane),b=orbital(angle-.025*(i+1),plane);

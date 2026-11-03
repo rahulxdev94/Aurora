@@ -24,18 +24,19 @@ function canvas(){
     fillRect(){},clearRect(){},save(){},restore(){},clip(){},translate(){},rotate(){},closePath(){}
   };
 }
-function fixture({motion='full',osReduced=false,scene='atom'}={}){
+function fixture({motion='full',osReduced=false,scene='atom',trackProjection=false}={}){
   const ctx=canvas(),root={dataset:{motion},isConnected:true},win={},doc={hidden:false};
-  const target={style:{}};let now=100000,frameTime=0;
+  const target={style:{}},projections=[];let now=100000,frameTime=0,rafRequests=0;
   const context=vm.createContext({sctx:ctx,root,window:win,document:doc,coreButton:target,Date:{now:()=>now},Math,
     reducedMotion:{matches:osReduced},TAU:Math.PI*2,accent:[130,232,249],secondary:[163,147,246],
     heroWidth:620,heroHeight:300,pointer:{x:0,y:0,targetX:0,targetY:0},yawOffset:.2,pitchOffset:-.2,
     energy:0,audioEnergy:0,playbackPhase:0,playbackPainted:false,focusEnergy:0,focusRunning:false,clock:.35,lastDraw:0,lastTime:0,raf:0,
     disposed:false,rootVisible:true,bgVisible:false,heroVisible:true,sceneType:scene,hint:null,ripples:[],panels:[],guides:[],satellites:[],
     clamp:(n,min,max)=>Math.min(max,Math.max(min,n)),rgba:(c,a)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`,
-    requestAnimationFrame:()=>1,cancelAnimationFrame(){},updateColours(){},drawBackground(){},drawGuides(){},drawPanel(){},cleanup(){throw new Error('Unexpected disposal');}
+    requestAnimationFrame:()=>++rafRequests,cancelAnimationFrame(){},updateColours(){},drawBackground(){},drawGuides(){},drawPanel(){},cleanup(){throw new Error('Unexpected disposal');}
   });
   vm.runInContext(functions+'\n'+fragment.slice(stateStart,stateEnd),context);
+  if(trackProjection){const project=context.project;context.project=(point,...args)=>{const screen=project(point,...args);projections.push({point:{...point},screen:{...screen}});return screen;};}
   context.positionCoreTarget();const initialTarget={...target.style};
   function render(peak,frames=60){
     for(let i=0;i<frames;i++){
@@ -51,13 +52,26 @@ function fixture({motion='full',osReduced=false,scene='atom'}={}){
     assert.equal(type,'arc');assert.equal(start,0);assert.equal(end,Math.PI*2);
     return{x,y,r};
   }
-  return{context,ctx,root,win,doc,target,initialTarget,render,nucleus,
+  return{context,ctx,root,win,doc,target,initialTarget,render,nucleus,projections,get rafRequests(){return rafRequests;},
     get now(){return now;},advance(ms){now+=ms;frameTime+=ms;ctx.reset();context.draw(frameTime);},
     orbits(){return ctx.strokes.filter(stroke=>stroke.path.length>3&&stroke.path.every(command=>['moveTo','lineTo'].includes(command[0]))).map(stroke=>stroke.path);},
     haloAlpha(){const fill=ctx.fills.find(fill=>fill.style?.stops?.some(([,colour])=>colour.startsWith('rgba(255,235,178,')));assert.ok(fill);return Number(fill.style.stops[0][1].split(',').at(-1).slice(0,-1));}
   };
 }
 
+const electrons=fixture({trackProjection:true});electrons.render(0,1);
+const beads=electrons.ctx.fills.filter(fill=>fill.style?.stops?.[0]?.[1]==='#f1fcff');
+assert.equal(beads.length,9,'The central atom draws nine visible electron beads');
+// Three unchanged sampled orbit paths, nine bead projections, and the three
+// existing main-electron trails. Added satellites must not introduce trails.
+assert.equal(electrons.projections.length,420,'Extra electrons keep projection work bounded with no added trails');
+const beadPoints=electrons.projections.slice(339,348);
+for(const {screen} of beadPoints)assert.ok(beads.some(bead=>Math.abs(bead.path[0][1]-screen.x)<1e-9&&Math.abs(bead.path[0][2]-screen.y)<1e-9),'Each projected electron is actually painted');
+for(let plane=0;plane<3;plane++){
+  const points=beadPoints.slice(plane*3,plane*3+3).map(item=>item.point);
+  for(const axis of ['x','y','z'])assert.ok(Math.abs(points.reduce((sum,point)=>sum+point[axis],0))<1e-9,'Three positions on each centred orbital ellipse remain evenly spaced at 120 degrees');
+}
+assert.equal(electrons.rafRequests,1,'Electron additions use the single existing frame loop');
 const idle=fixture(),base=idle.render(0),low=fixture(),soft=low.render(.1),ordinary=fixture(),speech=ordinary.render(.43),maximum=fixture(),loud=maximum.render(1);
 assert.ok(soft.r-base.r>3,'Quiet speech must move the visible edge by more than three logical pixels');
 assert.ok(speech.r-base.r>7&&speech.r-base.r<8,'Ordinary speech must visibly expand the small nucleus');
