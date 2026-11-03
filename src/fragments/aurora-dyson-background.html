@@ -68,7 +68,7 @@
   const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
   let focusRunning=focusButton?.dataset.label==='Pause',focusEnergy=0;
   let accent=[130,232,249],secondary=[163,147,246],workspace='work';
-  let colourKey='',energy=0,audioEnergy=0,ripples=[],ambientPair=null;
+  let colourKey='',energy=0,audioEnergy=0,playbackPhase=0,playbackPainted=false,ripples=[],ambientPair=null;
   const rgba=(colour,alpha)=>`rgba(${colour[0]},${colour[1]},${colour[2]},${alpha})`;
   const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
   const hash=index=>{const n=Math.sin(index*127.1+311.7)*43758.5453;return n-Math.floor(n);};
@@ -410,16 +410,46 @@
     sctx.lineWidth=.5;sctx.strokeStyle=rgba(accent,front?.16:.055);
     for(const path of projected){sctx.beginPath();let connected=false;for(const p of path){if((p.z>=0)===front){if(connected)sctx.lineTo(p.x,p.y);else sctx.moveTo(p.x,p.y);connected=true;}else connected=false;}sctx.stroke();}
   }
+  function drawPlaybackSphere(cx,cy,sunRadius,radius){
+    if(!fullMotion()||audioEnergy<=0)return;
+    // A small, bounded layer of our own spherical artwork. Its clock advances
+    // only with fresh playback; release merely fades the last measured shape.
+    const outerRadius=Math.min(radius*.97,sunRadius*2.8);
+    for(let i=0;i<3;i++){
+      const progress=(playbackPhase*.22+i/3)%1;
+      const waveRadius=sunRadius*1.12+(outerRadius-sunRadius*1.12)*progress;
+      sctx.strokeStyle=rgba(i===1?secondary:accent,Math.sin(progress*Math.PI)**2*audioEnergy*.17);
+      sctx.lineWidth=.55+audioEnergy*.65;sctx.beginPath();sctx.arc(cx,cy,waveRadius,0,TAU);sctx.stroke();
+    }
+    sctx.save();sctx.beginPath();sctx.arc(cx,cy,sunRadius*.99,0,TAU);sctx.clip();
+    for(let i=0;i<3;i++){
+      const turn=playbackPhase*.6+i*Math.PI/3;
+      sctx.strokeStyle=rgba(i===1?secondary:accent,audioEnergy*(.24+i*.035));sctx.lineWidth=.6+audioEnergy*.35;
+      sctx.beginPath();sctx.ellipse(cx,cy,sunRadius*Math.max(.08,Math.abs(Math.cos(turn))*.94),sunRadius*.98,.12*Math.sin(playbackPhase*.4),0,TAU);sctx.stroke();
+      const latitude=(i-1)*.5,rim=Math.sqrt(1-latitude*latitude);
+      sctx.strokeStyle=rgba(i===1?accent:secondary,audioEnergy*.24);
+      sctx.beginPath();sctx.ellipse(cx,cy+latitude*sunRadius,sunRadius*rim,sunRadius*.15*rim,.08*Math.sin(playbackPhase*.45),0,TAU);sctx.stroke();
+    }
+    for(let i=0;i<6;i++){
+      const turn=playbackPhase*.7+i*TAU/6,depth=Math.sin(turn);
+      if(depth<=0)continue;
+      const latitude=(i%2?.36:-.36)+Math.sin(playbackPhase*.3+i)*.12;
+      const x=cx+Math.cos(turn)*Math.cos(latitude)*sunRadius*.94,y=cy+Math.sin(latitude)*sunRadius*.9;
+      sctx.fillStyle=rgba(i%2?secondary:accent,audioEnergy*(.3+depth*.5));
+      sctx.beginPath();sctx.arc(x,y,.65+audioEnergy*depth*.8,0,TAU);sctx.fill();
+    }
+    sctx.restore();
+  }
   function drawCore(cx,cy,radius,time){
     // This signal follows Windows playback on the host's default multimedia output.
     // It changes only the nucleus, never the orbit geometry or its click target.
-    const pulse=1+energy*.13+(fullMotion()?audioEnergy*.06:0);
+    const pulse=1+energy*.13+(fullMotion()?audioEnergy*.4:0);
     const bloom=sctx.createRadialGradient(cx,cy,0,cx,cy,radius*.95);
-    bloom.addColorStop(0,`rgba(255,241,207,${.32+audioEnergy*.12})`);bloom.addColorStop(.24,`rgba(228,222,196,${.12+audioEnergy*.065})`);bloom.addColorStop(.5,rgba(accent,.075*pulse+audioEnergy*.045));bloom.addColorStop(1,rgba(accent,0));
+    bloom.addColorStop(0,`rgba(255,241,207,${.32+audioEnergy*.24})`);bloom.addColorStop(.24,`rgba(228,222,196,${.12+audioEnergy*.12})`);bloom.addColorStop(.5,rgba(accent,.075*pulse+audioEnergy*.09));bloom.addColorStop(1,rgba(accent,0));
     sctx.fillStyle=bloom;sctx.fillRect(cx-radius,cy-radius,radius*2,radius*2);
     const sunRadius=radius*.315*pulse;
     const halo=sctx.createRadialGradient(cx,cy,sunRadius*.45,cx,cy,sunRadius*2.2);
-    halo.addColorStop(0,`rgba(255,235,178,${.3+audioEnergy*.12})`);halo.addColorStop(.28,`rgba(255,216,142,${.14+audioEnergy*.08})`);halo.addColorStop(.55,rgba(accent,.075+audioEnergy*.04));halo.addColorStop(1,rgba(accent,0));
+    halo.addColorStop(0,`rgba(255,235,178,${.3+audioEnergy*.24})`);halo.addColorStop(.28,`rgba(255,216,142,${.14+audioEnergy*.16})`);halo.addColorStop(.55,rgba(accent,.075+audioEnergy*.085));halo.addColorStop(1,rgba(accent,0));
     sctx.fillStyle=halo;sctx.beginPath();sctx.arc(cx,cy,sunRadius*2.2,0,TAU);sctx.fill();
     const sun=sctx.createRadialGradient(cx-sunRadius*.22,cy-sunRadius*.25,1,cx,cy,sunRadius);
     sun.addColorStop(0,'#fffce9');sun.addColorStop(.38,'#fff3c6');sun.addColorStop(.74,'#f1d69c');sun.addColorStop(.93,'#c4b99d');sun.addColorStop(1,'rgba(133,193,209,.7)');
@@ -429,7 +459,9 @@
       sctx.strokeStyle=`rgba(255,255,230,${.07+i*.015})`;sctx.lineWidth=1.5;sctx.beginPath();sctx.ellipse(cx+Math.sin(time*.09+i)*sunRadius*.3,cy+Math.cos(i*2)*sunRadius*.1,sunRadius*(.48+i*.09),sunRadius*.22,time*.045+i*.6,0,TAU);sctx.stroke();
     }
     sctx.restore();
-    sctx.strokeStyle=rgba(accent,.18+energy*.08+audioEnergy*.12);sctx.lineWidth=.5;sctx.beginPath();sctx.arc(cx,cy,sunRadius*1.32,0,TAU);sctx.stroke();
+    drawPlaybackSphere(cx,cy,sunRadius,radius);
+    sctx.strokeStyle=rgba(accent,.18+energy*.08+audioEnergy*.36);sctx.lineWidth=.5+audioEnergy*.5;sctx.beginPath();sctx.arc(cx,cy,sunRadius*1.32,0,TAU);sctx.stroke();
+    playbackPainted=audioEnergy>0;
   }
   function drawDyson(time,animated){
     sctx.clearRect(0,0,heroWidth,heroHeight);
@@ -520,9 +552,13 @@
     const animated=fullMotion(),peak=audioPeak();
     if((animated||peak>0||audioEnergy>0)&&timestamp-lastDraw<33){raf=requestAnimationFrame(draw);return;}
     const delta=lastTime?Math.min((timestamp-lastTime)/1000,.08):0;lastTime=timestamp;lastDraw=timestamp;
-    const targetPeak=peak??0;
+    // A bounded perceptual curve makes ordinary speech visible on the small
+    // nucleus. It follows measured amplitude without adding an idle oscillator.
+    const targetPeak=Math.sqrt(clamp((peak??0)*1.8,0,1));
     if(root.dataset.motion==='off')audioEnergy=0;
     else{audioEnergy+=(targetPeak-audioEnergy)*(1-Math.exp(-(delta||1/30)*(targetPeak>audioEnergy?20:5)));if(audioEnergy<.001)audioEnergy=0;}
+    if(animated&&targetPeak>0)playbackPhase+=delta*(.75+audioEnergy*1.15);
+    if(audioEnergy===0)playbackPhase=0;
     if(animated){clock+=delta;pointer.x+=(pointer.targetX-pointer.x)*.08;pointer.y+=(pointer.targetY-pointer.y)*.08;energy*=.94;focusEnergy+=((focusRunning?1:0)-focusEnergy)*(1-Math.exp(-delta*8));}
     else{pointer.x=0;pointer.y=0;energy=0;focusEnergy=0;ripples=[];}
     if(bgVisible)drawBackground(clock,animated,delta);
@@ -532,9 +568,15 @@
   function requestFrame(){if(disposed||raf||!active())return;lastDraw=0;raf=requestAnimationFrame(draw);}
   function updateState(){
     updateColours();
-    if(root.dataset.motion==='off'||!active())audioEnergy=0;
+    if(root.dataset.motion==='off'||!active()){audioEnergy=0;playbackPhase=0;}
     if(hint){const text=fullMotion()?'Move to bend space · Drag core · Click to pulse':'Energy core · Motion paused';if(hint.textContent!==text)hint.textContent=text;}
-    if(!active()){if(raf)cancelAnimationFrame(raf);raf=0;lastTime=0;return;}
+    if(!active()){
+      if(raf)cancelAnimationFrame(raf);raf=0;lastTime=0;
+      // Remove the last speech layer immediately when pausing, without leaving
+      // a new render loop running or moving the existing orbital positions.
+      if(playbackPainted&&root.isConnected&&!document.hidden&&rootVisible&&heroVisible&&root.dataset.paused==='true')drawSphere(clock,fullMotion());
+      return;
+    }
     requestFrame();
   }
   const excluded='button,a,input,textarea,select,[role="button"],.ah-surface,.ah-window,.ah-dock,.ah-topbar,.ah-workspace-switch,.ac-layer';
@@ -589,7 +631,7 @@
     for(const entry of entries){if(entry.target===root)rootVisible=entry.isIntersecting;if(entry.target===hero)heroVisible=entry.isIntersecting;if(entry.target===bg)bgVisible=entry.isIntersecting;}
     updateState();
   },{threshold:0});intersection.observe(root);intersection.observe(hero);intersection.observe(bg);
-  function cleanup(){disposed=true;audioEnergy=0;if(raf)cancelAnimationFrame(raf);raf=0;abort.abort();mutation.disconnect();focusObserver.disconnect();companionObserver.disconnect();resizeObserver.disconnect();intersection.disconnect();}
+  function cleanup(){disposed=true;audioEnergy=0;playbackPhase=0;playbackPainted=false;if(raf)cancelAnimationFrame(raf);raf=0;abort.abort();mutation.disconnect();focusObserver.disconnect();companionObserver.disconnect();resizeObserver.disconnect();intersection.disconnect();}
   resize();updateColours();updateState();
 })();
 </script>

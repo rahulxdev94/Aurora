@@ -37,6 +37,7 @@ tests/verify-drive-shortcut.mjs
 tests/verify-interactive-surfaces.mjs
 tests/verify-notifications.mjs
 tests/verify-playback-reactive.mjs
+tests/verify-playback-render.mjs
 tests/verify-system-controls.mjs
 tests/verify-weather-current.mjs
 tests/verify-window-launch.mjs
