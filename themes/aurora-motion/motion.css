@@ -1,0 +1,666 @@
+/* Original custom overlay for Rahul. Enable after the unchanged Aurora Glass.
+   No scripts, remote resources, external fonts or wallpaper changes. */
+:root {
+  --rahul-ice: #8ee9ff;
+  --rahul-violet: #b3a1ff;
+  --slu-dock-glass-panel: linear-gradient(118deg, #11273fc9, #221a3cc4 58%, #163647bf);
+  --slu-dock-glass-item: linear-gradient(135deg, #28446280, #332c5480);
+  --slu-dock-glass-item-hover: linear-gradient(135deg, #346789b0, #54477fa6);
+  --slu-dock-glass-item-selected: linear-gradient(135deg, #387d99ae, #6550a39e);
+  --aurora-accent-color: var(--rahul-ice);
+  --aurora-accent-color-strong: var(--rahul-violet);
+  --aurora-accent-glass-border: #a9d8ff80;
+  --aurora-accent-glass-glow: #86caff40;
+  --slu-widget-enter-duration: 190ms;
+  --slu-widget-exit-duration: 135ms;
+}
+
+@keyframes rahul-aurora-drift {
+  0% { background-position: 0% 45%; }
+  100% { background-position: 100% 55%; }
+}
+
+.taskbar,
+.ft-bar {
+  background: linear-gradient(115deg, #11324ac4 0%, #252044c7 36%, #183b50c4 70%, #30224bc2 100%) !important;
+  background-size: 240% 100% !important;
+  animation: rahul-aurora-drift 28s ease-in-out infinite alternate !important;
+  border-color: #b2d8ff5c !important;
+  box-shadow: inset 0 1px 0 #e3f4ff38, 0 5px 22px #080b1c55, 0 0 18px #87a8ff1c !important;
+}
+
+.ft-bar {
+  backdrop-filter: blur(12px) saturate(1.25);
+  border-bottom: 1px solid #b2d8ff4d !important;
+}
+
+.ft-bar-item,
+.weg-item,
+.app,
+.folder {
+  transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+  transition-duration: 200ms !important;
+}
+
+.ft-bar-item:hover,
+.weg-item:hover {
+  border-color: #b9e7ffa6 !important;
+  box-shadow: inset 0 1px 0 #f3fbff47, 0 0 12px #82d8ff36, 0 4px 14px #09162e38 !important;
+}
+
+.ft-bar-item:focus-visible,
+.weg-item:focus-visible,
+.app:focus-visible,
+.folder:focus-visible {
+  outline: 2px solid var(--rahul-ice) !important;
+  outline-offset: 2px;
+}
+
+.apps-menu[data-fullscreen="false"] {
+  background: var(--slu-dock-glass-panel) !important;
+  border-color: #b8d6ff70 !important;
+  box-shadow: inset 0 1px 0 #e0f4ff33, 0 16px 45px #060b224d !important;
+}
+
+.apps-menu[data-fullscreen="false"]::before {
+  background: conic-gradient(from var(--aurora-glow-angle), transparent 0deg, #86e0ff18 44deg, #a4eaff8c 76deg, #b4a1ff78 102deg, transparent 144deg, transparent 360deg) !important;
+  animation-duration: 24s !important;
+}
+
+.apps-menu[data-fullscreen="false"]::after {
+  background: linear-gradient(105deg, transparent 35%, #9bdfff04 44%, #b2b5ff17 50%, #9bdfff05 56%, transparent 65%) !important;
+  background-size: 260% 100% !important;
+  animation-duration: 22s !important;
+}
+
+.app:hover .app-icon,
+.folder:hover .folder-grid {
+  border-color: #b4dfff99 !important;
+  box-shadow: inset 0 1px 0 #e9f7ff33, 0 4px 14px #8eb5ff36 !important;
+  transform: translateY(-2px);
+  transition: transform 220ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms ease !important;
+}
+
+.slu-std-popover,
+.folder-modal {
+  border-color: #b1d6ff61 !important;
+}
+
+/* Keep album artwork calm while the dock retains its smooth hover wave. */
+.media-session-container,
+.media-session-thumbnail-container,
+.media-session-blurred-thumbnail-container {
+  animation: none !important;
+}
+
+/* Respect Windows' animation preference across this overlay and the base. */
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  .taskbar {
+    --aurora-dock-wave-enabled: 0 !important;
+  }
+  :root #root,
+  :root #root *,
+  :root #root *::before,
+  :root #root *::after {
+    animation: none !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .app:hover .app-icon,
+  .folder:hover .folder-grid {
+    transform: none !important;
+  }
+}
+
+/* Aurora Home dock finish. Native item sizes, app order and actions stay native.
+   Selectors verified against Seelen UI v2.8.10 default/styles/weg.scss and
+   the installed Aurora Glass theme. #root wins over its Start-specific tiles. */
+#root .taskbar {
+  --slu-dock-glass-panel: linear-gradient(118deg, #091625e8, #121b30e5 62%, #201a34e3);
+  --slu-dock-glass-item: transparent;
+  --slu-dock-glass-item-hover: linear-gradient(135deg, #86dfff12, #b39aff0d);
+  --slu-dock-glass-item-selected: linear-gradient(135deg, #86dfff1e, #b39aff18);
+  --aurora-accent-color: #8ee9ff;
+  --aurora-accent-color-strong: #b3a1ff;
+  --weg-item-attention-color: #e6ba6330;
+  color: #e8f3ff !important;
+  background: linear-gradient(118deg, #091625e8 0%, #121b30e5 62%, #201a34e3 100%) !important;
+  background-size: 200% 100% !important;
+  border-color: #91d8f03d !important;
+  backdrop-filter: blur(18px) saturate(1.12) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.12) !important;
+  box-shadow: inset 0 1px 0 #d8f6ff1c, inset 0 -1px 0 #b9a0ff0b,
+    0 8px 24px #03091655, 0 0 16px #6bdcff08 !important;
+}
+
+/* Artwork floats on the shared glass surface. Keep transparent native borders
+   in place so item measurements, drag previews and pointer targets do not shift. */
+#root .taskbar .weg-item:not(.media-session-container) {
+  color: #e8f3ff !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transition-duration: 180ms !important;
+  transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+}
+
+#root .taskbar .weg-item:not(.media-session-container):hover {
+  background: linear-gradient(135deg, #86dfff12, #b39aff0d) !important;
+  border-color: #9de8f91a !important;
+  box-shadow: inset 0 1px 0 #e9faff0c, 0 0 13px #77ddff10 !important;
+}
+
+#root .taskbar .weg-item:not(.media-session-container):is(:active, :focus-visible),
+#root .taskbar .weg-item:not(.media-session-container):has(:focus-visible) {
+  background: linear-gradient(135deg, #86dfff1e, #b39aff18) !important;
+  border-color: #b6a5ff4d !important;
+  box-shadow: inset 0 1px 0 #e5f6ff14, 0 0 12px #9c95ff14 !important;
+}
+
+/* Animate the artwork only. The native wave, badges and click area stay intact. */
+#root .taskbar .weg-item:not(.media-session-container) > .weg-item-icon {
+  transition: transform 180ms cubic-bezier(.2,.8,.2,1), filter 180ms ease !important;
+}
+#root .taskbar .weg-item:not(.media-session-container):hover > .weg-item-icon {
+  transform: translateY(-2px);
+  filter: brightness(1.06) saturate(1.06) drop-shadow(0 2px 5px #7bdaff21) !important;
+}
+#root .taskbar .weg-item:not(.media-session-container):active > .weg-item-icon {
+  transform: translateY(0);
+}
+
+#root .taskbar .weg-item:focus-visible,
+#root .taskbar .weg-item :focus-visible {
+  outline: 2px solid #a4edff !important;
+  outline-offset: 2px;
+}
+
+/* Keep Seelen's real running, focused and attention state, including its geometry. */
+#root .taskbar .weg-item-open-sign {
+  background-color: #9ab8cc !important;
+  box-shadow: none !important;
+}
+#root .taskbar .weg-item-open-sign.weg-item-open-sign-focused {
+  background-color: #8ee9ff !important;
+  box-shadow: 0 0 5px #83e7ff4d !important;
+}
+#root .taskbar .weg-item-open-sign.weg-item-open-sign-attention {
+  background-color: #edcb89 !important;
+}
+#root .taskbar :is(.weg-item-badge:not(:has(img)), .weg-item-instance-counter-badge) {
+  color: #e8f3ff !important;
+  background-color: #35425e !important;
+  box-shadow: 0 0 0 1px #a7d9ed29;
+}
+#root .taskbar .weg-item-title,
+#root .taskbar .media-session-info {
+  color: #e8f3ff !important;
+  text-shadow: 0 1px 2px #020917b3;
+}
+#root .taskbar .weg-separator.visible {
+  border-color: #a4cde12e !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #root .taskbar,
+  #root .taskbar *,
+  #root .taskbar *::before,
+  #root .taskbar *::after {
+    animation: none !important;
+    transition-duration: 0ms !important;
+  }
+  #root .taskbar .weg-item:not(.media-session-container):hover > .weg-item-icon,
+  #root .taskbar .weg-item:not(.media-session-container):active > .weg-item-icon {
+    transform: none !important;
+  }
+}
+
+
+/* Aurora shell finish, 3 November 2026.
+   Appended to the installed overlay; the Weg taskbar above is unchanged.
+   Selector sources: Seelen UI tag v2.8.10, src/static/themes/default/styles/
+   apps-menu.scss, task-switcher.scss, tray-menu.scss, quick-settings.scss,
+   notifications.scss, calendar-popup.scss, user-menu.scss, context-menu.scss.
+   https://github.com/eythaann/Seelen-UI/tree/v2.8.10/src/static/themes/default
+   Popover decoration/skin hooks also follow the unchanged Aurora Glass
+   shared/index.scss and styles/fancy-toolbar.scss. No layout overrides. */
+
+.apps-menu,
+.folder-modal,
+.task-switcher,
+.ft-bar,
+.slu-std-popover:is(.system-tray, .user-popup, .notifications-popup,
+  .network-popup, .calendar-popup, .bluetooth-popup, .media-popup,
+  .keyboard-selector, .quick-settings, .context-menu) {
+  --slu-dock-glass-panel: linear-gradient(135deg, #0c1a2ef5, #141d32f2 58%, #211d39f0);
+  --slu-dock-glass-item: linear-gradient(140deg, #19334b9c, #222b4696);
+  --slu-dock-glass-item-hover: linear-gradient(140deg, #24516ab8, #3a335fb3);
+  --slu-dock-glass-item-selected: linear-gradient(140deg, #245e75cf, #4b3c76c4);
+  --slu-dock-glass-item-pressed: linear-gradient(140deg, #1b4156dc, #332a54d4);
+  --aurora-accent-color: #8ee9ff;
+  --aurora-accent-color-strong: #b3a1ff;
+  --aurora-accent-glass-border: #a1e5f980;
+  --aurora-accent-glass-glow: #87dbf52b;
+  --slu-std-bg-color: #111c30;
+  --slu-std-bg-light-color: #1a2b43;
+  --slu-std-bg-dark-color: #0b1729;
+  --slu-std-fg-color: #e8f3ff;
+  --slu-std-fg-secondary-color: #aec3d9;
+  --slu-std-fg-muted-color: #8fa7c0;
+  --slu-std-ui-color: #8ee9ff;
+  --slu-std-ui-fg-color: #0c2332;
+  --slu-std-ui-hover-overlay: #8ddfff1c;
+  --slu-std-ui-selected-overlay: #a6dfff2e;
+}
+
+.apps-menu,
+.apps-menu[data-fullscreen="false"],
+.folder-modal,
+.task-switcher,
+.slu-std-popover:is(.system-tray, .user-popup, .notifications-popup,
+  .network-popup, .calendar-popup, .bluetooth-popup, .media-popup,
+  .keyboard-selector, .quick-settings, .context-menu) {
+  color: #e8f3ff !important;
+  background: var(--slu-dock-glass-panel) !important;
+  border-color: #91cfe14d !important;
+  backdrop-filter: blur(14px) saturate(1.12) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.12) !important;
+  box-shadow: inset 0 1px 0 #dcf5ff24, inset 0 -1px 0 #b4a0ed12,
+    0 12px 30px #03091955 !important;
+}
+
+/* Retain the existing edge animation, with a quiet cyan/violet treatment. */
+.apps-menu[data-fullscreen="false"]::before,
+.slu-std-popover:is(.system-tray, .user-popup, .notifications-popup,
+  .network-popup, .calendar-popup, .bluetooth-popup, .media-popup,
+  .keyboard-selector, .quick-settings)::before,
+body:has(> #root > .slu-std-popover.context-menu) > #root::before {
+  background: conic-gradient(from var(--aurora-glow-angle), transparent 0deg,
+    transparent 45deg, #96e4ff28 68deg, #a7e9ff75 86deg,
+    #b2a1f85c 108deg, transparent 145deg, transparent 360deg) !important;
+  animation-duration: 30s !important;
+}
+
+.apps-menu[data-fullscreen="false"]::after,
+.slu-std-popover:is(.system-tray, .user-popup, .notifications-popup,
+  .network-popup, .calendar-popup, .bluetooth-popup, .media-popup,
+  .keyboard-selector, .quick-settings)::after,
+body:has(> #root > .slu-std-popover.context-menu) > #root::after {
+  background: linear-gradient(105deg, transparent 36%, #a1ddff03 44%,
+    #a3c9ff0a 50%, #b7a6ff03 57%, transparent 65%) !important;
+  background-size: 260% 100% !important;
+  animation-duration: 28s !important;
+}
+
+.apps-menu .apps-menu-header,
+.apps-menu .apps-menu-footer,
+.task-switcher .task-header {
+  background-color: #07142224 !important;
+}
+
+.apps-menu .apps-menu-header input[type="search"],
+.apps-menu .apps-menu-header select,
+.notifications-popup .notification-actions input,
+.notifications-popup .notification-actions select {
+  color: #e8f3ff !important;
+  caret-color: #8ee9ff;
+  background: #0b182ce8 !important;
+  border-color: #8ebed84d !important;
+  box-shadow: inset 0 1px 5px #030a1833 !important;
+}
+
+.apps-menu .apps-menu-header input[type="search"]::placeholder {
+  color: #a6bad0 !important;
+  opacity: 1;
+}
+
+.apps-menu .app-name,
+.apps-menu .folder-name,
+.folder-modal .app-name,
+.folder-modal .folder-name,
+.task-switcher .task-title,
+.system-tray .system-tray-item-label,
+.user-popup .user-profile-name {
+  color: #e8f3ff !important;
+  text-shadow: 0 1px 2px #02091866;
+}
+
+.apps-menu :is(.app, .folder):is(:hover, [aria-selected="true"]),
+.folder-modal :is(.app, .folder):is(:hover, [aria-selected="true"]),
+.task-switcher .task:hover,
+.system-tray .system-tray-item:hover,
+.user-popup :is(.user-seelen-option-item, .user-directory-summary,
+  .user-file, .user-list-extender):hover,
+.slu-std-popover.context-menu .menu-item:not(:disabled):hover {
+  background: var(--slu-dock-glass-item-hover) !important;
+  border-color: #9bd6ec66 !important;
+  box-shadow: inset 0 1px 0 #e0f6ff20, 0 3px 12px #030a1929 !important;
+}
+
+.apps-menu :is(.app, .folder)[aria-selected="true"],
+.folder-modal :is(.app, .folder)[aria-selected="true"],
+.task-switcher .task:is(:focus, :focus-visible) {
+  background: var(--slu-dock-glass-item-selected) !important;
+  border-color: #a1e5f985 !important;
+  outline: 2px solid #8ee9ff !important;
+  outline-offset: 2px;
+  box-shadow: inset 0 1px 0 #def5ff26, 0 0 14px #80d9f51c !important;
+}
+
+.task-switcher .task,
+.notifications-popup .notification,
+.quick-settings .quick-settings-item {
+  background: var(--slu-dock-glass-item) !important;
+  border-color: #9dc8e236 !important;
+  box-shadow: inset 0 1px 0 #cde8fb12, 0 3px 10px #02091826 !important;
+}
+
+.task-switcher .task-preview-container {
+  background: #071222b8 !important;
+  border-top-color: #9bc8dd26 !important;
+}
+
+.notifications-popup .notification:is(:hover, :focus-within) {
+  background: var(--slu-dock-glass-item-hover) !important;
+  border-color: #a2dcf163 !important;
+}
+
+.notifications-popup .notification-header {
+  border-bottom-color: #a2cbe02e !important;
+}
+
+.notifications-popup .notification-header-info,
+.notifications-popup .notifications-popup-empty,
+.user-popup :is(.user-label, .user-profile-email),
+.calendar-popup .calendar-weekday,
+.quick-settings .quick-settings-percentage,
+.system-tray .system-tray-item-pin {
+  color: #aec3d9 !important;
+}
+
+.quick-settings .radio-buttons-container .radio-button[data-skin="solid"] {
+  color: #edf9ff !important;
+  background: var(--slu-dock-glass-item-selected) !important;
+  border-color: #a5e7f98c !important;
+  box-shadow: inset 0 1px 0 #e1f7ff2b, 0 0 0 1px #a6a2f51c !important;
+}
+
+.quick-settings .radio-buttons-container .radio-button[data-skin="solid"]:hover {
+  background: linear-gradient(140deg, #2a6d84dc, #554383d4) !important;
+}
+
+.quick-settings .quick-settings-footer {
+  border-top-color: #9fc7df2e !important;
+}
+
+.calendar-popup :is(.calendar-date, .calendar-cell, .calendar-month-cell):hover {
+  background: var(--slu-dock-glass-item-hover) !important;
+  border-color: #91d7eb59 !important;
+}
+
+.calendar-popup .calendar-cell.calendar-cell-off-month {
+  color: #839bb6 !important;
+}
+
+.calendar-popup .calendar-cell.calendar-cell-today:not(.calendar-cell-selected),
+.calendar-popup .calendar-month-cell.calendar-month-cell-current {
+  color: #a1edff !important;
+}
+
+.calendar-popup .calendar-cell.calendar-cell-selected {
+  color: #effaff !important;
+  background: var(--slu-dock-glass-item-selected) !important;
+  border-color: #a8e7f780 !important;
+  box-shadow: inset 0 1px 0 #e6f9ff29, 0 0 0 1px #a3ddf229 !important;
+}
+
+.user-popup .user-profile-picture {
+  border-color: #a8dcf15c !important;
+  box-shadow: 0 0 0 2px #a7a0ed17, 0 4px 14px #030a203d !important;
+}
+
+.slu-std-popover.context-menu hr {
+  border-top-color: #a2c8df2e !important;
+}
+
+.slu-std-popover.context-menu .menu-item.danger {
+  color: #ffabab !important;
+}
+
+.slu-std-popover.context-menu .menu-item:not(.danger) .svg-icon {
+  color: #a9c7de !important;
+}
+
+/* Match the upper toolbar without changing its width, item sizes or icons. */
+.ft-bar {
+  color: #e8f3ff !important;
+  background: linear-gradient(118deg, #081422ed, #17213ae8 48%, #221a36e6) !important;
+  background-size: 240% 100% !important;
+  border-bottom-color: #91d8f047 !important;
+  box-shadow: inset 0 1px 0 #d8f6ff1c, 0 4px 16px #03091640 !important;
+}
+
+.ft-bar .ft-bar-item {
+  border-color: #98cce139 !important;
+  box-shadow: inset 0 1px 0 #d8f4ff18 !important;
+}
+
+.ft-bar .ft-bar-item:is(.active, .running, .ft-bar-item-active) {
+  background: var(--slu-dock-glass-item-selected) !important;
+  border-color: #a3dcf575 !important;
+}
+
+/* A visible keyboard focus without enlarging or moving native controls. */
+:is(.apps-menu, .folder-modal, .task-switcher, .system-tray, .user-popup,
+  .notifications-popup, .calendar-popup, .quick-settings, .context-menu)
+  :is(button, input, select):focus-visible,
+.system-tray .system-tray-item:focus-visible,
+.slu-std-popover.context-menu .menu-item:focus-visible,
+.ft-bar .ft-bar-item.ft-bar-item-clickable:focus-visible {
+  outline: 2px solid #a0ebff !important;
+  outline-offset: 2px;
+  border-color: #b6a8ff9c !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apps-menu[data-fullscreen="false"]::before,
+  .apps-menu[data-fullscreen="false"]::after,
+  .slu-std-popover:is(.system-tray, .user-popup, .notifications-popup,
+    .network-popup, .calendar-popup, .bluetooth-popup, .media-popup,
+    .keyboard-selector, .quick-settings)::before,
+  .slu-std-popover:is(.system-tray, .user-popup, .notifications-popup,
+    .network-popup, .calendar-popup, .bluetooth-popup, .media-popup,
+    .keyboard-selector, .quick-settings)::after,
+  :root body:has(> #root > .slu-std-popover.context-menu) > #root::before,
+  :root body:has(> #root > .slu-std-popover.context-menu) > #root::after {
+    animation: none !important;
+  }
+}
+
+/* Aurora dock redesign: native dimensions stay in Seelen settings. */
+@keyframes aurora-dock-light {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+#root .taskbar {
+  --aurora-wave-target-size: 60px !important;
+  --aurora-accent-color: #99e8ef;
+  --aurora-accent-color-strong: #b8a9ed;
+  color: #deeff8 !important;
+  border: 1px solid #8edbe960 !important;
+  border-radius: 20px !important;
+  background: radial-gradient(ellipse at 10% 0%, #71d9e21f, transparent 48%),
+    radial-gradient(ellipse at 92% 100%, #b19be72b, transparent 46%),
+    linear-gradient(112deg, #0c1b2bf5, #132137f5 48%, #161d34f5) !important;
+  background-size: 160% 130% !important;
+  box-shadow: inset 0 1px 0 #d0f6ff32, inset 0 -1px 0 #a997e72d,
+    0 5px 16px #02071280, 0 0 18px #69d9e512 !important;
+  backdrop-filter: blur(14px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.08) !important;
+  animation: aurora-dock-light 18s ease-in-out infinite alternate !important;
+}
+#root .taskbar > .bg-layers > .bg-layer {
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none !important;
+  pointer-events: none !important;
+}
+#root .taskbar .weg-item:not(.media-session-container) {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid #94dce436 !important;
+  border-radius: 13px !important;
+  color: #bcecf3 !important;
+  background: radial-gradient(circle at 25% 10%, #8fe5f018, transparent 62%),
+    linear-gradient(145deg, #172d3ec9, #18223ac9) !important;
+  box-shadow: inset 0 1px 0 #d8f6ff13, 0 2px 5px #02091340 !important;
+  transition: border-color 180ms ease, background-color 180ms ease,
+    box-shadow 180ms ease !important;
+}
+#root .taskbar .weg-item:not(.media-session-container)::before {
+  content: '';
+  position: absolute;
+  inset: 3px 1px;
+  border: 1px solid #92e5ec45;
+  border-left-color: #b7a4ee18;
+  border-right-color: #b7a4ee18;
+  border-radius: 50%;
+  transform: rotate(-28deg) scaleY(.59);
+  opacity: .38;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+#root .taskbar .weg-item:not(.media-session-container) > :is(.weg-item-icon,.weg-item-canvas) {
+  position: relative;
+  z-index: 1;
+  filter: grayscale(1) sepia(.55) saturate(2.2) hue-rotate(135deg)
+    brightness(1.17) drop-shadow(0 1px 3px #85e2eb24) !important;
+  transition: filter 180ms ease, transform 180ms cubic-bezier(.2,.8,.2,1) !important;
+}
+#root .taskbar .weg-item:not(.media-session-container):hover {
+  background: linear-gradient(140deg, #204654eb, #342a52df) !important;
+  border-color: #b8a5eea1 !important;
+  box-shadow: inset 0 1px 0 #e4faff25, 0 0 13px #9ce3f02d !important;
+}
+#root .taskbar .weg-item:not(.media-session-container):hover::before { opacity: .95; }
+#root .taskbar .weg-item:not(.media-session-container):hover > :is(.weg-item-icon,.weg-item-canvas) {
+  filter: grayscale(1) sepia(.55) saturate(2.2) hue-rotate(135deg)
+    brightness(1.28) drop-shadow(0 1px 4px #96eafa55) !important;
+  transform: translateY(-2px);
+}
+#root .taskbar .weg-item:not(.media-session-container):active > :is(.weg-item-icon,.weg-item-canvas) {
+  transform: translateY(0) scale(.96);
+}
+#root .taskbar .weg-item-overlay:has(> .weg-item-open-sign-focused) > .weg-item {
+  border-color: #9de7ed85 !important;
+  background: linear-gradient(140deg, #214453e8, #2d2850da) !important;
+  box-shadow: inset 0 1px 0 #d9fbff25, 0 0 10px #96dff522 !important;
+}
+#root .taskbar .weg-item-open-sign { background: #8eaac1 !important; }
+#root .taskbar .weg-item-open-sign-focused {
+  background: linear-gradient(90deg, #9cecf1, #baa6f2) !important;
+  box-shadow: 0 0 5px #8be7f36b !important;
+}
+#root .taskbar .weg-item-open-sign-attention { background: #e6c58d !important; }
+#root .taskbar :is(.weg-item-badge:not(:has(img)),.weg-item-instance-counter-badge) {
+  color: #082434 !important;
+  background: #9fe7ec !important;
+  border: 1px solid #142839 !important;
+  box-shadow: 0 0 0 1px #a4e5f133 !important;
+  font-weight: 600;
+}
+#root .taskbar .weg-item:focus-visible,
+#root .taskbar .weg-item :focus-visible {
+  outline: 2px solid #b4f2fa !important;
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #root .taskbar { --aurora-wave-target-size: var(--config-item-size) !important; }
+  #root .taskbar,#root .taskbar *,#root .taskbar *::before,#root .taskbar *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  #root .taskbar .weg-item:not(.media-session-container):is(:hover,:active) > :is(.weg-item-icon,.weg-item-canvas) {
+    transform: none !important;
+  }
+}
+
+/* Aurora dock motion refinement. Keep native layout and hit targets steady.
+   Aurora Glass still provides neighbour factors, but no longer resizes tiles. */
+#root .taskbar {
+  --aurora-wave-target-size: var(--config-item-size) !important;
+  /* The accepted navy gradient is almost opaque. Sampling and blurring the
+     animated desktop behind it adds continuous work for little visible gain. */
+  animation: none !important;
+  background-position: 50% 50% !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#root .taskbar .weg-item:not(.media-session-container) {
+  transform-origin: 50% 100%;
+  transform: translateY(calc(var(--aurora-wave-factor, 0) * -2px))
+    scale(calc(1 + var(--aurora-wave-factor, 0) * .08)) !important;
+  filter: none !important;
+  transition: transform 240ms cubic-bezier(.22,1,.36,1),
+    border-color 180ms ease, box-shadow 220ms ease !important;
+}
+/* One press response, rather than moving both the tile and the artwork. */
+#root .taskbar .weg-item:not(.media-session-container) > :is(.weg-item-icon,.weg-item-canvas),
+#root .taskbar .weg-item:not(.media-session-container):hover > :is(.weg-item-icon,.weg-item-canvas) {
+  transform: scale(1) !important;
+  filter: grayscale(1) sepia(.55) saturate(2.2) hue-rotate(135deg)
+    brightness(1.17) drop-shadow(0 1px 3px #85e2eb24) !important;
+  transition: transform 200ms cubic-bezier(.22,1,.36,1) !important;
+}
+#root .taskbar .weg-item:not(.media-session-container):active > :is(.weg-item-icon,.weg-item-canvas) {
+  transform: scale(.96) !important;
+  transition-duration: 90ms !important;
+}
+/* These markers are absolutely positioned; their animation cannot move apps. */
+#root .taskbar .weg-item-open-sign {
+  transition: width 200ms cubic-bezier(.22,1,.36,1), opacity 160ms ease,
+    background-color 160ms ease, box-shadow 200ms ease !important;
+}
+/* Seelen removes an app after 200ms. Finish the fade within that lifecycle,
+   without changing its footprint or dnd-kit's outer drag transform. */
+#root .taskbar .weg-item-drag-container > .weg-item-overlay:not(:has(> .media-session-container)) {
+  opacity: 1;
+  scale: 1;
+  transform-origin: 50% 100%;
+  transition: opacity 160ms ease, scale 180ms cubic-bezier(.22,1,.36,1) !important;
+}
+@starting-style {
+  #root .taskbar .weg-item-drag-container[data-mounting] > .weg-item-overlay:not(:has(> .media-session-container)) {
+    opacity: 0;
+    scale: .96;
+  }
+}
+#root .taskbar .weg-item-drag-container[data-unmounting] > .weg-item-overlay:not(:has(> .media-session-container)) {
+  opacity: 0;
+  scale: .96;
+}
+/* A dragged app keeps its dock size. dnd-kit retains the wrapper transform. */
+body:has(.taskbar) [data-dnd-overlay]:has(> .weg-item-overlay),
+body:has(.taskbar) [data-dnd-overlay] > .weg-item-overlay,
+body:has(.taskbar) [data-dnd-overlay] > .weg-item-overlay > .weg-item:not(.media-session-container) {
+  --aurora-drag-preview-size: var(--config-item-size) !important;
+}
+body:has(.taskbar) [data-dnd-overlay] > .weg-item-overlay > .weg-item:not(.media-session-container) {
+  transform: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #root .taskbar .weg-item:not(.media-session-container),
+  #root .taskbar .weg-item:not(.media-session-container) > :is(.weg-item-icon,.weg-item-canvas),
+  #root .taskbar .weg-item:not(.media-session-container):is(:hover,:active) > :is(.weg-item-icon,.weg-item-canvas) {
+    transform: none !important;
+    transition: none !important;
+  }
+  #root .taskbar .weg-item-open-sign { transition: none !important; }
+  #root .taskbar .weg-item-drag-container > .weg-item-overlay:not(:has(> .media-session-container)) {
+    scale: 1 !important;
+    transition: none !important;
+  }
+}

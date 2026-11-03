@@ -1,0 +1,115 @@
+<style>
+#aurora-home-preview .ac-open{display:flex;align-items:center;gap:8px;margin-top:10px;width:100%;justify-content:center;padding:8px;border:1px solid #81cadd30;border-radius:8px;background:#80d9e80c;color:var(--ah-accent);font-size:12px}
+#aurora-home-preview .ac-tasks-widget{margin-top:11px;padding-top:11px;border-top:1px solid #aac9f01b}
+#aurora-home-preview .ac-tasks-widget .ac-task-summary{font-size:11px;color:var(--ah-muted);margin-top:7px}
+#aurora-home-preview .ac-layer{position:absolute;inset:0;z-index:45;padding:86px 18px 30px;display:flex;align-items:flex-start;justify-content:center;background:#040b1bbb;backdrop-filter:blur(12px)}
+#aurora-home-preview .ac-window{width:820px;max-width:100%;border:1px solid #9ed9f248;border-radius:19px;background:linear-gradient(140deg,#14283d,#121b31 70%);box-shadow:0 25px 70px #0009;overflow:hidden}
+#aurora-home-preview .ac-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #aaccff1a;gap:12px;background:#0b1729}
+#aurora-home-preview .ac-bar h2{font-size:16px;color:var(--ah-text)}
+#aurora-home-preview .ac-toolbar{padding:17px 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#aurora-home-preview .ac-month-controls,#aurora-home-preview .ac-view-controls{display:flex;align-items:center;gap:6px}
+#aurora-home-preview .ac-month-label{min-width:140px;text-align:center;font-size:16px;font-weight:500}
+#aurora-home-preview .ac-view-controls button{padding:7px 10px;border-radius:7px;font-size:12px;color:var(--ah-muted)}
+#aurora-home-preview .ac-view-controls button[aria-pressed=true]{background:#9cddf425;color:var(--ah-accent)}
+#aurora-home-preview .ac-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(220px,1fr);gap:20px;padding:0 20px 20px}
+#aurora-home-preview .ac-week,#aurora-home-preview .ac-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+#aurora-home-preview .ac-week{color:#9ab3cd;font-size:11px;text-align:center;margin-bottom:8px}
+#aurora-home-preview .ac-grid button{position:relative;aspect-ratio:1.15;min-width:0;padding:4px;border-radius:9px;color:#d2e1f1;background:#8ac7f208;font-size:13px;border:1px solid transparent}
+#aurora-home-preview .ac-grid button:hover{background:#91d4ef1b}
+#aurora-home-preview .ac-grid button[aria-pressed=true]{background:var(--ah-accent);color:#0c2334}
+#aurora-home-preview .ac-grid button.ac-today{border-color:var(--ah-accent)}
+#aurora-home-preview .ac-grid button.ac-has-task:after{content:'';position:absolute;left:calc(50% - 2px);bottom:5px;width:4px;height:4px;border-radius:50%;background:currentColor}
+#aurora-home-preview .ac-jump{display:flex;align-items:center;gap:10px;color:var(--ah-muted);font-size:11px;margin-top:14px;flex-wrap:wrap}
+#aurora-home-preview .ac-jump input,#aurora-home-preview .ac-form input{min-width:0;background:#0b1627;color:#e2efff;border:1px solid #56779066;border-radius:8px;padding:8px;font-size:13px;max-width:100%}
+#aurora-home-preview .ac-task-panel{padding:15px;border-radius:12px;background:#0c1729;border:1px solid #b5dafa14;min-width:0}
+#aurora-home-preview .ac-task-panel h3{font-size:16px;margin:0 0 3px}
+#aurora-home-preview .ac-selected-label{font-size:11px;color:var(--ah-muted);margin-bottom:14px}
+#aurora-home-preview .ac-task-list{display:flex;flex-direction:column;gap:8px;margin:13px 0}
+#aurora-home-preview .ac-task-row{display:flex;align-items:flex-start;gap:8px;padding:9px;background:#81c0ed08;border-radius:8px;min-width:0}
+#aurora-home-preview .ac-task-row label{display:flex;align-items:flex-start;gap:8px;flex:1;min-width:0;font-size:12px;overflow-wrap:anywhere}
+#aurora-home-preview .ac-task-row input{margin-top:3px;accent-color:var(--ah-accent)}
+#aurora-home-preview .ac-task-row small{display:block;font-size:11px;color:var(--ah-muted);margin-top:3px}
+#aurora-home-preview .ac-done .ac-task-title{text-decoration:line-through;opacity:.6}
+#aurora-home-preview .ac-task-row .ah-icon-button{width:25px;height:25px}
+#aurora-home-preview .ac-empty{color:var(--ah-muted);font-size:12px;padding:16px 0}
+#aurora-home-preview .ac-form{display:flex;flex-direction:column;gap:8px;margin-top:15px}
+#aurora-home-preview .ac-form label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--ah-muted)}
+#aurora-home-preview .ac-form .ac-form-bottom{display:flex;gap:8px;align-items:end;flex-wrap:wrap}
+#aurora-home-preview .ac-form .ac-form-bottom label{flex:1}
+#aurora-home-preview .ac-form button{padding:8px 13px}
+#aurora-home-preview .ac-note{font-size:11px;color:#99aec9;line-height:1.5;padding:12px 20px;border-top:1px solid #aac9ff17;background:#0b1628}
+#aurora-home-preview .ac-agenda{display:none;grid-column:1/-1}
+#aurora-home-preview .ac-window[data-view=agenda] .ac-month-grid,#aurora-home-preview .ac-window[data-view=agenda] .ac-task-panel{display:none}
+#aurora-home-preview .ac-window[data-view=agenda] .ac-agenda{display:block}
+#aurora-home-preview .ac-agenda-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+#aurora-home-preview .ac-feedback{font-size:11px;color:var(--ah-accent);min-height:17px}
+@media(max-width:700px){#aurora-home-preview .ac-layer{padding:80px 9px 20px}#aurora-home-preview .ac-layout{grid-template-columns:1fr;padding:0 13px 15px;gap:16px}#aurora-home-preview .ac-toolbar,#aurora-home-preview .ac-bar{padding:13px}#aurora-home-preview .ac-month-label{min-width:120px;font-size:14px}#aurora-home-preview .ac-grid button{min-height:32px}#aurora-home-preview .ac-note{padding:12px 13px}}
+</style>
+<script>
+(() => {
+  const root=document.getElementById('aurora-home-preview');
+  if(!root||root.dataset.calendarExpanded)return;
+  root.dataset.calendarExpanded='true';
+  const calendar=root.querySelector('.ah-calendar');
+  if(!calendar)return;
+  const icon=name=>`<i data-lucide="${name}" aria-hidden="true"></i>`;
+  const icons=()=>{if(globalThis.lucide)globalThis.lucide.createIcons({attrs:{width:16,height:16}});};
+  const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const part=t=>parts.find(p=>p.type===t).value;
+  const today=`${part('year')}-${part('month')}-${part('day')}`;
+  const dateKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  const toDate=key=>{const [y,m,d]=key.split('-').map(Number);return new Date(y,m-1,d,12);};
+  const human=key=>new Intl.DateTimeFormat('en-AU',{weekday:'short',day:'numeric',month:'long'}).format(toDate(key));
+  let selected=today,month=Number(part('month'))-1,year=Number(part('year')),view='month',sequence=0,opener=null;
+  const tasks=[];
+  const openButton=document.createElement('button');openButton.type='button';openButton.className='ac-open cursor-interaction';openButton.innerHTML=`${icon('calendar-days')} Open calendar`;
+  calendar.append(openButton);
+  const summary=document.createElement('div');summary.className='ac-tasks-widget';summary.innerHTML=`<div class="ah-section-head" style="margin-bottom:0"><h2>Things to do</h2><button type="button" class="ah-text-button cursor-interaction" data-ac-open-add>Add task</button></div><p class="ac-task-summary">No tasks in this preview</p>`;calendar.append(summary);
+  const layer=document.createElement('div');layer.className='ac-layer';layer.hidden=true;
+  layer.innerHTML=`<section class="ac-window" role="dialog" aria-modal="true" aria-label="Calendar and things to do" data-view="month"><header class="ac-bar"><h2>${icon('calendar-days')} Calendar</h2><button type="button" class="ah-icon-button cursor-interaction" data-ac-close aria-label="Close calendar">${icon('x')}</button></header><div class="ac-toolbar"><div class="ac-month-controls"><button type="button" class="ah-icon-button cursor-interaction" data-ac-step="-1" aria-label="Previous calendar month">${icon('chevron-left')}</button><span class="ac-month-label"></span><button type="button" class="ah-icon-button cursor-interaction" data-ac-step="1" aria-label="Next calendar month">${icon('chevron-right')}</button></div><div class="ac-view-controls" aria-label="Calendar view"><button type="button" class="cursor-interaction" data-ac-today>Today</button><button type="button" class="cursor-interaction" data-ac-view="month" aria-pressed="true">All dates</button><button type="button" class="cursor-interaction" data-ac-view="agenda" aria-pressed="false">Things to do</button></div></div><div class="ac-layout"><section class="ac-month-grid" aria-label="All dates in selected month"><div class="ac-week" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="ac-grid"></div><label class="ac-jump">Jump to date<input type="date" aria-label="Jump to date" value="${today}" min="1900-01-01" max="2199-12-31"></label></section><section class="ac-task-panel"><h3>Things to do</h3><p class="ac-selected-label"></p><div class="ac-task-list"></div><form class="ac-form"><label>New task<input name="task" type="text" aria-label="New task" placeholder="What would you like to do?" maxlength="160" required autocomplete="off"></label><div class="ac-form-bottom"><label>Time (optional)<input name="time" type="time" aria-label="Task time, optional"></label><button type="submit" class="ah-primary cursor-interaction">Add task</button></div><p class="ac-feedback" role="status" aria-live="polite"></p></form></section><section class="ac-agenda"><div class="ac-agenda-head"><h3>Your task list</h3><button type="button" class="ah-primary cursor-interaction" data-ac-new>Add task</button></div><div class="ac-agenda-list"></div></section></div><p class="ac-note">Local preview. Tasks stay in this preview session and are not added to Outlook.</p></section>`;
+  root.append(layer);
+  const $=s=>layer.querySelector(s);
+  const panel=$('.ac-window');
+  const addButton=$('.ac-form button');addButton.type='button';addButton.dataset.acAdd='true';
+  const rows=list=>list.length?list.map(t=>`<div class="ac-task-row ${t.done?'ac-done':''}"><label><input type="checkbox" data-ac-check="${t.id}" ${t.done?'checked':''} aria-label="Complete ${esc(t.title)}"><span><span class="ac-task-title">${esc(t.title)}</span><small>${human(t.date)}${t.time?' · '+t.time:''}</small></span></label><button type="button" class="ah-icon-button cursor-interaction" data-ac-delete="${t.id}" aria-label="Remove ${esc(t.title)}">${icon('x')}</button></div>`).join(''):'<p class="ac-empty">Nothing planned here yet.</p>';
+  function render(){
+    panel.dataset.view=view;
+    $('.ac-month-label').textContent=new Intl.DateTimeFormat('en-AU',{month:'long',year:'numeric'}).format(new Date(year,month,1));
+    const offset=(new Date(year,month,1).getDay()+6)%7,days=new Date(year,month+1,0).getDate();
+    $('.ac-grid').innerHTML='<span></span>'.repeat(offset)+Array.from({length:days},(_,i)=>{const key=dateKey(year,month,i+1);return `<button type="button" class="cursor-interaction ${key===today?'ac-today':''} ${tasks.some(t=>t.date===key&&!t.done)?'ac-has-task':''}" data-ac-date="${key}" aria-label="${human(key)}, ${year}" aria-pressed="${key===selected}">${i+1}</button>`;}).join('');
+    $('.ac-selected-label').textContent=human(selected);
+    $('.ac-jump input').value=selected;
+    $('.ac-task-list').innerHTML=rows(tasks.filter(t=>t.date===selected));
+    $('.ac-agenda-list').innerHTML=rows([...tasks].sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time)));
+    layer.querySelectorAll('[data-ac-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.acView===view)));
+    const pending=tasks.filter(t=>!t.done).length;
+    summary.querySelector('.ac-task-summary').textContent=tasks.length?`${pending} task${pending===1?'':'s'} remaining · Local preview`:'No tasks in this preview';
+    icons();
+    root.dispatchEvent(new CustomEvent('aurora:calendar-render',{detail:{selectedDate:selected,year,month,view}}));
+  }
+  function open(add=false){opener=document.activeElement;layer.hidden=false;view='month';render();root.dispatchEvent(new CustomEvent('aurora:calendar-open'));requestAnimationFrame(()=>{panel.scrollIntoView({block:'start',behavior:root.dataset.motion==='full'?'smooth':'auto'});(add?$('.ac-form input'): $('[data-ac-close]')).focus({preventScroll:true});});}
+  function close(){layer.hidden=true;if(opener?.isConnected)opener.focus({preventScroll:true});}
+  openButton.addEventListener('click',()=>open());
+  summary.querySelector('button').addEventListener('click',()=>open(true));
+  root.addEventListener('click',e=>{const b=e.target.closest('[data-app="Calendar"],[data-command="show-calendar"]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();const mainClose=root.querySelector('.ah-window-layer:not([hidden]) [data-action="close"]');if(mainClose)mainClose.click();open();},true);
+  layer.addEventListener('click',e=>{
+    if(e.target===layer){close();return;}
+    const b=e.target.closest('button');if(!b)return;
+    if(b.hasAttribute('data-ac-close')){close();return;}
+    if(b.dataset.acStep){month+=Number(b.dataset.acStep);if(month<0){month=11;year--;}if(month>11){month=0;year++;}year=Math.max(1900,Math.min(2199,year));render();}
+    if(b.dataset.acDate){selected=b.dataset.acDate;render();}
+    if(b.hasAttribute('data-ac-today')){selected=today;month=Number(part('month'))-1;year=Number(part('year'));view='month';render();}
+    if(b.dataset.acView){view=b.dataset.acView;render();}
+    if(b.hasAttribute('data-ac-new')){view='month';render();$('.ac-form input').focus();}
+    if(b.hasAttribute('data-ac-add'))addTask();
+    if(b.dataset.acDelete){const index=tasks.findIndex(t=>t.id===Number(b.dataset.acDelete));if(index>=0)tasks.splice(index,1);render();}
+  });
+  layer.addEventListener('change',e=>{if(e.target.matches('.ac-jump input')&&e.target.value){selected=e.target.value;const d=toDate(selected);year=d.getFullYear();month=d.getMonth();render();}if(e.target.dataset.acCheck){const t=tasks.find(t=>t.id===Number(e.target.dataset.acCheck));if(t)t.done=e.target.checked;render();}});
+  function addTask(){const field=$('.ac-form input[name=task]'),title=field.value.trim();if(!title){field.focus();return;}tasks.push({id:++sequence,title,date:selected,time:$('.ac-form input[name=time]').value,done:false});field.value='';render();$('.ac-feedback').textContent='Added to this preview.';field.focus();}
+  $('.ac-form').addEventListener('submit',e=>{e.preventDefault();addTask();});
+  $('.ac-form input[name=task]').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addTask();}});
+  layer.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();}if(e.key==='Tab'){const controls=[...layer.querySelectorAll('button,input')].filter(el=>el.getClientRects().length&&!el.disabled),first=controls[0],last=controls[controls.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+  render();
+})();
+</script>

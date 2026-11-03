@@ -1,0 +1,31 @@
+id: "@aurora/motion"
+metadata:
+  displayName:
+    en: Aurora Motion
+  description:
+    en: A custom blue and violet glass overlay with slow light movement, smooth hover responses and reduced-motion support. Enable after Aurora Glass.
+  tags:
+    - glass
+    - animation
+    - blue
+    - violet
+  appTargetVersion: [2, 8, 10]
+styles:
+  "@seelen/fancy-toolbar": !include motion.css
+  "@seelen/weg": !include motion.css
+  "@seelen/apps-menu": !include motion.css
+  "@seelen/system-tray": !include motion.css
+  "@seelen/user-menu": !include motion.css
+  "@seelen/notifications": !include motion.css
+  "@seelen/network-popup": !include motion.css
+  "@seelen/calendar-popup": !include motion.css
+  "@seelen/bluetooth-popup": !include motion.css
+  "@seelen/media-popup": !include motion.css
+  "@seelen/power-menu": !include motion.css
+  "@seelen/context-menu": !include motion.css
+  "@seelen/flyouts": !include motion.css
+  "@seelen/keyboard-selector": !include motion.css
+  "@seelen/quick-settings": !include motion.css
+  "@seelen/tooltip": !include motion.css
+  "@seelen/workspaces-viewer": !include motion.css
+  "@seelen/task-switcher": !include motion.css

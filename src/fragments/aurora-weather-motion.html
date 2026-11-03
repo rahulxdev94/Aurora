@@ -1,0 +1,131 @@
+<style>
+#aurora-home-preview .ah-weather-day{min-width:0;gap:5px}
+#aurora-home-preview .ah-weather-day>.ah-wm-art{flex:none}
+#aurora-home-preview .ah-wm-art{position:relative;display:block;isolation:isolate;width:min(44px,100%);height:43px;overflow:hidden;pointer-events:none;--ah-wm-cloud:#bdd7ed;--ah-wm-cloud-back:#708fae}
+#aurora-home-preview .ah-wm-sun{position:absolute;left:37%;top:20%;width:28%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff1b8,#ffc967 65%,#eda64b);box-shadow:0 0 12px #ffcc724a;animation:ah-wm-sun-glow 5s ease-in-out infinite alternate}
+#aurora-home-preview .ah-wm-rays{position:absolute;inset:-52%;border-radius:50%;background:repeating-conic-gradient(from 0deg,#ffd783bd 0deg 6deg,transparent 6deg 45deg);mask:radial-gradient(circle,transparent 45%,#000 47% 60%,transparent 63%);animation:ah-wm-rays 35s linear infinite}
+#aurora-home-preview .ah-wm-cloud{position:absolute;left:18%;top:43%;width:66%;height:21%;background:var(--ah-wm-cloud);border-radius:40% 45% 36% 34%;filter:drop-shadow(0 2px 2px #030b2020);animation:ah-wm-cloud 7s ease-in-out infinite alternate}
+#aurora-home-preview .ah-wm-cloud::before,#aurora-home-preview .ah-wm-cloud::after{content:"";position:absolute;border-radius:50%;background:inherit}
+#aurora-home-preview .ah-wm-cloud::before{width:47%;height:155%;left:13%;bottom:18%}
+#aurora-home-preview .ah-wm-cloud::after{width:43%;height:130%;right:6%;bottom:13%}
+#aurora-home-preview .ah-wm-cloud-back{left:9%;top:34%;width:58%;height:18%;background:var(--ah-wm-cloud-back);animation-duration:10s;animation-direction:alternate-reverse}
+#aurora-home-preview .ah-wm-art[data-condition="partly"] .ah-wm-sun{left:56%;top:18%;width:24%}
+#aurora-home-preview .ah-wm-art[data-condition="partly"] .ah-wm-cloud{top:47%;width:67%;left:13%}
+#aurora-home-preview .ah-wm-art[data-condition="rain"] .ah-wm-cloud,#aurora-home-preview .ah-wm-art[data-condition="snow"] .ah-wm-cloud,#aurora-home-preview .ah-wm-art[data-condition="thunder"] .ah-wm-cloud{top:34%;height:19%}
+#aurora-home-preview .ah-wm-art[data-condition="rain"]{--ah-wm-cloud:#97bad7;--ah-wm-cloud-back:#587792}
+#aurora-home-preview .ah-wm-art[data-condition="thunder"]{--ah-wm-cloud:#8298bb;--ah-wm-cloud-back:#455a80}
+#aurora-home-preview .ah-wm-drop{position:absolute;top:58%;left:calc(24% + var(--ah-wm-i)*9%);width:1px;height:15%;border-radius:3px;background:linear-gradient(transparent,#7bc9f4);opacity:.8;animation:ah-wm-rain 1.2s linear infinite;animation-delay:calc(var(--ah-wm-i)*-.21s)}
+#aurora-home-preview .ah-wm-flake{position:absolute;left:calc(16% + var(--ah-wm-i)*10%);top:56%;width:4%;aspect-ratio:1;border-radius:50%;background:#d9efff;opacity:.8;animation:ah-wm-snow 3.8s ease-in infinite;animation-delay:calc(var(--ah-wm-i)*-.57s)}
+#aurora-home-preview .ah-wm-bolt{position:absolute;left:49%;top:48%;width:23%;height:34%;color:#ffde96;filter:drop-shadow(0 0 5px #f4bf7c66);animation:ah-wm-lightning 6s ease-in-out infinite}
+#aurora-home-preview .ah-wm-bolt svg{width:100%;height:100%;fill:#f7ce6b40;stroke-width:1.7}
+#aurora-home-preview .ah-wm-wind{position:absolute;left:8%;top:calc(29% + var(--ah-wm-i)*20%);width:68%;height:11%;border-radius:0 25px 25px 0;border-bottom:1px solid #a3d6ed;border-right:1px solid #a3d6ed;opacity:.7;animation:ah-wm-wind 3.8s ease-in-out infinite;animation-delay:calc(var(--ah-wm-i)*-.9s)}
+#aurora-home-preview .ah-wm-wind:nth-child(even){left:22%;width:60%}
+#aurora-home-preview .ah-wm-detail{margin:19px 0;min-width:0}
+#aurora-home-preview .ah-wm-stage{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;height:163px;border:1px solid #aacde720;border-radius:13px;background:radial-gradient(ellipse at 50% 25%,#31506d66,transparent 68%),linear-gradient(160deg,#101c34,#0b182b);overflow:hidden}
+#aurora-home-preview .ah-wm-stage[data-condition="sunny"],#aurora-home-preview .ah-wm-stage[data-condition="partly"]{background:radial-gradient(ellipse at 58% 26%,#b8843c30,transparent 64%),linear-gradient(160deg,#192c42,#0c1b31)}
+#aurora-home-preview .ah-wm-stage[data-condition="thunder"]{background:radial-gradient(ellipse at 50% 30%,#514c7a55,transparent 65%),linear-gradient(160deg,#1b203d,#10182b)}
+#aurora-home-preview .ah-wm-stage[data-condition="snow"]{background:radial-gradient(ellipse at 50% 25%,#6eabc536,transparent 68%),linear-gradient(160deg,#152d43,#101c34)}
+#aurora-home-preview .ah-wm-stage .ah-wm-art{width:240px;max-width:100%;height:155px}
+#aurora-home-preview .ah-wm-stage .ah-wm-sun{box-shadow:0 0 35px #ffcc7226}
+#aurora-home-preview .ah-wm-stage .ah-wm-drop{width:2px}
+#aurora-home-preview .ah-wm-stage .ah-wm-flake{width:2%;box-shadow:0 0 5px #b4dcf677}
+#aurora-home-preview .ah-wm-stage .ah-wm-wind{border-width:2px}
+#aurora-home-preview .ah-wm-selection{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:11px 0 15px;font-size:12px;color:#deedfc}
+#aurora-home-preview .ah-wm-range{font-size:11px;color:#a9bfd9;font-variant-numeric:tabular-nums}
+#aurora-home-preview .ah-wm-demo-label{display:flex;flex-direction:column;gap:7px;color:#b6cce2;font-size:11px}
+#aurora-home-preview .ah-wm-demo-select{width:100%;min-width:0;padding:9px 11px;border:1px solid #a0c8e936;border-radius:8px;background:#0c1a2d;color:#e3edfc;font:inherit;font-size:12px;cursor:default;color-scheme:dark}
+#aurora-home-preview .ah-wm-demo-note{margin-top:8px!important;font-size:11px!important;color:#a9bfd9!important}
+#aurora-home-preview[data-motion="reduced"] .ah-wm-moving,#aurora-home-preview[data-motion="off"] .ah-wm-moving{animation:none!important}
+#aurora-home-preview[data-paused="true"] .ah-wm-moving,#aurora-home-preview[data-ah-wm-hidden="true"] .ah-wm-moving{animation-play-state:paused!important}
+@keyframes ah-wm-rays{to{transform:rotate(360deg)}}
+@keyframes ah-wm-sun-glow{from{filter:brightness(.96)}to{filter:brightness(1.09)}}
+@keyframes ah-wm-cloud{from{transform:translateX(-4%)}to{transform:translateX(5%)}}
+@keyframes ah-wm-rain{0%{transform:translate(3px,-60%) rotate(13deg);opacity:0}18%{opacity:.8}83%{opacity:.8}100%{transform:translate(-3px,145%) rotate(13deg);opacity:0}}
+@keyframes ah-wm-snow{0%{transform:translate(-3px,-25%);opacity:0}15%{opacity:.8}80%{opacity:.8}100%{transform:translate(7px,650%);opacity:0}}
+@keyframes ah-wm-lightning{0%,63%,80%,100%{opacity:.2}67%,73%{opacity:.95}}
+@keyframes ah-wm-wind{0%,100%{transform:translateX(-7%);opacity:.25}50%{transform:translateX(10%);opacity:.85}}
+@media(max-width:430px){#aurora-home-preview .ah-forecast{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}#aurora-home-preview .ah-weather-day{gap:4px}#aurora-home-preview .ah-wm-art{height:37px}#aurora-home-preview .ah-wm-stage{height:150px}#aurora-home-preview .ah-wm-stage .ah-wm-art{height:145px;width:215px}}
+@media(pointer:coarse){#aurora-home-preview .ah-forecast{grid-template-columns:repeat(auto-fit,minmax(44px,1fr))}#aurora-home-preview .ah-wm-demo-select{min-height:44px;font-size:16px}}
+@media(prefers-reduced-motion:reduce){#aurora-home-preview:not([data-motion="full"]) .ah-wm-moving{animation:none!important}}
+</style>
+<script>
+(() => {
+  'use strict';
+  const root=document.getElementById('aurora-home-preview');
+  if(!root || root.dataset.ahWmReady)return;
+  const forecast=root.querySelector('.ah-forecast'),panel=root.querySelector('.ah-window'),content=root.querySelector('.ah-window-content');
+  if(!forecast || !panel || !content)return;
+  root.dataset.ahWmReady='true';
+  const kinds={sunny:'Sunny',partly:'Partly cloudy',cloudy:'Cloudy',rain:'Light rain',snow:'Snow',thunder:'Thunderstorm',wind:'Wind'};
+  const conditions=['partly','sunny','cloudy','rain','partly','sunny','partly'];
+  let selected=null,queued=false;
+  const create=(tag,className)=>{const node=document.createElement(tag);if(className)node.className=className;return node;};
+  const icons=()=>{if(window.lucide?.createIcons)window.lucide.createIcons({attrs:{width:16,height:16}});};
+  function makeArt(kind){
+    const art=create('span','ah-wm-art');art.dataset.condition=kind;art.setAttribute('aria-hidden','true');
+    const shape=className=>{const node=create('span',className+' ah-wm-moving');art.append(node);return node;};
+    if(kind==='sunny'||kind==='partly'){
+      const sun=shape('ah-wm-sun');sun.append(create('span','ah-wm-rays ah-wm-moving'));
+    }
+    if(['cloudy','rain','snow','thunder'].includes(kind))shape('ah-wm-cloud ah-wm-cloud-back');
+    if(['partly','cloudy','rain','snow','thunder'].includes(kind))shape('ah-wm-cloud');
+    if(kind==='rain'||kind==='thunder')for(let i=0;i<6;i++){const drop=shape('ah-wm-drop');drop.style.setProperty('--ah-wm-i',i);}
+    if(kind==='snow')for(let i=0;i<7;i++){const flake=shape('ah-wm-flake');flake.style.setProperty('--ah-wm-i',i);}
+    if(kind==='thunder'){
+      const bolt=shape('ah-wm-bolt'),icon=create('i');icon.dataset.lucide='zap';icon.setAttribute('aria-hidden','true');bolt.append(icon);
+    }
+    if(kind==='wind')for(let i=0;i<3;i++){const line=shape('ah-wm-wind');line.style.setProperty('--ah-wm-i',i);}
+    return art;
+  }
+  function readCard(card){
+    const index=Number(card.dataset.weather),label=card.getAttribute('aria-label')||'';
+    const parts=label.split(',').map(part=>part.trim());
+    return{index,kind:conditions[index]||'partly',day:card.querySelector('span')?.textContent.trim()||parts[1]||'Selected day',condition:parts[2]||kinds[conditions[index]]||'Partly cloudy',high:card.querySelector('strong')?.textContent.trim()||'',low:card.querySelector('em')?.textContent.trim()||''};
+  }
+  function decorateCards(){
+    forecast.querySelectorAll('.ah-weather-day[data-weather]').forEach(card=>{
+      if(card.querySelector('.ah-wm-art'))return;
+      const data=readCard(card),existing=[...card.children].find(child=>child.tagName.toLowerCase()==='svg'||child.hasAttribute('data-lucide'));
+      const art=makeArt(data.kind);if(existing)existing.replaceWith(art);else card.insertBefore(art,card.children[1]||null);
+    });
+    if(!selected){const first=forecast.querySelector('.ah-weather-day[data-weather]');if(first)selected=readCard(first);}
+  }
+  function updateDetail(detail,kind){
+    const stage=detail.querySelector('.ah-wm-stage'),name=detail.querySelector('.ah-wm-condition'),range=detail.querySelector('.ah-wm-range'),note=detail.querySelector('.ah-wm-demo-note');
+    if(!stage || !name || !range || !note)return;
+    stage.dataset.condition=kind;stage.replaceChildren(makeArt(kind));
+    const sample=kind===selected.kind;
+    name.textContent=sample?selected.day+' · '+selected.condition:kinds[kind];
+    range.textContent=sample&&selected.high&&selected.low?selected.high+' / '+selected.low+' · Sample':'Animation demo';
+    note.textContent=sample?'Sample forecast. Select a condition to preview its animation.':'Demo condition, separate from the sample forecast.';
+    icons();
+  }
+  function decorateDetail(){
+    if(panel.dataset.panel!=='weather'||!selected||content.querySelector('.ah-wm-detail'))return;
+    const detail=create('div','ah-wm-detail'),stage=create('div','ah-wm-stage');
+    stage.setAttribute('role','img');stage.setAttribute('aria-label','Weather animation preview');
+    const selection=create('div','ah-wm-selection'),name=create('span','ah-wm-condition'),range=create('span','ah-wm-range');
+    selection.setAttribute('aria-live','polite');selection.append(name,range);
+    const label=create('label','ah-wm-demo-label');label.append(document.createTextNode('Weather animation preview'));
+    const select=create('select','ah-wm-demo-select cursor-interaction');select.setAttribute('aria-label','Weather animation preview condition');
+    Object.entries(kinds).forEach(([value,text])=>{const option=create('option');option.value=value;option.textContent=text;select.append(option);});
+    select.value=selected.kind;label.append(select);
+    const note=create('p','ah-wm-demo-note');detail.append(stage,selection,label,note);
+    const actions=content.querySelector('.ah-panel-actions');content.insertBefore(detail,actions||null);
+    select.addEventListener('change',()=>{stage.setAttribute('aria-label',kinds[select.value]+' animation preview');updateDetail(detail,select.value);});
+    updateDetail(detail,selected.kind);stage.setAttribute('aria-label',selected.condition+' animation preview');
+  }
+  function refresh(){queued=false;decorateCards();decorateDetail();}
+  function queue(){if(!queued){queued=true;queueMicrotask(refresh);}}
+  root.addEventListener('click',event=>{
+    const card=event.target.closest('.ah-weather-day[data-weather]');if(!card||!forecast.contains(card))return;
+    selected=readCard(card);queue();
+  },true);
+  const observer=new MutationObserver(queue);
+  observer.observe(forecast,{childList:true,subtree:true});observer.observe(content,{childList:true,subtree:true});
+  observer.observe(panel,{attributes:true,attributeFilter:['data-panel']});
+  const visibility=()=>{root.dataset.ahWmHidden=String(document.hidden);};
+  document.addEventListener('visibilitychange',visibility);
+  visibility();refresh();
+})();
+</script>

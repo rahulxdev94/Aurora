@@ -1,0 +1,253 @@
+<style>
+#aurora-home-preview .ah-wa-snap-controls{display:flex;gap:3px;margin-right:7px;padding-right:9px;border-right:1px solid #a0c5ee26}
+#aurora-home-preview .ah-wa-snap-controls[hidden]{display:none}
+#aurora-home-preview .ah-wa-snap-controls button{width:28px;height:28px}
+#aurora-home-preview .ah-window-bar{cursor:grab;touch-action:none}
+#aurora-home-preview .ah-window-bar button{cursor:default;touch-action:manipulation}
+#aurora-home-preview .ah-wa-dragging .ah-window-bar{cursor:grabbing}
+#aurora-home-preview .ah-wa-dragging{user-select:none}
+#aurora-home-preview .ah-window.ah-wa-placed{position:absolute;margin:0;animation:none;display:flex;flex-direction:column}
+#aurora-home-preview .ah-wa-placed .ah-window-bar{flex-shrink:0}
+#aurora-home-preview .ah-wa-oversize .ah-window-content{min-height:0;overflow:auto}
+#aurora-home-preview .ah-wa-folder-actions{font-size:11px;gap:6px}
+#aurora-home-preview .ah-folder{position:relative}
+#aurora-home-preview .ah-wa-favourite-marker{position:absolute;right:5px;top:5px;color:#f3d89c;display:flex;pointer-events:none}
+#aurora-home-preview .ah-wa-favourite-marker svg{width:12px;height:12px;fill:#f3d89c33}
+#aurora-home-preview .ah-wa-favourite-heading{display:inline-flex;align-items:center;gap:5px;margin-left:10px;color:#f3d89c;font-size:11px;letter-spacing:0;vertical-align:middle}
+#aurora-home-preview .ah-wa-folder-menu{position:absolute;z-index:45;width:220px;max-width:calc(100% - 24px);padding:7px;border:1px solid #9dcbf94d;border-radius:12px;background:#101e34;box-shadow:0 16px 45px #00000070;color:#e0ecff}
+#aurora-home-preview .ah-wa-folder-menu[hidden]{display:none}
+#aurora-home-preview .ah-wa-menu-name{font-size:11px;color:#a9bfd9;padding:7px 9px 9px;overflow-wrap:anywhere}
+#aurora-home-preview .ah-wa-folder-menu button{width:100%;padding:10px 9px;border:0;border-radius:7px;display:flex;align-items:center;gap:9px;text-align:left;background:transparent;color:#e0ecff;font-size:12px;cursor:default}
+#aurora-home-preview .ah-wa-folder-menu button:hover{background:#294460}
+#aurora-home-preview .ah-wa-folder-menu svg{width:16px;height:16px;flex-shrink:0}
+#aurora-home-preview .ah-wa-live{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@media(max-width:700px){#aurora-home-preview .ah-window-bar{cursor:default;touch-action:auto}#aurora-home-preview .ah-wa-snap-controls{display:none}}
+@media(pointer:coarse){#aurora-home-preview .ah-wa-snap-controls button{width:44px;height:44px}#aurora-home-preview .ah-wa-folder-menu button{min-height:44px}}
+</style>
+<script>
+(() => {
+  'use strict';
+  const root = document.getElementById('aurora-home-preview');
+  if (!root || root.dataset.ahWaReady) return;
+  const panel = root.querySelector('.ah-window');
+  const bar = root.querySelector('.ah-window-bar');
+  const layer = root.querySelector('.ah-window-layer');
+  const content = root.querySelector('.ah-window-content');
+  const barActions = bar?.querySelector('div');
+  if (!panel || !bar || !layer || !content || !barActions) return;
+  root.dataset.ahWaReady = 'true';
+
+  const mobile = window.matchMedia('(max-width:700px)');
+  const favourites = new Set();
+  const placement = {mode:'centre',x:0,y:96};
+  let drag = null, frame = 0, menuContext = null, lastPanel = '', wasOpen = false;
+  let latestSnapshot = window.openai?.widgetState || {};
+  const icons = () => { if (window.lucide?.createIcons) window.lucide.createIcons({attrs:{width:16,height:16}}); };
+  const makeIcon = name => { const el=document.createElement('i');el.dataset.lucide=name;el.setAttribute('aria-hidden','true');return el; };
+  const clamp = (value,min,max) => Math.max(min,Math.min(max,value));
+  const nameOf = button => (button?.getAttribute('aria-label') || '').replace(/^Preview\s+/,'').trim();
+  const categoryName = () => [...(content.querySelector('h3')?.childNodes || [])].filter(node=>node.nodeType===3).map(node=>node.textContent).join('').trim();
+  const folderFor = name => [...root.querySelectorAll('.ah-folder[data-folder]')].find(button=>nameOf(button)===name);
+  const announce = message => { live.textContent=message; };
+
+  const snap = document.createElement('div');
+  snap.className='ah-wa-snap-controls';snap.setAttribute('role','group');snap.setAttribute('aria-label','Panel position');
+  [['left','panel-left','Snap panel left'],['centre','square','Centre panel'],['right','panel-right','Snap panel right']].forEach(([mode,icon,label])=>{
+    const button=document.createElement('button');button.type='button';button.className='ah-icon-button cursor-interaction';
+    button.dataset.ahWaSnap=mode;button.setAttribute('aria-label',label);button.dataset.tooltip=label;
+    button.append(makeIcon(icon));snap.append(button);
+  });
+  barActions.prepend(snap);
+  const live=document.createElement('div');live.className='ah-wa-live';live.setAttribute('aria-live','polite');root.append(live);
+  const menu=document.createElement('div');menu.id='aurora-home-folder-actions';menu.className='ah-wa-folder-menu';
+  menu.hidden=true;menu.setAttribute('role','group');menu.setAttribute('aria-label','Folder actions');
+  const menuName=document.createElement('div');menuName.className='ah-wa-menu-name';menu.append(menuName);
+  const preview=document.createElement('button');preview.type='button';preview.className='cursor-interaction';preview.append(makeIcon('folder-open'),document.createTextNode('Preview category'));
+  const favourite=document.createElement('button');favourite.type='button';favourite.className='cursor-interaction';
+  const favouriteLabel=document.createElement('span');favourite.append(makeIcon('star'),favouriteLabel);
+  menu.append(preview,favourite);root.append(menu);
+
+  function readSaved(snapshot) {
+    const saved=snapshot?.privateContent?.auroraWindowActions;
+    if (!saved || saved.version!==1) return;
+    favourites.clear();
+    if (Array.isArray(saved.favourites)) saved.favourites.filter(name=>typeof name==='string'&&name.length<100).slice(0,16).forEach(name=>favourites.add(name));
+    if (['left','centre','right','free'].includes(saved.position?.mode)) placement.mode=saved.position.mode;
+    if (Number.isFinite(saved.position?.x)) placement.x=saved.position.x;
+    if (Number.isFinite(saved.position?.y)) placement.y=saved.position.y;
+  }
+  function save() {
+    if (!window.openai?.setWidgetState) return;
+    const base=window.openai.widgetState || latestSnapshot;
+    const snapshot={
+      modelContent:{...(base.modelContent || {}),favouriteCategories:[...favourites]},
+      privateContent:{...(base.privateContent || {}),auroraWindowActions:{version:1,favourites:[...favourites],position:{...placement}}}
+    };
+    latestSnapshot=snapshot;
+    window.openai.setWidgetState(snapshot).catch(()=>{});
+  }
+  readSaved(latestSnapshot);
+
+  function fitPanel() {
+    if (layer.hidden) return;
+    const isNotifications=panel.dataset.panel==='notifications';
+    snap.hidden=mobile.matches || root.clientWidth<=700;
+    if (snap.hidden && !isNotifications) {
+      panel.classList.remove('ah-wa-placed','ah-wa-oversize');
+      ['left','top','max-height'].forEach(property=>panel.style.removeProperty(property));
+      return;
+    }
+    const margin=16, width=root.clientWidth, height=root.clientHeight;
+    if (!width || !height) return;
+    panel.classList.add('ah-wa-placed');
+    let bottomEdge=height-margin;
+    if (isNotifications) {
+      // The footer already reserves the native dock's space. Keep this panel
+      // above its real top edge, including when display scaling changes.
+      const bounds=root.getBoundingClientRect(),footer=root.querySelector('.ah-bottom')?.getBoundingClientRect();
+      if (bounds.height>0 && footer?.height>0) {
+        const footerTop=(footer.top-bounds.top)*height/bounds.height;
+        if (footerTop>margin && footerTop<height) bottomEdge=Math.min(bottomEdge,footerTop-margin);
+      }
+    }
+    const availableHeight=isNotifications?Math.max(1,bottomEdge-margin):Math.max(160,height-margin*2);
+    panel.style.maxHeight=availableHeight+'px';
+    panel.classList.toggle('ah-wa-oversize',bar.offsetHeight+content.scrollHeight+2>availableHeight);
+    const maxX=Math.max(margin,width-panel.offsetWidth-margin);
+    const maxY=Math.max(margin,bottomEdge-panel.offsetHeight);
+    if (placement.mode==='left') placement.x=margin;
+    if (placement.mode==='centre' || (isNotifications && snap.hidden)) placement.x=(width-panel.offsetWidth)/2;
+    if (placement.mode==='right') placement.x=maxX;
+    placement.x=clamp(placement.x,margin,maxX);placement.y=clamp(placement.y,margin,maxY);
+    panel.style.left=Math.round(placement.x)+'px';panel.style.top=Math.round(placement.y)+'px';
+  }
+  function updateFavourites() {
+    let added=false;
+    root.querySelectorAll('.ah-folder[data-folder]').forEach(button=>{
+      const existing=button.querySelector('.ah-wa-favourite-marker');
+      if (favourites.has(nameOf(button)) && !existing) {
+        const marker=document.createElement('span');marker.className='ah-wa-favourite-marker';
+        marker.setAttribute('role','img');marker.setAttribute('aria-label','Favourite');marker.append(makeIcon('star'));button.append(marker);added=true;
+      } else if (!favourites.has(nameOf(button)) && existing) existing.remove();
+    });
+    const heading=panel.dataset.panel==='folder' ? content.querySelector('h3') : null;
+    if (heading) {
+      const existing=heading.querySelector('.ah-wa-favourite-heading');
+      if (favourites.has(categoryName()) && !existing) {
+        const marker=document.createElement('span');marker.className='ah-wa-favourite-heading';
+        marker.append(makeIcon('star'),document.createTextNode('Favourite'));heading.append(marker);added=true;
+      } else if (!favourites.has(categoryName()) && existing) existing.remove();
+    }
+    if (added) icons();
+  }
+  function enhance() {
+    frame=0;
+    updateFavourites();
+    const open=!layer.hidden;
+    if (!open) { if(wasOpen){endDrag();closeMenu(false);}wasOpen=false;return; }
+    const panelKey=panel.dataset.panel+':'+(panel.dataset.panel==='folder'?categoryName():'');
+    if (lastPanel!==panelKey || !wasOpen) { closeMenu(false);endDrag(); }
+    lastPanel=panelKey;wasOpen=true;
+    if (panel.dataset.panel==='folder' && !content.querySelector('.ah-wa-folder-actions')) {
+      const actions=content.querySelector('.ah-panel-actions') || content;
+      const button=document.createElement('button');button.type='button';button.className='ah-secondary ah-wa-folder-actions cursor-interaction';
+      button.setAttribute('aria-label','Folder actions for '+categoryName());button.setAttribute('aria-controls',menu.id);button.setAttribute('aria-expanded','false');
+      button.append(makeIcon('ellipsis'),document.createTextNode('Folder actions'));actions.append(button);icons();
+    }
+    fitPanel();
+    if (menuContext && !menu.hidden) fitMenu(menuContext.x,menuContext.y);
+  }
+  function schedule() { if(!frame) frame=requestAnimationFrame(enhance); }
+  function endDrag() {
+    if (!drag) return;
+    const id=drag.id;drag=null;panel.classList.remove('ah-wa-dragging');
+    if (bar.hasPointerCapture?.(id)) bar.releasePointerCapture(id);
+  }
+  function fitMenu(x,y) {
+    menu.style.left=Math.round(clamp(x,12,Math.max(12,root.clientWidth-menu.offsetWidth-12)))+'px';
+    menu.style.top=Math.round(clamp(y,12,Math.max(12,root.clientHeight-menu.offsetHeight-12)))+'px';
+  }
+  function openMenu(name,trigger,clientX,clientY) {
+    if (!name) return;
+    closeMenu(false);
+    const bounds=root.getBoundingClientRect(), anchor=trigger.getBoundingClientRect();
+    const sx=root.clientWidth/bounds.width,sy=root.clientHeight/bounds.height;
+    const x=(Number.isFinite(clientX)?clientX:anchor.left)-bounds.left;
+    const y=(Number.isFinite(clientY)?clientY:anchor.bottom+6)-bounds.top;
+    menuContext={name,trigger,x:x*sx,y:y*sy};menuName.textContent=name;
+    favouriteLabel.textContent=favourites.has(name)?'Remove from favourites':'Add to favourites';
+    favourite.setAttribute('aria-pressed',String(favourites.has(name)));menu.hidden=false;
+    if(trigger.classList.contains('ah-wa-folder-actions'))trigger.setAttribute('aria-expanded','true');
+    fitMenu(menuContext.x,menuContext.y);preview.focus({preventScroll:true});
+  }
+  function closeMenu(restoreFocus) {
+    const trigger=menuContext?.trigger;menu.hidden=true;menuContext=null;
+    if(trigger?.isConnected){if(trigger.classList.contains('ah-wa-folder-actions'))trigger.setAttribute('aria-expanded','false');if(restoreFocus)trigger.focus({preventScroll:true});}
+  }
+  bar.addEventListener('pointerdown',event=>{
+    if(event.button!==0 || mobile.matches || root.clientWidth<=700 || event.target.closest('button,input,textarea,select,a'))return;
+    fitPanel();const bounds=root.getBoundingClientRect();
+    drag={id:event.pointerId,startX:event.clientX,startY:event.clientY,x:placement.x,y:placement.y,sx:root.clientWidth/bounds.width,sy:root.clientHeight/bounds.height,moved:false};
+    placement.mode='free';panel.classList.add('ah-wa-dragging');bar.setPointerCapture(event.pointerId);event.preventDefault();
+  });
+  bar.addEventListener('pointermove',event=>{
+    if(!drag || event.pointerId!==drag.id)return;
+    placement.x=drag.x+(event.clientX-drag.startX)*drag.sx;placement.y=drag.y+(event.clientY-drag.startY)*drag.sy;
+    drag.moved=true;fitPanel();
+  });
+  const finishDrag=event=>{if(!drag || event.pointerId!==drag.id)return;const moved=drag.moved;endDrag();if(moved)save();};
+  bar.addEventListener('pointerup',finishDrag);bar.addEventListener('pointercancel',finishDrag);bar.addEventListener('lostpointercapture',()=>endDrag());
+  snap.addEventListener('click',event=>{
+    const button=event.target.closest('[data-ah-wa-snap]');if(!button)return;
+    endDrag();placement.mode=button.dataset.ahWaSnap;fitPanel();save();announce(button.getAttribute('aria-label')+' selected.');
+  });
+  root.addEventListener('click',event=>{
+    const button=event.target.closest('.ah-wa-folder-actions');
+    if(button){if(menuContext?.trigger===button&&!menu.hidden)closeMenu(true);else openMenu(categoryName(),button);}
+  });
+  root.addEventListener('contextmenu',event=>{
+    const folder=event.target.closest('.ah-folder[data-folder]');
+    const inFolder=!layer.hidden && panel.dataset.panel==='folder' && content.contains(event.target);
+    if(!folder&&!inFolder)return;
+    if(event.target.closest('input,textarea,select'))return;
+    event.preventDefault();
+    const trigger=folder || content.querySelector('.ah-wa-folder-actions');if(!trigger)return;
+    openMenu(folder?nameOf(folder):categoryName(),trigger,event.clientX||undefined,event.clientY||undefined);
+  });
+  root.addEventListener('pointerdown',event=>{if(!menu.hidden&&!menu.contains(event.target)&&event.target!==menuContext?.trigger&&!menuContext?.trigger?.contains(event.target))closeMenu(false);},true);
+  root.addEventListener('keydown',event=>{
+    if(menu.hidden)return;
+    if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeMenu(true);return;}
+    if(!menu.contains(event.target))return;
+    const items=[preview,favourite],index=items.indexOf(document.activeElement);
+    if(['ArrowDown','ArrowUp','Home','End','Tab'].includes(event.key)){
+      event.preventDefault();event.stopImmediatePropagation();
+      if(event.key==='Tab'&&((event.shiftKey&&index===0)||(!event.shiftKey&&index===items.length-1))){closeMenu(true);return;}
+      const next=event.key==='Home'?0:event.key==='End'?items.length-1:(index+((event.key==='ArrowUp'||(event.key==='Tab'&&event.shiftKey))?-1:1)+items.length)%items.length;
+      items[next].focus({preventScroll:true});
+    }
+  },true);
+  preview.addEventListener('click',()=>{
+    const name=menuContext?.name;if(!name)return;const folder=folderFor(name);closeMenu(false);
+    if(folder)folder.click();announce(name+' category preview.');
+  });
+  favourite.addEventListener('click',()=>{
+    const name=menuContext?.name;if(!name)return;
+    if(favourites.has(name))favourites.delete(name);else favourites.add(name);
+    const added=favourites.has(name);closeMenu(true);updateFavourites();save();announce(name+(added?' added to':' removed from')+' favourites in this preview.');
+  });
+  window.addEventListener('openai:set_globals',event=>{
+    const incoming=event.detail?.globals?.widgetState;if(!incoming)return;
+    latestSnapshot=incoming;readSaved(incoming);updateFavourites();schedule();
+  });
+  mobile.addEventListener('change',()=>{endDrag();schedule();});
+  window.addEventListener('resize',schedule);
+  const observer=new MutationObserver(schedule);
+  observer.observe(content,{childList:true,subtree:true});
+  observer.observe(layer,{attributes:true,attributeFilter:['hidden']});
+  observer.observe(panel,{attributes:true,attributeFilter:['data-panel']});
+  root.querySelectorAll('.ah-folders').forEach(container=>observer.observe(container,{childList:true,subtree:true}));
+  if(window.ResizeObserver){const resize=new ResizeObserver(schedule);resize.observe(root);resize.observe(panel);const footer=root.querySelector('.ah-bottom');if(footer)resize.observe(footer);}
+  icons();updateFavourites();schedule();
+})();
+</script>

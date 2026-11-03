@@ -1,0 +1,108 @@
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080f20;color-scheme:dark}
+body{font-family:Inter,"Segoe UI",sans-serif}
+#aurora-home-preview{height:100%;min-height:0;border-radius:0;box-shadow:none;display:flex;flex-direction:column;padding-top:0}
+#aurora-home-preview .ah-topbar{flex:none;padding-right:24px;background:transparent;border-bottom:0;box-shadow:none}
+#aurora-home-preview .ah-desktop{flex:1;min-height:0;overflow:hidden;grid-template-columns:minmax(0,1fr) 276px;gap:18px;padding:16px 24px 24px;align-items:stretch}
+#aurora-home-preview .ah-main{display:grid;min-height:0;grid-template-columns:238px minmax(0,1fr);grid-template-rows:44px 30px minmax(230px,1fr) 158px;grid-template-areas:"welcome welcome" "workspace workspace" "library core" "lower lower";gap:10px}
+#aurora-home-preview .ah-main>*{min-height:0;order:initial}
+#aurora-home-preview .ah-main>.ah-welcome{grid-area:welcome}
+#aurora-home-preview .ah-main>.ah-workspace-switch{grid-area:workspace}
+#aurora-home-preview .ah-main>.ah-library{grid-area:library;display:flex;flex-direction:column;min-height:0}
+#aurora-home-preview .ah-main>.ah-core-stage{grid-area:core}
+#aurora-home-preview .ah-main>.an-lower-grid{grid-area:lower}
+#aurora-home-preview[data-workspace] .ah-main>*{order:initial}
+#aurora-home-preview[data-workspace] .ah-core-stage{height:auto;min-height:0}
+#aurora-home-preview[data-workspace] .ah-main>.ah-core-stage{width:100%;max-width:620px;height:300px;max-height:100%;align-self:center;justify-self:center}
+#aurora-home-preview .ah-widget-rail{display:grid;min-height:0;grid-template-rows:130px minmax(0,1fr);gap:10px;align-items:stretch}
+#aurora-home-preview .an-lower-grid{display:grid;grid-template-columns:minmax(320px,2.2fr) minmax(175px,1fr) minmax(160px,1fr);grid-template-rows:minmax(0,1fr);gap:10px;min-width:0;min-height:0}
+#aurora-home-preview .an-lower-grid>.ah-surface{height:100%;min-height:0;order:initial}
+#aurora-home-preview .ah-bottom{flex:none;height:100px;padding:3px 24px 70px;background:transparent;border:0;box-shadow:none}
+#aurora-home-preview .ah-bottom>.ah-dock{display:none}
+#aurora-home-preview .ah-statusbar{margin-top:0}
+#aurora-home-preview .ah-topbar{min-height:54px;padding-top:8px;padding-bottom:8px}
+#aurora-home-preview .ah-topbar>.ah-dock-restore{height:30px}
+#aurora-home-preview .ah-welcome .ah-eyebrow{margin-bottom:3px;font-size:10px}
+#aurora-home-preview h1{font-size:24px}
+#aurora-home-preview .ah-workspace-switch{margin:0;padding:0}
+#aurora-home-preview .ah-core-stage{height:auto;min-height:0}
+#aurora-home-preview .ah-surface{padding:10px 13px}
+#aurora-home-preview .ah-section-head{margin-bottom:7px}
+#aurora-home-preview .ah-library>.ah-folders{display:flex;flex-direction:column;flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;gap:7px;padding:2px 5px 3px 1px;overscroll-behavior-y:contain;scrollbar-width:thin;scrollbar-color:#608da8 #101d30;scrollbar-gutter:stable}
+#aurora-home-preview .ah-library .ah-folder{align-items:center;padding:9px 8px;min-height:57px;flex:none;width:100%}
+#aurora-home-preview .ah-library .ah-folder-label small{display:block;font-size:10px}
+#aurora-home-preview .ah-library .ah-section-head{flex:none}
+#aurora-home-preview .ah-weather .ah-weather-day{padding:2px;gap:2px}
+#aurora-home-preview .ah-weather .ah-wm-art{height:36px;width:38px}
+#aurora-home-preview .ah-time{font-size:31px;line-height:1.15}
+#aurora-home-preview .ah-clock .ah-section-head{margin-bottom:0}
+#aurora-home-preview .ah-clock .ah-date{font-size:10px}
+#aurora-home-preview .ah-calendar-days button,#aurora-home-preview .ah-calendar-days>span{aspect-ratio:auto;height:clamp(24px,3.8vh,34px);font-size:11px}
+#aurora-home-preview .ah-calendar-footer{margin-top:5px;padding-top:5px}
+#aurora-home-preview .ah-calendar .ac-open{padding:5px;margin-top:5px}
+#aurora-home-preview .ah-calendar .ac-tasks-widget{padding-top:6px;margin-top:6px}
+#aurora-home-preview .ah-calendar .ac-task-summary{font-size:10px}
+#aurora-home-preview .ah-calendar .aco-widget-status{font-size:10px;line-height:1.25;margin-top:5px}
+#aurora-home-preview .ah-timer-ring{width:62px;height:62px}
+#aurora-home-preview .ah-timer-ring>div{width:56px;height:56px}
+#aurora-home-preview .ah-timer{font-size:18px}
+#aurora-home-preview .ah-timer-label{font-size:9px}
+#aurora-home-preview .ah-sensors .ah-section-head{margin-bottom:3px}
+#aurora-home-preview .ah-sensor{padding:2px 0}
+#aurora-home-preview .ah-sensors .ah-native-usage{grid-column:1/-1;display:grid;gap:3px;margin-top:3px;min-width:0}
+#aurora-home-preview .ah-sensors .ah-native-usage-line{display:flex;align-items:center;justify-content:space-between;gap:3px;flex-wrap:nowrap}
+#aurora-home-preview .ah-sensors .ah-native-usage-label,#aurora-home-preview .ah-sensors .ah-native-usage-value{font-size:10px;line-height:1.2}
+#aurora-home-preview .ah-sensors .ah-native-usage-track{height:3px;background:#6e92b72e;border-radius:3px;overflow:hidden}
+#aurora-home-preview .ah-sensors .ah-native-usage-fill{display:block;height:100%;background:var(--ah-accent);border-radius:3px}
+#aurora-home-preview.ah-dyson-on .ah-core-caption{gap:3px;bottom:2px}
+#aurora-home-preview.ah-dyson-on .ah-core-caption>.ah-small{display:none}
+#aurora-home-preview.ah-dyson-on .ah-satellite-plan{top:20%;left:7%}
+#aurora-home-preview.ah-dyson-on .ah-satellite-create{top:13%;right:6%}
+#aurora-home-preview.ah-dyson-on .ah-satellite-explore{top:58%;right:9%}
+#aurora-home-preview .ah-statusbar{gap:10px;flex-wrap:wrap}
+#aurora-home-preview .ah-concept{display:none}
+#aurora-home-preview .ah-window-layer,#aurora-home-preview .ac-layer{position:absolute;inset:0;padding-top:65px;padding-bottom:65px;overflow:auto;overscroll-behaviour:contain}
+#aurora-home-preview .ah-window,#aurora-home-preview .ac-window{flex-shrink:0;max-height:calc(100% - 5px);display:flex;flex-direction:column}
+#aurora-home-preview .ah-window-content,#aurora-home-preview .ac-layout{overflow:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#49697c transparent}
+#aurora-home-preview .ah-window-bar,#aurora-home-preview .ac-bar,#aurora-home-preview .ac-toolbar,#aurora-home-preview .ac-note{flex:none}
+#aurora-home-preview[data-window-launch='on'] .ah-window{animation:none!important}
+#aurora-home-preview .ah-launch-pulse{position:absolute;pointer-events:none;border:1px solid #8be9f966;border-radius:50%;box-shadow:0 0 18px #83dfff18,inset 0 0 12px #b0a4ff12;z-index:10}
+#aurora-home-preview .an-recovery{display:flex;align-items:center;gap:7px;margin-left:auto}
+#aurora-home-preview .an-recovery button{font-size:11px;color:#a9c6dc;border-radius:5px;padding:4px 7px;background:#9ccaff0c}
+#aurora-home-preview .an-recovery button:hover{color:var(--ah-accent);background:#9ccaff20}
+#aurora-home-preview .ah-dock{flex-wrap:wrap}
+#aurora-home-preview .cursor-interaction{cursor:pointer}
+#aurora-home-preview .ah-section-head .ah-text-button{white-space:normal}
+#aurora-home-preview button:focus-visible,#aurora-home-preview input:focus-visible,#aurora-home-preview textarea:focus-visible,#aurora-home-preview select:focus-visible{outline:2px solid var(--ah-accent);outline-offset:3px}
+@media(max-height:850px){
+  #aurora-home-preview .ah-topbar{min-height:48px;padding-top:5px;padding-bottom:5px}
+  #aurora-home-preview .ah-desktop{padding-top:8px;padding-bottom:20px;gap:12px;grid-template-columns:minmax(0,1fr) 272px}
+  #aurora-home-preview .ah-main{grid-template-columns:222px minmax(0,1fr);grid-template-rows:34px 28px minmax(220px,1fr) 148px;gap:7px}
+  #aurora-home-preview .ah-widget-rail{grid-template-rows:118px minmax(0,1fr);gap:7px}
+  #aurora-home-preview .ah-surface{padding:7px 10px}
+  #aurora-home-preview h1{font-size:20px}
+  #aurora-home-preview .ah-welcome .ah-eyebrow{font-size:9px;margin-bottom:1px}
+  #aurora-home-preview .ah-calendar-days button,#aurora-home-preview .ah-calendar-days>span{height:28px}
+  #aurora-home-preview .ah-calendar .ac-tasks-widget{display:flex;justify-content:space-between;align-items:center;gap:6px}
+  #aurora-home-preview .ah-calendar .ac-tasks-widget h2{display:none}
+  #aurora-home-preview .ah-calendar .ac-task-summary{margin:0}
+  #aurora-home-preview .ah-timer-ring{width:49px;height:49px}
+  #aurora-home-preview .ah-timer-ring>div{width:43px;height:43px}
+  #aurora-home-preview .ah-timer{font-size:15px}
+  #aurora-home-preview .ah-timer-label{display:none}
+  #aurora-home-preview .ah-sensors .ah-small{display:none}
+  #aurora-home-preview .ah-bottom{height:90px;padding-bottom:64px}
+}
+/* The complete desktop targets logical viewports of at least 1024 x 720.
+   Compact desktop spacing does not change the accepted 1536px layout. */
+@media(min-width:1024px) and (max-width:1150px){
+  #aurora-home-preview .ah-desktop{grid-template-columns:minmax(0,1fr) 248px;gap:12px;padding-left:18px;padding-right:18px}
+  #aurora-home-preview .ah-main{grid-template-columns:204px minmax(0,1fr)}
+  #aurora-home-preview .an-lower-grid{grid-template-columns:minmax(280px,1.65fr) minmax(160px,1fr) minmax(150px,1fr);gap:8px}
+  #aurora-home-preview .an-lower-grid>.ah-surface{min-width:0;padding-left:10px;padding-right:10px}
+  #aurora-home-preview .an-lower-grid .ah-section-head{gap:5px}
+  #aurora-home-preview .an-lower-grid h2{font-size:12px}
+  #aurora-home-preview .ah-focus-body{gap:8px}
+  #aurora-home-preview .ah-weather .ah-forecast{gap:2px}
+  #aurora-home-preview .ah-weather .ah-weather-day{min-width:0}
+  #aurora-home-preview .ah-sensor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

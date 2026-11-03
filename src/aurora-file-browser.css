@@ -1,0 +1,49 @@
+/* Scoped to Aurora's existing files panel. Desktop geometry stays unchanged. */
+#aurora-home-preview .ah-window[data-panel="files"]{width:min(1000px,100%)}
+#aurora-home-preview .ah-window[data-panel="files"] .ah-window-content{padding:0;overflow:hidden;min-height:0}
+#aurora-home-preview .afb-shell{display:grid;grid-template-columns:196px minmax(0,1fr);height:min(62vh,570px);min-height:280px;color:#e8f3ff;background:linear-gradient(140deg,#101f34,#11192c 72%);font-size:12px}
+#aurora-home-preview .afb-sidebar{display:flex;flex-direction:column;gap:4px;min-width:0;overflow:auto;padding:12px 9px;background:#091527a6;border-right:1px solid #9acde224;scrollbar-width:thin;scrollbar-color:#42617b transparent}
+#aurora-home-preview .afb-nav-heading{padding:10px 8px 6px;font-size:11px;letter-spacing:1.1px;color:#9eb5ce}
+#aurora-home-preview .afb-button{display:inline-flex;align-items:center;gap:7px;min-width:0;padding:7px 9px;border:1px solid transparent;border-radius:8px;color:#c5d8eb;font-size:11px;text-align:left;transition:background .15s,border-color .15s}
+#aurora-home-preview .afb-button svg{width:15px;height:15px;flex:none;color:#9ec9e3}
+#aurora-home-preview .afb-sidebar .afb-button{width:100%;min-height:34px}
+#aurora-home-preview .afb-sidebar .afb-button span{overflow-wrap:anywhere;line-height:1.35}
+#aurora-home-preview .afb-button:hover:not(:disabled){background:#8edfff13;border-color:#9dd9f04d}
+#aurora-home-preview .afb-button[aria-current="true"]{background:linear-gradient(120deg,#28607968,#55477c53);border-color:#a0ddf055;color:#e6f9ff}
+#aurora-home-preview .afb-button:disabled{opacity:.4}
+#aurora-home-preview .afb-drive-label{display:flex;flex-direction:column;gap:3px;min-width:0}
+#aurora-home-preview .afb-drive-detail{font-size:10px;line-height:1.3;color:#9ab4cd}
+#aurora-home-preview .afb-drive-symbol{position:relative;display:block;width:24px;height:18px;flex:none;border:1px solid #9bdceb99;border-radius:4px;background:linear-gradient(150deg,#3674878c,#19374d);box-shadow:inset 0 -5px 0 #091a2a66}
+#aurora-home-preview .afb-drive-symbol:after{content:"";position:absolute;right:4px;bottom:3px;width:3px;height:3px;border-radius:50%;background:#a4eddf;box-shadow:-6px 0 0 #a4eddf66}
+#aurora-home-preview .afb-drive-shortcut:disabled{opacity:.65;cursor:progress}
+#aurora-home-preview .afb-main{display:flex;flex-direction:column;min-width:0;min-height:0;padding:13px 14px 10px}
+#aurora-home-preview .afb-toolbar{display:flex;align-items:center;gap:5px;flex:none}
+#aurora-home-preview .afb-toolbar>.afb-button{background:#08162670;border-color:#9bcbe226}
+#aurora-home-preview .afb-toolbar [data-afb-action="back"] span,#aurora-home-preview .afb-toolbar [data-afb-action="up"] span,#aurora-home-preview .afb-toolbar [data-afb-action="refresh"] span{display:none}
+#aurora-home-preview .afb-toolbar [data-afb-action="up"] svg{transform:rotate(90deg)}
+#aurora-home-preview .afb-search{display:flex;align-items:center;gap:8px;flex:1;min-width:0;background:#0714259c;border:1px solid #8fc3de3d;border-radius:9px;padding:0 9px}
+#aurora-home-preview .afb-search svg{width:15px;height:15px;color:#9dbdd5}
+#aurora-home-preview .afb-search input{background:transparent;border:0;min-width:0;width:100%;color:#e8f3ff;padding:8px 0;font-size:12px}
+#aurora-home-preview .afb-search input::placeholder{color:#91a9c2}
+#aurora-home-preview .afb-crumbs{display:flex;align-items:center;gap:1px;flex-wrap:wrap;margin:9px 0 5px;flex:none}
+#aurora-home-preview .afb-crumbs>.afb-button{padding:4px 6px;color:#bcd8eb;max-width:100%;overflow-wrap:anywhere}
+#aurora-home-preview .afb-crumbs>svg{width:12px;height:12px;color:#7393ad}
+#aurora-home-preview .afb-status{font-size:11px;color:#a8bfd6;line-height:1.4;margin:0 3px 10px;flex:none}
+#aurora-home-preview .afb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(182px,1fr));align-content:start;gap:7px;min-height:0;flex:1;overflow:auto;padding:3px;scrollbar-width:thin;scrollbar-color:#42617b transparent}
+#aurora-home-preview .afb-entry{display:flex;align-items:center;gap:10px;min-height:68px;min-width:0;padding:10px 11px;text-align:left;color:#d9e8f7;background:linear-gradient(135deg,#1b354b62,#292c4952);border:1px solid #94c3dc26;border-radius:11px;transition:background .16s,border-color .16s,box-shadow .16s}
+#aurora-home-preview .afb-entry:hover{background:linear-gradient(135deg,#25516b8c,#3b365d78);border-color:#9edbf064;box-shadow:inset 0 1px 0 #d8f2ff13}
+#aurora-home-preview .afb-entry>svg{width:23px;height:23px;color:#acb2e7;flex:none}
+#aurora-home-preview .afb-entry[data-kind="folder"]>svg{color:#8adceb}
+#aurora-home-preview .afb-entry-text{display:flex;flex-direction:column;min-width:0;gap:4px}
+#aurora-home-preview .afb-entry-text strong{font-size:12px;font-weight:500;line-height:1.35;overflow-wrap:anywhere}
+#aurora-home-preview .afb-entry-text small{font-size:11px;color:#9ab4cd;line-height:1.3;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#aurora-home-preview .afb-empty{grid-column:1/-1;padding:30px 14px;text-align:center;font-size:12px;color:#a7bdd2;line-height:1.6}
+#aurora-home-preview .afb-feedback{flex:none;min-height:16px;font-size:11px;color:#a6dbe8;margin:6px 3px 2px;line-height:1.4}
+#aurora-home-preview .afb-footer{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;border-top:1px solid #a4cbe329;padding-top:9px;flex:none}
+#aurora-home-preview .afb-details{min-width:0;flex:1;color:#9ab2c9;font-size:11px;line-height:1.5}
+#aurora-home-preview .afb-details summary{color:#acc7dd;cursor:default}
+#aurora-home-preview .afb-details p{padding-top:6px;max-width:460px}
+#aurora-home-preview .afb-footer>.afb-button{border-color:#91cbdf39;background:#86cde90c;max-width:190px}
+@media(max-width:650px){#aurora-home-preview .afb-shell{grid-template-columns:157px minmax(0,1fr)}#aurora-home-preview .afb-main{padding:10px}#aurora-home-preview .afb-list{grid-template-columns:1fr}#aurora-home-preview .afb-footer{flex-direction:column;gap:6px}#aurora-home-preview .afb-footer>.afb-button{max-width:100%}}
+@media(max-width:450px){#aurora-home-preview .afb-shell{grid-template-columns:1fr;grid-template-rows:91px minmax(0,1fr);height:min(67vh,570px)}#aurora-home-preview .afb-sidebar{flex-direction:row;flex-wrap:wrap;align-content:start;padding:7px;gap:3px;border-right:0;border-bottom:1px solid #9acde224}#aurora-home-preview .afb-sidebar .afb-button{width:auto;min-height:31px}#aurora-home-preview .afb-nav-heading{display:none}#aurora-home-preview .afb-sidebar .afb-button span{max-width:135px}#aurora-home-preview .afb-search input{font-size:16px}#aurora-home-preview .afb-entry{min-height:63px}}
+@media(prefers-reduced-motion:reduce){#aurora-home-preview .afb-button,#aurora-home-preview .afb-entry{transition:none}}

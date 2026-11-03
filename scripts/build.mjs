@@ -1,0 +1,91 @@
+import {loadConfig} from './config.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import crypto from 'node:crypto';
+import {build} from 'esbuild';
+import * as lucide from 'lucide';
+
+const here=path.dirname(fileURLToPath(import.meta.url));
+const workspace=path.resolve(here,'..');
+const generated=path.join(workspace,'.build');
+await fs.mkdir(generated,{recursive:true});
+const config=await loadConfig(workspace);
+const escapeHtml=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+const output=path.join(workspace,'dist','aurora-home');
+const sourceRoot=path.join(workspace,'src','fragments');
+const sourceFiles=['aurora-home-prototype.html','aurora-dyson-background.html','aurora-weather-motion.html','aurora-calendar.html','aurora-window-actions.html'].map(name=>path.join(sourceRoot,name));
+const sources=await Promise.all(sourceFiles.map(file=>fs.readFile(file,'utf8')));
+let source=sources.join('\n');
+function replaceOnce(before,after){const n=source.split(before).length-1;if(n!==1)throw new Error(`Expected one native patch target, found ${n}: ${before.slice(0,90)}`);source=source.replace(before,after);}
+replaceOnce('function openPanel(kind,extra={}) {', 'window.__auroraOpenPanel=openPanel;\n  function openPanel(kind,extra={}) {');
+const noticesFunction=source.match(/  function renderNotices\(\) \{[\s\S]*?\n  \}\r?\n  async function playTap/);
+if(!noticesFunction)throw new Error('Notification renderer patch target missing');
+replaceOnce(noticesFunction[0],`  function renderNotices() {
+    if(window.__auroraNotifications){window.__auroraNotifications.renderBadge();return;}
+    const badge=$('.ah-notification-count');badge.textContent='0';badge.hidden=true;
+    $('.ah-notification-button').setAttribute('aria-label','Windows notifications');
+  }
+  async function playTap`);
+const noticesPanel=source.match(/    \}else if\(kind==='notifications'\)\{[\s\S]*?    \}else if\(kind==='weather'\)\{/);
+if(!noticesPanel)throw new Error('Notification panel patch target missing');
+replaceOnce(noticesPanel[0],`    }else if(kind==='notifications'){
+      if(window.__auroraNotifications)window.__auroraNotifications.renderPanel(content);
+      else content.innerHTML='<h3>Windows notifications</h3><p>Notification feed is starting. Reopen this panel in a moment.</p>';
+    }else if(kind==='weather'){`);
+replaceOnce('<button type="button" class="ah-chat-launch cursor-interaction" data-action="chat">Open ChatGPT <i data-lucide="arrow-up-right" aria-hidden="true"></i></button>','');
+replaceOnce('privateContent:{auroraHome:snapshot}','privateContent:{...(window.openai?.widgetState?.privateContent||{}),auroraHome:snapshot}');
+replaceOnce("function launchApp(name) {","function launchApp(name) {\n    if(window.__auroraNative.handlesApp(name)){closePanel();void window.__auroraNative.openApp(name);return;}");
+replaceOnce("function runCommand(id) {","function runCommand(id) {\n    if(id==='open-projects'){closePanel();void window.__auroraNative.openFolder(3);return;}");
+replaceOnce("if(target.dataset.folder!==undefined){const index=Number(target.dataset.folder);openPanel('folder',{index,name:folders[index].name});return;}","if(target.dataset.folder!==undefined){const index=Number(target.dataset.folder);closePanel();void window.__auroraNative.openFolder(index);return;}");
+replaceOnce("if(['chat','library','launcher','appearance','sensors','quick-controls','notifications'].includes(action))openPanel(action);","if(action==='compose-chat')openPanel('chat');else if(action==='chat'){void window.__auroraNative.openApp('ChatGPT');closePanel();}else if(['library','launcher','appearance','sensors','quick-controls','notifications'].includes(action))openPanel(action);");
+replaceOnce("{name:'Books',icon:'book-open'}, ","");
+replaceOnce('const tasks=[];',"const tasks=window.__auroraNative.loadTasks(); sequence=Math.max(0,...tasks.map(task=>task.id)); const persistTasks=()=>window.__auroraNative.saveTasks(tasks);");
+replaceOnce("if(index>=0)tasks.splice(index,1);render();","if(index>=0)tasks.splice(index,1);persistTasks();render();");
+replaceOnce("if(t)t.done=e.target.checked;render();","if(t)t.done=e.target.checked;persistTasks();render();");
+replaceOnce("done:false});field.value='';render();","done:false});persistTasks();field.value='';render();");
+source=source.replaceAll('Preview only · Your PC is unchanged','Aurora Home · Desktop').replaceAll('Interactive concept','Aurora Home');
+source=source.replaceAll('Open ChatGPT draft','Open ChatGPT').replaceAll('aria-label="ChatGPT draft"','aria-label="Open ChatGPT"');
+source=source.replaceAll('The centre opens your ChatGPT draft.','The centre opens ChatGPT.');
+for(const name of ['YouTube','Gmail','Outlook'])source=source.replaceAll(`aria-label="${name} preview"`,`aria-label="Open ${name}"`);
+source=source.replaceAll('aria-label="Preview ${escape(f.name)}"','aria-label="Open ${escape(f.name)}"');
+source=source.replaceAll('This concept keeps your draft here. Nothing is sent to ChatGPT.','Review your draft here, then copy it into ChatGPT yourself.');
+source=source.replaceAll('In the finished desktop, this action would open the draft in ChatGPT for you to review and send.','<button type="button" class="ah-primary cursor-interaction" data-native-draft>Open ChatGPT (copy draft first)</button>');
+source=source.replaceAll('Local draft preview','Review your draft').replaceAll('Preview draft','Review draft');
+source=source.replaceAll('Local preview. Tasks stay in this preview session and are not added to Outlook.','Local tasks are saved on this PC. Outlook is not connected.');
+source=source.replaceAll('No tasks in this preview','No local tasks').replaceAll('remaining · Local preview','remaining · Saved on this PC').replaceAll('Added to this preview.','Saved on this PC.');
+source=source.replaceAll('This preview only','This desktop').replaceAll('Your preview activity','Your Aurora activity').replaceAll('Your preview actions will appear here.','Your Aurora actions will appear here.').replaceAll('preview actions','Aurora actions').replaceAll('Your actions in this preview','Your actions in Aurora');
+source=source.replaceAll("notifications:'Notification centre'","notifications:'Windows notifications'");
+source=source.replaceAll("name:'Notification centre',hint:'Your actions in Aurora'","name:'Windows notifications',hint:'Messages from Windows apps'");
+source=source.replaceAll('No real files are changed in this preview.','Folders open in File Explorer.').replaceAll('No files are opened or moved in this preview.','This collection opens in File Explorer.');
+source=source.replaceAll('SYDNEY',escapeHtml(config.clockLabel.toUpperCase()));
+const styles=[...source.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)].map(m=>m[1]).join('\n');
+const scripts=[...source.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(m=>m[1].replaceAll("timeZone:'Australia/Sydney'",'timeZone:config.timezone').replaceAll("'Sydney outlook'","config.weather.city+' outlook'"));
+const html=source.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,'').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'').replaceAll('Sydney outlook',escapeHtml(config.weather.city)+' outlook');
+if(/<(?:!doctype|html|head|body)(?:\s|>)/i.test(html))throw new Error('Widget HTML must be a fragment.');
+const names=new Set(['file-pen-line','square','zap']);
+for(const match of source.matchAll(/(?:data-lucide="|icon\(['"]|icon\s*:\s*['"])([a-z0-9-]+)/g))names.add(match[1]);
+// Weather arrays and conditional icon calls contain names without an icon property.
+for(const name of ['cloud-sun','cloud-rain','cloud-lightning','cloud-snow','cloud','sun','wind','snowflake','pause','play','mouse-pointer-2','circle-check','circle-pause','circle-dot','chevron-left','chevron-right','panel-left','panel-right','panel-top','columns-2','align-center','star','star-off'])names.add(name);
+const exportsByName=[...names].map(name=>name.replace(/(^|-)([a-z0-9])/g,(_,dash,c)=>c.toUpperCase())).filter(name=>lucide[name]);
+const imports=[...new Set(exportsByName)].sort();
+const livePath=path.join(workspace,'src','live-data','live-data.mjs');
+const hasLive=await fs.access(livePath).then(()=>true,()=>false);
+const outlookImport="import {initOutlookCalendar} from '../src/outlook/outlook-calendar.mjs';\nimport {initWindowLaunch} from '../src/aurora-window-launch.mjs';\nimport {initFileBrowser} from '../src/aurora-file-browser.mjs';\nimport {initInteractiveSurfaces} from '../src/aurora-interactive-surfaces.mjs';\nimport {initSystemControls} from '../src/aurora-system-controls.mjs';";
+const entry=`import {config} from '../src/config.mjs';\n${outlookImport}\nimport {createIcons,${imports.join(',')}} from 'lucide';\nimport {initialiseNative,finishNative,invoke,subscribe,SeelenCommand,SeelenEvent,nativeStatus,attachFileBrowser,FOLDERS,DESKTOP,KNOWN_ROOTS} from '../src/native-bridge.mjs';\n${hasLive?"import {initLiveData} from '../src/live-data/live-data.mjs';":''}\nglobalThis.lucide={createIcons:(options={})=>createIcons({icons:{${imports.join(',')}},...options})};\ntry {\nawait initialiseNative();\n${scripts.join('\n;\n')}\nawait finishNative();\ninitWindowLaunch({root:document.getElementById('aurora-home-preview')});\nvoid initSystemControls({root:document.getElementById('aurora-home-preview'),invoke,subscribe,SeelenCommand,SeelenEvent,nativeStatus,openPanel:()=>window.__auroraOpenPanel('quick-controls')}).then(cleanup=>window.addEventListener('pagehide',cleanup,{once:true})).catch(error=>{console.warn('Aurora system controls unavailable',error);nativeStatus('System controls are unavailable.');});\nconst disposeSurfaces=initInteractiveSurfaces({root:document.getElementById('aurora-home-preview')});\nwindow.addEventListener('pagehide',disposeSurfaces,{once:true});\nconst files=initFileBrowser({root:document.getElementById('aurora-home-preview'),invoke,subscribe,SeelenCommand,SeelenEvent,openPanel:()=>window.__auroraOpenPanel('files'),desktopPath:DESKTOP,categories:FOLDERS,knownRoots:KNOWN_ROOTS});\nattachFileBrowser(files);\nwindow.addEventListener('pagehide',()=>files.dispose(),{once:true});\nif(config.calendar.enabled)void initOutlookCalendar({root:document.getElementById('aurora-home-preview'),invoke,SeelenCommand}).then(cleanup=>window.addEventListener('pagehide',cleanup,{once:true})).catch(console.warn);\n${hasLive?"void initLiveData({root:document.getElementById('aurora-home-preview'),invoke,subscribe,SeelenCommand,SeelenEvent}).then(cleanup=>window.addEventListener('pagehide',cleanup,{once:true})).catch(error=>{console.warn('Aurora live data unavailable',error);nativeStatus('Live data is unavailable.');});":''}\n} catch(error) { console.error('Aurora startup failed',error); document.body.innerHTML='<main style="padding:32px;color:#d9edff;background:#101b2a;font:16px Segoe UI"><h1>Aurora could not start</h1><p>The normal Windows desktop is still available. Disable Aurora in Seelen settings, then review the startup log.</p></main>'; try { const {Widget}=await import('@seelen-ui/lib'); await Widget.self.ready({show:true}); } catch {} }\n`;
+const notificationHook="await finishNative();\n";
+if(entry.split(notificationHook).length!==2)throw new Error('Native notification initialisation target changed');
+const nativeEntry="import {initNativeNotifications} from '../src/aurora-notifications.mjs';\n"+entry.replace(notificationHook,notificationHook+"window.__auroraNotifications=initNativeNotifications({root:document.getElementById('aurora-home-preview'),invoke,subscribe,SeelenCommand,SeelenEvent,nativeStatus});\n");
+await fs.mkdir(output,{recursive:true});
+await fs.writeFile(path.join(generated,'desktop-entry.mjs'),nativeEntry,'utf8');
+await fs.writeFile(path.join(output,'index.html'),html,'utf8');
+await fs.writeFile(path.join(output,'index.css'),styles+'\n'+await fs.readFile(path.join(workspace,'src','native-desktop.css'),'utf8')+'\n'+await fs.readFile(path.join(workspace,'src','aurora-file-browser.css'),'utf8'),'utf8');
+await build({entryPoints:[path.join(generated,'desktop-entry.mjs')],outfile:path.join(output,'index.js'),bundle:true,format:'esm',platform:'browser',target:'chrome120',minify:false,legalComments:'eof',sourcemap:false,define:{__AURORA_BUILD_CONFIG__:JSON.stringify(config)}});
+await fs.writeFile(path.join(output,'metadata.yml'),'id: "@aurora/home"\nmetadata:\n  displayName: Aurora Home\n  description: Interactive atomic desktop with local tasks and app launchers.\n  appTargetVersion: [2, 8, 10]\n  tags: [desktop, animated, productivity]\nicon: PiAtomDuotone\npreset: Desktop\ninstances: Single\nlazy: false\nforceHardwareAcceleration: true\nhtml: !include index.html\ncss: !include index.css\njs: !include index.js\nsettings: []\n','utf8');
+const manifest={widget_id:'@aurora/home',seelen_target:'2.8.10',lib_version:'2.8.4',live_data_module_included:hasLive,source_files:sourceFiles.map((file,i)=>({file:path.relative(workspace,file).replaceAll('\\','/'),sha256:crypto.createHash('sha256').update(sources[i]).digest('hex')})),files:{}};
+for(const name of ['metadata.yml','index.html','index.css','index.js']){const data=await fs.readFile(path.join(output,name));manifest.files[name]={bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};}
+await fs.writeFile(path.join(output,'build-manifest.json'),JSON.stringify(manifest,null,2),'utf8');
+for(const name of ['LICENSE','THIRD-PARTY-NOTICES.md'])await fs.copyFile(path.join(workspace,name),path.join(output,name));
+await fs.cp(path.join(workspace,'licenses'),path.join(output,'licenses'),{recursive:true});
+await fs.cp(path.join(workspace,'themes'),path.join(workspace,'dist','themes'),{recursive:true});
+console.log(JSON.stringify({output:path.relative(workspace,output),live_data:hasLive,icons:imports.length,script_bytes:manifest.files['index.js'].bytes,source_files:sourceFiles.length},null,2));

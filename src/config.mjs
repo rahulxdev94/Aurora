@@ -1,0 +1,2 @@
+/* Build-time local configuration. No credentials belong in this object. */
+export const config=typeof __AURORA_BUILD_CONFIG__==='undefined'?{"timezone": "Australia/Sydney", "clockLabel": "Sydney", "chatgptUrl": "https://chatgpt.com/", "roots": {}, "weather": {"enabled": false, "city": "Sydney", "latitude": -33.8688, "longitude": 151.2093}, "calendar": {"enabled": false}}:__AURORA_BUILD_CONFIG__;

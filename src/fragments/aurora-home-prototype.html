@@ -1,0 +1,647 @@
+<div id="aurora-home-preview" data-motion="full" aria-label="Aurora Home interactive desktop concept">
+  <div class="ah-atmosphere" aria-hidden="true"><div class="ah-nebula ah-animated"></div><div class="ah-stars"></div><div class="ah-horizon"></div></div>
+  <header class="ah-topbar">
+    <button type="button" class="ah-brand cursor-interaction" data-action="home" aria-label="Aurora Home"><span class="ah-brand-mark" aria-hidden="true"><span></span></span><span>AURORA<small>HOME</small></span></button>
+    <nav class="ah-navigation" aria-label="Main navigation"><button type="button" class="cursor-interaction ah-current" data-action="home">Home</button><button type="button" class="cursor-interaction" data-action="library">Library</button><button type="button" class="cursor-interaction" data-action="launcher">Launchpad</button></nav>
+    <button type="button" class="ah-search-trigger cursor-interaction" data-action="launcher" aria-label="Open command bar"><i data-lucide="search" aria-hidden="true"></i><span>Find your space</span><kbd>/</kbd></button>
+    <span class="ah-concept">Interactive concept</span>
+  </header>
+
+  <div class="ah-desktop">
+    <main class="ah-main">
+      <div class="ah-welcome"><div><p class="ah-eyebrow">YOUR PERSONAL ORBIT</p><h1>Welcome home.</h1></div><div class="ah-welcome-actions"><button class="ah-icon-button ah-notification-button cursor-interaction" type="button" data-action="notifications" aria-label="Notification centre" data-tooltip="Your preview activity"><i data-lucide="bell" aria-hidden="true"></i><span class="ah-notification-count" hidden>0</span></button><button class="ah-icon-button cursor-interaction" type="button" data-action="quick-controls" aria-label="Quick controls" data-tooltip="Quick controls"><i data-lucide="sliders-horizontal" aria-hidden="true"></i></button></div></div>
+      <div class="ah-workspace-switch" role="group" aria-label="Workspace mode"><button type="button" class="cursor-interaction" data-workspace="work" aria-pressed="true"><i data-lucide="briefcase-business" aria-hidden="true"></i>Work</button><button type="button" class="cursor-interaction" data-workspace="create" aria-pressed="false"><i data-lucide="sparkles" aria-hidden="true"></i>Create</button><button type="button" class="cursor-interaction" data-workspace="relax" aria-pressed="false"><i data-lucide="moon-star" aria-hidden="true"></i>Relax</button><span class="ah-workspace-caption">Room to focus</span></div>
+
+      <section class="ah-core-stage" aria-label="Interactive AI companion">
+        <div class="ah-core-grid" aria-hidden="true"></div>
+        <div class="ah-scene" aria-hidden="true"><div class="ah-orbit ah-orbit-a ah-animated"></div><div class="ah-orbit ah-orbit-b ah-animated"></div><div class="ah-orbit ah-orbit-c ah-animated"></div><div class="ah-orbit ah-orbit-d ah-animated"></div><div class="ah-core-shadow ah-animated"></div></div>
+        <button type="button" class="ah-companion cursor-interaction" data-action="chat" aria-label="Open ChatGPT draft"><span class="ah-companion-shell ah-animated"><span class="ah-companion-sheen ah-animated"></span><span class="ah-face"><span class="ah-eye"></span><span class="ah-eye"></span><span class="ah-smile"></span></span></span></button>
+        <button type="button" class="ah-satellite ah-satellite-plan cursor-interaction" data-prompt="Help me plan my week."><i data-lucide="route" aria-hidden="true"></i>Plan</button>
+        <button type="button" class="ah-satellite ah-satellite-create cursor-interaction" data-prompt="Help me develop a creative idea."><i data-lucide="sparkles" aria-hidden="true"></i>Create</button>
+        <button type="button" class="ah-satellite ah-satellite-explore cursor-interaction" data-prompt="Help me explore something new."><i data-lucide="compass" aria-hidden="true"></i>Explore</button>
+        <div class="ah-core-caption"><span class="ah-core-name">YOUR AI COMPANION</span><button type="button" class="ah-chat-launch cursor-interaction" data-action="chat">Open ChatGPT <i data-lucide="arrow-up-right" aria-hidden="true"></i></button><span class="ah-small ah-muted">A place to start your next idea</span></div>
+      </section>
+
+      <section class="ah-library ah-surface" data-tilt aria-label="Category folder library">
+        <div class="ah-section-head"><h2><i data-lucide="folders" aria-hidden="true"></i>Your library</h2><button class="ah-text-button cursor-interaction" type="button" data-action="library">Explore <i data-lucide="arrow-up-right" aria-hidden="true"></i></button></div>
+        <div class="ah-folders"></div>
+      </section>
+
+      <section class="ah-weather ah-surface" data-tilt aria-label="Sample weekly weather for Sydney">
+        <div class="ah-section-head"><h2><i data-lucide="cloud-sun" aria-hidden="true"></i>Sydney outlook</h2><span class="ah-sample">Sample forecast</span></div>
+        <div class="ah-forecast"></div>
+      </section>
+    </main>
+
+    <aside class="ah-widget-rail" aria-label="Desktop widgets">
+      <section class="ah-clock ah-surface" data-tilt aria-label="Current time in Sydney"><div class="ah-section-head"><span class="ah-eyebrow">SYDNEY</span><i data-lucide="globe-2" aria-hidden="true"></i></div><div class="ah-clock-face"><time class="ah-time">--:--</time><span class="ah-period"></span></div><p class="ah-date ah-small"></p></section>
+
+      <section class="ah-calendar ah-surface" data-tilt aria-label="Calendar"><div class="ah-section-head"><h2 class="ah-month"></h2><div class="ah-month-buttons"><button type="button" class="ah-icon-button cursor-interaction" data-action="prev-month" aria-label="Previous month"><i data-lucide="chevron-left" aria-hidden="true"></i></button><button type="button" class="ah-icon-button cursor-interaction" data-action="next-month" aria-label="Next month"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div></div><div class="ah-weekdays" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="ah-calendar-days"></div><div class="ah-calendar-footer"><span class="ah-selected-date ah-small"></span><button type="button" class="ah-text-button cursor-interaction" data-action="today">Today</button></div></section>
+
+      <section class="ah-focus ah-surface" data-tilt aria-label="Focus timer"><div class="ah-section-head"><h2><i data-lucide="orbit" aria-hidden="true"></i>Focus orbit</h2><select class="ah-select" aria-label="Focus session length"><option value="25">25 min</option><option value="5">5 min</option><option value="50">50 min</option></select></div><div class="ah-focus-body"><div class="ah-timer-ring" role="progressbar" aria-label="Focus session progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div><span class="ah-timer">25:00</span><span class="ah-small ah-timer-label">Ready</span></div></div><div class="ah-focus-actions"><button type="button" class="ah-primary ah-start cursor-interaction" data-action="timer"><i data-lucide="play" aria-hidden="true"></i><span>Start</span></button><button type="button" class="ah-icon-button cursor-interaction" data-action="timer-reset" aria-label="Reset focus timer"><i data-lucide="rotate-ccw" aria-hidden="true"></i></button></div></div></section>
+
+      <section class="ah-sensors ah-surface" data-tilt aria-label="CPU and GPU temperature connection status"><div class="ah-section-head"><h2><i data-lucide="activity" aria-hidden="true"></i>System pulse</h2><span class="ah-small ah-muted">Sensors</span></div><div class="ah-sensor-grid"><button type="button" class="ah-sensor cursor-interaction" data-action="sensors"><i data-lucide="cpu" aria-hidden="true"></i><span>CPU temperature</span><strong>Not connected</strong></button><button type="button" class="ah-sensor cursor-interaction" data-action="sensors"><i data-lucide="microchip" aria-hidden="true"></i><span>GPU temperature</span><strong>Not connected</strong></button></div></section>
+    </aside>
+  </div>
+
+  <footer class="ah-bottom">
+    <div class="ah-dock" aria-label="Application dock">
+      <button type="button" class="ah-dock-button ah-launchpad-button cursor-interaction" data-action="launcher" aria-label="Open Launchpad" data-tooltip="Launchpad"><i data-lucide="grid-2x2" aria-hidden="true"></i><span>Launchpad</span></button><span class="ah-dock-divider" aria-hidden="true"></span>
+      <button type="button" class="ah-dock-button cursor-interaction" data-action="chat" aria-label="ChatGPT draft" data-tooltip="ChatGPT"><i data-lucide="sparkles" aria-hidden="true"></i><span>ChatGPT</span></button>
+      <button type="button" class="ah-dock-button cursor-interaction" data-action="library" aria-label="Folder library" data-tooltip="Library"><i data-lucide="folder-open" aria-hidden="true"></i><span>Library</span></button>
+      <button type="button" class="ah-dock-button cursor-interaction" data-app="YouTube" aria-label="YouTube preview" data-tooltip="YouTube"><i data-lucide="play-square" aria-hidden="true"></i><span>YouTube</span></button>
+      <button type="button" class="ah-dock-button cursor-interaction" data-app="Gmail" aria-label="Gmail preview" data-tooltip="Gmail"><i data-lucide="mail" aria-hidden="true"></i><span>Gmail</span></button>
+      <button type="button" class="ah-dock-button cursor-interaction" data-app="Outlook" aria-label="Outlook preview" data-tooltip="Outlook"><i data-lucide="inbox" aria-hidden="true"></i><span>Outlook</span></button>
+      <button type="button" class="ah-dock-button cursor-interaction" data-action="appearance" aria-label="Appearance" data-tooltip="Appearance"><i data-lucide="sliders-horizontal" aria-hidden="true"></i><span>Design</span></button>
+      <button type="button" class="ah-dock-restore cursor-interaction" data-action="restore" hidden><i data-lucide="panel-top" aria-hidden="true"></i><span>Restore</span></button>
+    </div>
+    <div class="ah-statusbar"><span><span class="ah-status-dot"></span>Preview only · Your PC is unchanged</span><div><label for="ah-motion-mode">Motion</label><select id="ah-motion-mode" class="ah-select ah-motion"><option value="full">Full</option><option value="reduced">Reduced</option><option value="off">Off</option></select><button type="button" class="ah-pointer-toggle cursor-interaction" aria-pressed="true" data-action="pointer" aria-label="Toggle companion pointer"><i data-lucide="mouse-pointer-2" aria-hidden="true"></i>Companion</button></div></div>
+  </footer>
+
+  <div class="ah-window-layer" hidden><div class="ah-window-shade"></div><section class="ah-window" role="dialog" aria-modal="true" aria-label="Preview panel"><header class="ah-window-bar"><span class="ah-window-name"></span><div><button class="ah-icon-button cursor-interaction" type="button" data-action="minimise" aria-label="Minimise panel"><i data-lucide="minus" aria-hidden="true"></i></button><button class="ah-icon-button cursor-interaction" type="button" data-action="close" aria-label="Close panel"><i data-lucide="x" aria-hidden="true"></i></button></div></header><div class="ah-window-content"></div></section></div>
+  <div class="ah-pointer" aria-hidden="true"><span class="ah-pointer-orbit ah-animated"></span><span class="ah-pointer-face"><b></b><b></b></span></div>
+  <div class="ah-toast" role="status" aria-live="polite"></div>
+</div>
+
+<style>
+#aurora-home-preview{--ah-accent:#82e8f9;--ah-violet:#b19bff;--ah-text:#edf4ff;--ah-muted:#a8b7cf;--ah-panel:#111c30;--ah-edge:#29425c;--ah-depth:1;--ah-energy:1;position:relative;isolation:isolate;width:100%;min-width:0;overflow:hidden;border-radius:20px;background:#080f20;color:var(--ah-text);font-family:Inter,"Segoe UI",sans-serif;font-size:14px;line-height:1.45;box-shadow:0 18px 70px #00000035;color-scheme:dark}
+#aurora-home-preview *{box-sizing:border-box}
+#aurora-home-preview [hidden]{display:none!important}
+#aurora-home-preview button,#aurora-home-preview input,#aurora-home-preview select,#aurora-home-preview textarea{font:inherit}
+#aurora-home-preview button{color:inherit}
+#aurora-home-preview button,#aurora-home-preview select{touch-action:manipulation}
+#aurora-home-preview button{border:0;background:none}
+#aurora-home-preview svg{width:18px;height:18px;flex:none}
+#aurora-home-preview h1,#aurora-home-preview h2,#aurora-home-preview h3,#aurora-home-preview p{margin:0}
+#aurora-home-preview h1{font-size:28px;line-height:1.2;font-weight:500;letter-spacing:-1px}
+#aurora-home-preview h2{font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
+#aurora-home-preview h3{font-size:21px;font-weight:500;letter-spacing:-.4px}
+#aurora-home-preview .ah-small{font-size:11px}
+#aurora-home-preview .ah-muted{color:var(--ah-muted)}
+#aurora-home-preview .ah-eyebrow{font-size:11px;letter-spacing:1.8px;font-weight:500;color:var(--ah-muted)}
+#aurora-home-preview .ah-atmosphere{position:absolute;inset:0;overflow:hidden;z-index:-1;background:radial-gradient(ellipse at 24% 24%,#16476850,transparent 48%),radial-gradient(ellipse at 82% 6%,#462a7940,transparent 50%),linear-gradient(145deg,#07111d,#0b1128 75%,#0e1b31)}
+#aurora-home-preview .ah-nebula{position:absolute;width:900px;height:500px;left:-260px;top:80px;opacity:.55;background:conic-gradient(from 40deg,transparent,#27698d75,transparent 28%,#4b3b9a55,transparent 60%);filter:blur(45px);animation:ah-nebula 42s ease-in-out infinite alternate;will-change:transform}
+#aurora-home-preview .ah-stars{position:absolute;inset:0;perspective:800px}
+#aurora-home-preview .ah-star{position:absolute;width:2px;height:2px;border-radius:50%;background:#d6edff;opacity:.3;animation:ah-star calc(4s + var(--s)*1s) ease-in-out infinite alternate;animation-delay:calc(var(--s)*-.7s)}
+#aurora-home-preview .ah-horizon{position:absolute;left:-30%;right:-30%;height:220px;bottom:-130px;transform:perspective(400px) rotateX(55deg);background-image:linear-gradient(#668ddd13 1px,transparent 1px),linear-gradient(90deg,#668ddd13 1px,transparent 1px);background-size:50px 50px;mask-image:linear-gradient(transparent,#000)}
+#aurora-home-preview .ah-topbar{position:relative;display:flex;align-items:center;gap:24px;min-height:68px;padding:14px 104px 14px 24px;border-bottom:1px solid #a9d3ff14;background:#091321d9;z-index:4}
+#aurora-home-preview .ah-brand{display:flex;align-items:center;gap:9px;padding:0;text-align:left;letter-spacing:2.6px;font-size:12px;font-weight:500}
+#aurora-home-preview .ah-brand small{display:block;color:#99aec8;font-size:11px;letter-spacing:3px;margin-top:1px}
+#aurora-home-preview .ah-brand-mark{position:relative;width:30px;height:30px;border:1px solid #a3dcf77a;border-radius:50%;transform:rotate(-25deg);box-shadow:inset 0 0 12px #5bc4ff36,0 0 16px #85bbff19}
+#aurora-home-preview .ah-brand-mark:before{content:"";position:absolute;inset:6px -5px;border:1px solid var(--ah-violet);border-radius:50%;transform:rotate(-30deg)}
+#aurora-home-preview .ah-brand-mark span{position:absolute;inset:10px;background:var(--ah-accent);border-radius:50%;box-shadow:0 0 12px var(--ah-accent)}
+#aurora-home-preview .ah-navigation{display:flex;align-items:center;gap:5px}
+#aurora-home-preview .ah-navigation button{padding:7px 10px;color:var(--ah-muted);font-size:12px;border-radius:8px;transition:background .2s,color .2s}
+#aurora-home-preview .ah-navigation button:hover,#aurora-home-preview .ah-navigation .ah-current{color:var(--ah-text);background:#a6caff0d}
+#aurora-home-preview .ah-search-trigger{margin-left:auto;display:flex;align-items:center;gap:9px;color:var(--ah-muted);padding:8px 11px;border:1px solid #a9d3ff1c;border-radius:9px;background:#0b1729;font-size:11px;min-width:0}
+#aurora-home-preview .ah-search-trigger svg{width:14px;height:14px}
+#aurora-home-preview kbd{font:inherit;color:#72849f;background:#162339;border:1px solid #9caedb17;border-radius:3px;padding:0 4px;margin-left:12px}
+#aurora-home-preview .ah-concept{position:absolute;left:24px;top:76px;font-size:11px;color:#8b9db7;letter-spacing:.2px}
+#aurora-home-preview .ah-desktop{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 252px;gap:20px;padding:38px 24px 0}
+#aurora-home-preview .ah-main{min-width:0;display:flex;flex-direction:column;gap:16px}
+#aurora-home-preview .ah-welcome{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#aurora-home-preview .ah-welcome .ah-eyebrow{margin-bottom:7px}
+#aurora-home-preview .ah-icon-button{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex:none;border-radius:8px;background:#b4cfff09;color:var(--ah-muted);transition:background .18s,color .18s}
+#aurora-home-preview .ah-icon-button:hover{background:#b4cfff1c;color:var(--ah-text)}
+#aurora-home-preview .ah-icon-button svg{width:15px;height:15px}
+#aurora-home-preview .ah-core-stage{height:266px;position:relative;perspective:800px;transform-style:preserve-3d}
+#aurora-home-preview .ah-core-grid{position:absolute;inset:5% 12% 18%;border-radius:50%;background:radial-gradient(ellipse,#1c719e22,transparent 65%);border:1px solid #95c8ff08;transform:rotateX(62deg);box-shadow:0 0 0 34px #83c9fb03,0 0 0 68px #83c9fb02}
+#aurora-home-preview .ah-scene{position:absolute;top:0;left:50%;width:260px;height:210px;transform:translateX(-50%) rotateX(calc(var(--ah-py,0)*4deg)) rotateY(calc(var(--ah-px,0)*-6deg));transform-style:preserve-3d;transition:transform .35s ease-out}
+#aurora-home-preview .ah-orbit{position:absolute;left:50%;top:50%;border:1px solid #86d9ff6b;border-radius:50%;transform-style:preserve-3d;box-shadow:0 0 9px #6f9eff12,inset 0 0 9px #6f9eff09;animation:ah-orbit 28s linear infinite}
+#aurora-home-preview .ah-orbit:after{content:"";position:absolute;left:13%;top:13%;width:5px;height:5px;border-radius:50%;background:var(--ah-accent);box-shadow:0 0 12px #76d5ff,0 0 20px #76d5ff66}
+#aurora-home-preview .ah-orbit-a{width:240px;height:150px;margin:-75px 0 0 -120px;--orb-rotate:-25deg;--orb-x:55deg}
+#aurora-home-preview .ah-orbit-b{width:205px;height:205px;margin:-102px 0 0 -102px;--orb-rotate:58deg;--orb-x:65deg;border-color:#b9a3ff6b;animation-duration:36s;animation-direction:reverse}
+#aurora-home-preview .ah-orbit-b:after{background:var(--ah-violet);box-shadow:0 0 13px #b9a3ff}
+#aurora-home-preview .ah-orbit-c{width:280px;height:175px;margin:-87px 0 0 -140px;--orb-rotate:12deg;--orb-x:64deg;border-color:#70a9ff24;animation-duration:45s}
+#aurora-home-preview .ah-orbit-d{width:156px;height:156px;margin:-78px 0 0 -78px;--orb-rotate:120deg;--orb-x:45deg;border-style:dashed;border-color:#96d9f526;animation-duration:52s}
+#aurora-home-preview .ah-orbit-d:after{display:none}
+#aurora-home-preview .ah-core-shadow{position:absolute;left:28%;right:28%;bottom:0;height:16px;border-radius:50%;background:#4fc6ff40;filter:blur(14px);animation:ah-shadow 5s ease-in-out infinite}
+#aurora-home-preview .ah-companion{position:absolute;left:50%;top:30px;width:138px;height:138px;margin-left:-69px;padding:0;border-radius:50%;transform-style:preserve-3d;z-index:2;transition:filter .3s}
+#aurora-home-preview .ah-companion:hover{filter:brightness(1.18)}
+#aurora-home-preview .ah-companion-shell{display:block;position:relative;width:100%;height:100%;overflow:hidden;border-radius:50%;background:radial-gradient(circle at 29% 25%,#c7f6ffea 0%,#68bfe9a6 18%,#4b74bd 42%,#393365 68%,#131c3b 84%);box-shadow:inset -12px -15px 20px #080f3870,inset 9px 8px 15px #d5f9ff66,0 0 0 1px #c0eaff60,0 0 50px #4d9be333,0 22px 50px #01091f88;animation:ah-float 5s ease-in-out infinite}
+#aurora-home-preview .ah-companion-shell:after{content:"";position:absolute;inset:4px;border:1px solid #d6f3ff35;border-radius:50%;background:linear-gradient(125deg,#edffff22,transparent 30%,transparent 60%,#cabfff22)}
+#aurora-home-preview .ah-companion-sheen{position:absolute;inset:-30%;background:conic-gradient(transparent,#b4ecff22,transparent 20%,#bba7ff25,transparent 60%);animation:ah-spin 18s linear infinite}
+#aurora-home-preview .ah-face{position:absolute;display:flex;justify-content:center;gap:22px;left:29px;right:29px;top:55px;height:35px;transform:translate(calc(var(--ah-px,0)*4px),calc(var(--ah-py,0)*3px));transition:transform .25s}
+#aurora-home-preview .ah-eye{width:8px;height:16px;border-radius:8px;background:#d9ffff;box-shadow:0 0 12px #a6faff}
+#aurora-home-preview .ah-smile{position:absolute;left:28px;top:22px;width:22px;height:8px;border-bottom:2px solid #cbfaffad;border-radius:50%}
+#aurora-home-preview .ah-satellite{position:absolute;display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid #95c7ee24;border-radius:11px;background:#0e1c30e8;color:#c2d2e9;font-size:11px;box-shadow:0 8px 25px #030c2060;z-index:3;transition:transform .25s,border-color .25s,background .25s}
+#aurora-home-preview .ah-satellite svg{width:14px;height:14px;color:var(--ah-accent)}
+#aurora-home-preview .ah-satellite:hover{transform:translateY(-4px);border-color:#a2dff580;background:#153046}
+#aurora-home-preview .ah-satellite-plan{left:7%;top:60px;transform:rotate(-4deg)}
+#aurora-home-preview .ah-satellite-create{right:6%;top:30px;transform:rotate(4deg)}
+#aurora-home-preview .ah-satellite-explore{right:9%;top:137px;transform:rotate(-3deg)}
+#aurora-home-preview .ah-core-caption{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;flex-direction:column;gap:5px}
+#aurora-home-preview .ah-core-name{font-size:11px;letter-spacing:2.7px;color:#8fabc8}
+#aurora-home-preview .ah-chat-launch{display:flex;align-items:center;gap:10px;font-size:16px;letter-spacing:-.2px;font-weight:500;padding:3px 8px;border-radius:8px}
+#aurora-home-preview .ah-chat-launch svg{width:15px;color:var(--ah-accent);transition:transform .2s}
+#aurora-home-preview .ah-chat-launch:hover svg{transform:translate(2px,-2px)}
+#aurora-home-preview .ah-surface{position:relative;border:1px solid #b4d6ff20;border-radius:17px;background:linear-gradient(130deg,#14263d,#121c31 60%,#1b2139);box-shadow:inset 0 1px 0 #c0e4ff07,0 12px 24px #03091e25;padding:16px;min-width:0;transform:perspective(1000px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform .35s ease-out,border-color .25s;transform-style:preserve-3d}
+#aurora-home-preview .ah-surface:hover{border-color:#a5d3ff40}
+#aurora-home-preview .ah-section-head{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:12px}
+#aurora-home-preview .ah-section-head h2>svg{width:15px;height:15px;color:#9cc7dd}
+#aurora-home-preview .ah-section-head>svg{width:14px;height:14px;color:#7491af}
+#aurora-home-preview .ah-text-button{display:inline-flex;align-items:center;gap:4px;padding:2px 0;font-size:11px;color:#a9c7dd;white-space:nowrap}
+#aurora-home-preview .ah-text-button:hover{color:var(--ah-accent)}
+#aurora-home-preview .ah-text-button svg{width:12px;height:12px}
+#aurora-home-preview .ah-folders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#aurora-home-preview .ah-folder{display:flex;align-items:flex-start;gap:8px;min-width:0;padding:10px 7px;text-align:left;border-radius:10px;background:#8eb9ff06;border:1px solid #99c6ff0c;transition:transform .25s,background .25s,border-color .25s}
+#aurora-home-preview .ah-folder:hover{transform:translateY(-3px);background:#9fc8ff0d;border-color:#a0cfff35}
+#aurora-home-preview .ah-folder-symbol{position:relative;width:24px;height:18px;margin:5px 0 0;flex:none;border-radius:3px 5px 4px 4px;background:linear-gradient(130deg,color-mix(in srgb,var(--folder-color) 65%,#e8faff),var(--folder-color));box-shadow:inset 0 1px 1px #ffffff50,0 4px 10px #00000030;transform:perspective(100px) rotateY(-12deg);transition:transform .25s}
+#aurora-home-preview .ah-folder-symbol:before{content:"";position:absolute;left:0;top:-4px;width:12px;height:6px;border-radius:3px 3px 0 0;background:var(--folder-color)}
+#aurora-home-preview .ah-folder-symbol:after{content:"";position:absolute;inset:4px 3px 3px;border:1px solid #f3ffff3d;border-radius:2px}
+#aurora-home-preview .ah-folder:hover .ah-folder-symbol{transform:perspective(100px) rotateY(0) rotateX(-12deg)}
+#aurora-home-preview .ah-folder-label{font-size:11px;color:#c9d7e9;line-height:1.4;overflow-wrap:normal}
+#aurora-home-preview .ah-folder-label small{display:block;font-size:11px;margin-top:3px;color:#7f94b1}
+#aurora-home-preview .ah-sample{font-size:11px;color:#b3c0d4;background:#ffffff07;border:1px solid #c6d7fa13;border-radius:5px;padding:2px 5px;white-space:nowrap}
+#aurora-home-preview .ah-forecast{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+#aurora-home-preview .ah-weather-day{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11px;border-radius:9px;padding:6px 2px;transition:background .2s}
+#aurora-home-preview .ah-weather-day:hover{background:#b3d3ff0c}
+#aurora-home-preview .ah-weather-day svg{width:21px;height:21px;color:#c5d7eb}
+#aurora-home-preview .ah-weather-day strong{font-weight:500;font-size:12px}
+#aurora-home-preview .ah-weather-day em{font-size:11px;font-style:normal;color:#8e9fbc;margin-left:3px}
+#aurora-home-preview .ah-weather-day span:first-child{color:#9fb0c8}
+#aurora-home-preview .ah-widget-rail{display:flex;flex-direction:column;gap:13px;min-width:0}
+#aurora-home-preview .ah-clock{background:linear-gradient(130deg,#162b43,#151d34);overflow:hidden}
+#aurora-home-preview .ah-clock:after{content:"";position:absolute;right:-55px;top:-70px;width:145px;height:145px;border:1px solid #8bcaff24;border-radius:50%;box-shadow:0 0 0 18px #8bcaff05,0 0 0 36px #8bcaff04;pointer-events:none}
+#aurora-home-preview .ah-clock .ah-section-head{margin-bottom:3px}
+#aurora-home-preview .ah-clock-face{display:flex;align-items:baseline;gap:9px}
+#aurora-home-preview .ah-time{font-size:39px;font-weight:400;letter-spacing:-1.8px;font-variant-numeric:tabular-nums;line-height:1.3}
+#aurora-home-preview .ah-period{font-size:11px;color:#8fa5c4}
+#aurora-home-preview .ah-date{color:#a9bdd5}
+#aurora-home-preview .ah-calendar{padding:13px 15px}
+#aurora-home-preview .ah-calendar .ah-section-head{margin-bottom:8px}
+#aurora-home-preview .ah-month{font-size:12px}
+#aurora-home-preview .ah-month-buttons{display:flex;gap:2px}
+#aurora-home-preview .ah-month-buttons .ah-icon-button{width:24px;height:24px;background:none}
+#aurora-home-preview .ah-weekdays,#aurora-home-preview .ah-calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;text-align:center}
+#aurora-home-preview .ah-weekdays{font-size:11px;color:#7f96b4;margin-bottom:5px}
+#aurora-home-preview .ah-calendar-days button,#aurora-home-preview .ah-calendar-days>span{aspect-ratio:1.1;display:grid;place-items:center;font-size:11px;border-radius:7px;min-width:0;padding:0;font-variant-numeric:tabular-nums}
+#aurora-home-preview .ah-calendar-days button{color:#bdcce0;transition:background .18s}
+#aurora-home-preview .ah-calendar-days button:hover{background:#a4d1ff16}
+#aurora-home-preview .ah-calendar-days button.ah-today{color:var(--ah-accent);background:#78ddf111}
+#aurora-home-preview .ah-calendar-days button.ah-selected{background:#94dcea;color:#082335;font-weight:500;box-shadow:0 3px 10px #6fdcff20}
+#aurora-home-preview .ah-calendar-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #adcafa12;padding-top:9px;margin-top:9px;gap:5px}
+#aurora-home-preview .ah-calendar-footer .ah-small{font-size:11px;color:#8eabc7}
+#aurora-home-preview .ah-select{max-width:100%;padding:4px 17px 4px 6px;border:1px solid #b3d5ff1a;border-radius:6px;background:#101c30;color:#a9bdd5;font-size:11px}
+#aurora-home-preview .ah-focus{padding:14px 15px}
+#aurora-home-preview .ah-focus-body{display:flex;align-items:center;gap:16px}
+#aurora-home-preview .ah-timer-ring{--progress:0deg;width:88px;height:88px;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--ah-accent) var(--progress),#3a4b6b55 0);flex:none;transform:rotate(-90deg)}
+#aurora-home-preview .ah-timer-ring>div{width:82px;height:82px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#141f34;transform:rotate(90deg)}
+#aurora-home-preview .ah-timer{font-size:22px;letter-spacing:-.8px;font-variant-numeric:tabular-nums}
+#aurora-home-preview .ah-timer-label{color:#8fa9c4;font-size:11px}
+#aurora-home-preview .ah-focus-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+#aurora-home-preview .ah-primary{display:inline-flex;justify-content:center;align-items:center;gap:7px;padding:9px 12px;border-radius:9px;background:#a0e2ef;color:#102c40;font-size:11px;font-weight:500;box-shadow:0 4px 16px #6ad4f31a;transition:transform .2s,background .2s}
+#aurora-home-preview .ah-primary:hover{transform:translateY(-2px);background:#c0f1fa}
+#aurora-home-preview .ah-primary svg{width:13px;height:13px}
+#aurora-home-preview .ah-sensors{padding:14px 15px}
+#aurora-home-preview .ah-sensor-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#aurora-home-preview .ah-sensor{display:grid;grid-template-columns:17px 1fr;gap:5px;text-align:left;padding:5px 0;min-width:0}
+#aurora-home-preview .ah-sensor svg{width:15px;height:15px;color:#84a0bf;grid-row:span 2;margin-top:1px}
+#aurora-home-preview .ah-sensor span{font-size:11px;color:#97abc5}
+#aurora-home-preview .ah-sensor strong{font-size:11px;font-weight:400;color:#cfdaea;white-space:nowrap}
+#aurora-home-preview .ah-bottom{padding:24px 24px 14px;position:relative}
+#aurora-home-preview .ah-dock{display:flex;width:max-content;max-width:100%;align-items:center;justify-content:center;gap:8px;margin:0 auto;padding:9px 12px;border:1px solid #adcaff2e;border-radius:19px;background:linear-gradient(130deg,#192b40,#1a233c);box-shadow:inset 0 1px 0 #c2dfff0c,0 14px 26px #030b2055;position:relative;z-index:5}
+#aurora-home-preview .ah-dock-button{position:relative;width:43px;height:42px;display:grid;place-items:center;border:1px solid #badbff15;border-radius:12px;background:linear-gradient(145deg,#7491ba19,#6683ad08);box-shadow:inset 0 1px 0 #c6edff0c;transition:transform .22s cubic-bezier(.2,.8,.2,1),background .22s,border-color .22s;transform-origin:50% 100%}
+#aurora-home-preview .ah-dock-button:hover{transform:translateY(-7px) scale(1.14);background:#779ec538;border-color:#afd2ff4d}
+#aurora-home-preview .ah-dock-button svg{width:21px;height:21px;color:#bad9ef}
+#aurora-home-preview .ah-dock-button>span{position:absolute;bottom:-8px;width:4px;height:2px;border-radius:2px;background:#9bc7e4;font-size:0;opacity:0}
+#aurora-home-preview .ah-dock-button[data-action="chat"]{background:linear-gradient(135deg,#3a627a,#50477d)}
+#aurora-home-preview .ah-launchpad-button svg{color:var(--ah-accent)}
+#aurora-home-preview .ah-dock-divider{width:1px;height:28px;background:#b5d6ff19;margin:0 2px}
+#aurora-home-preview .ah-dock-restore{display:flex;gap:5px;align-items:center;padding:7px;border:1px solid #b1deff33;border-radius:9px;background:#8fc7ff0d;font-size:11px;max-width:110px}
+#aurora-home-preview .ah-statusbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:21px;font-size:11px;color:#8095b1;flex-wrap:wrap}
+#aurora-home-preview .ah-statusbar>span,#aurora-home-preview .ah-statusbar>div{display:flex;align-items:center;gap:7px}
+#aurora-home-preview .ah-status-dot{width:4px;height:4px;border-radius:50%;background:#799fc1}
+#aurora-home-preview .ah-statusbar label{font-size:11px}
+#aurora-home-preview .ah-motion{font-size:11px;padding-top:3px;padding-bottom:3px}
+#aurora-home-preview .ah-pointer-toggle{display:flex;align-items:center;gap:4px;padding:4px;color:#9eb4cb;border-radius:5px;font-size:11px}
+#aurora-home-preview .ah-pointer-toggle[aria-pressed="true"]{color:#bcecff;background:#89d1ed0c}
+#aurora-home-preview .ah-pointer-toggle svg{width:12px;height:12px}
+#aurora-home-preview .ah-window-layer{position:absolute;inset:0;z-index:20;display:flex;align-items:flex-start;justify-content:center;padding:96px 22px 90px}
+#aurora-home-preview .ah-window-shade{position:absolute;inset:0;background:#050b1e66;backdrop-filter:blur(7px)}
+#aurora-home-preview .ah-window{position:relative;width:560px;max-width:100%;border:1px solid #9dcbf94d;border-radius:18px;background:radial-gradient(ellipse at 100% 0,#29365b,#111d32 56%);box-shadow:0 28px 90px #00000080,0 0 0 1px #c5ddff08;overflow:hidden;animation:ah-window-in .3s cubic-bezier(.2,.8,.2,1)}
+#aurora-home-preview .ah-window-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 14px 11px 20px;background:#0b172bd9;border-bottom:1px solid #a0c5ee1a;gap:10px}
+#aurora-home-preview .ah-window-bar>div{display:flex;gap:5px}
+#aurora-home-preview .ah-window-name{font-size:12px;color:#bfd0e5;display:flex;align-items:center;gap:8px}
+#aurora-home-preview .ah-window-content{padding:24px;min-width:0}
+#aurora-home-preview .ah-window-content p{color:#a4b9d2;font-size:12px;margin-top:9px}
+#aurora-home-preview .ah-window-content h3{margin-bottom:8px}
+#aurora-home-preview .ah-window-content .ah-panel-badge{display:inline-flex;align-items:center;gap:6px;border-radius:6px;background:#91cfff0c;border:1px solid #acd8ff1f;color:#a7c2dc;font-size:11px;padding:3px 7px;margin-bottom:15px}
+#aurora-home-preview .ah-field{display:flex;align-items:center;gap:9px;padding:10px 12px;background:#09172a;border:1px solid #b9dcff29;border-radius:10px;color:#8fa9c5;margin:12px 0 18px}
+#aurora-home-preview .ah-field input{min-width:0;width:100%;border:0;background:none;color:var(--ah-text);font-size:14px;padding:2px}
+#aurora-home-preview .ah-field input::placeholder,#aurora-home-preview textarea::placeholder{color:#7389a7}
+#aurora-home-preview .ah-app-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#aurora-home-preview .ah-app-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:16px 6px;border:1px solid #9ec9ff16;background:#7699d10b;border-radius:12px;min-width:0;text-align:center;font-size:11px;transition:transform .2s,background .2s}
+#aurora-home-preview .ah-app-tile:hover{transform:translateY(-3px);background:#9bcfff17}
+#aurora-home-preview .ah-app-tile svg{width:23px;height:23px;color:#b6d9f1}
+#aurora-home-preview .ah-empty{padding:20px 0;text-align:center;color:#9eb3cb;font-size:13px;grid-column:1/-1}
+#aurora-home-preview .ah-draft-label{display:block;color:#b8cde2;font-size:12px;margin:16px 0 7px}
+#aurora-home-preview textarea{display:block;width:100%;resize:vertical;min-height:135px;max-height:260px;border:1px solid #b9dcff2b;border-radius:12px;background:#09172a;color:var(--ah-text);padding:14px;font-size:14px;line-height:1.65}
+#aurora-home-preview .ah-suggestions{display:flex;gap:7px;flex-wrap:wrap;margin:11px 0 20px}
+#aurora-home-preview .ah-suggestion{font-size:11px;padding:5px 8px;border:1px solid #a3cfff22;border-radius:7px;color:#acc5df;background:#92c3ff08}
+#aurora-home-preview .ah-panel-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+#aurora-home-preview .ah-secondary{display:inline-flex;align-items:center;gap:7px;font-size:11px;border:1px solid #a6cdff26;border-radius:9px;padding:9px 12px;background:#96c9ff09;color:#bad0e5}
+#aurora-home-preview .ah-draft-preview{padding:15px;border-radius:12px;background:#09172a;border:1px solid #a6ceff25;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;color:#e5eefb;margin-top:16px}
+#aurora-home-preview .ah-category-symbol{display:grid;place-items:center;width:56px;height:56px;border-radius:15px;background:linear-gradient(140deg,#264d68,#363356);border:1px solid #b6daff27;margin-bottom:16px}
+#aurora-home-preview .ah-category-symbol svg{width:27px;height:27px;color:#c6ecfa}
+#aurora-home-preview .ah-category-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+#aurora-home-preview .ah-category-tags span{padding:8px 11px;border:1px solid #b3d1fd1b;background:#acc8ff07;border-radius:8px;font-size:12px;color:#afc3dc}
+#aurora-home-preview .ah-appearance-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+#aurora-home-preview .ah-appearance-item{padding:16px;border:1px solid #a9cfff20;background:#0e1a2e;border-radius:13px;display:flex;flex-direction:column;gap:10px;font-size:12px;color:#b6cce2}
+#aurora-home-preview .ah-appearance-item select{font-size:13px;padding:8px;background:#15253b}
+#aurora-home-preview .ah-colours{display:flex;gap:9px}
+#aurora-home-preview .ah-colour{width:28px;height:28px;border-radius:50%;border:3px solid #16253a;box-shadow:0 0 0 1px #c1dbff38;background:var(--colour)}
+#aurora-home-preview .ah-colour[aria-pressed="true"]{box-shadow:0 0 0 2px #e4f3ff}
+#aurora-home-preview .ah-pointer{position:absolute;top:0;left:0;width:26px;height:26px;pointer-events:none;z-index:80;opacity:0;transition:opacity .18s;will-change:transform}
+#aurora-home-preview .ah-pointer-face{position:absolute;inset:5px 4px;border-radius:6px;background:linear-gradient(135deg,#b9efff,#6876c1);box-shadow:0 0 12px #78dfff70;display:flex;align-items:center;justify-content:center;gap:4px}
+#aurora-home-preview .ah-pointer-face b{width:2px;height:4px;border-radius:2px;background:#102a50}
+#aurora-home-preview .ah-pointer-orbit{position:absolute;inset:0;border:1px solid #afefff91;border-radius:50%;transform:rotate(-35deg) scaleX(1.25);animation:ah-pointer-orbit 4s linear infinite}
+#aurora-home-preview .ah-toast{position:absolute;left:50%;bottom:128px;max-width:calc(100% - 40px);padding:10px 15px;border:1px solid #aecfff3b;border-radius:10px;background:#182842;box-shadow:0 10px 35px #00000060;color:#d5e5f4;font-size:12px;text-align:center;z-index:40;opacity:0;transform:translate(-50%,10px);transition:opacity .2s,transform .2s;pointer-events:none}
+#aurora-home-preview .ah-toast.ah-show{opacity:1;transform:translate(-50%,0)}
+#aurora-home-preview .ah-welcome-actions{display:flex;gap:6px;flex:none}
+#aurora-home-preview .ah-notification-button{position:relative}
+#aurora-home-preview .ah-notification-count{position:absolute;right:-2px;top:-3px;min-width:16px;height:16px;display:grid;place-items:center;padding:0 3px;border-radius:8px;background:var(--ah-accent);color:#092536;font-size:11px;line-height:1}
+#aurora-home-preview .ah-workspace-switch{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:-3px}
+#aurora-home-preview .ah-workspace-switch button{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:8px;border:1px solid #b9daff16;background:#a5caff04;color:#a4b8d1;font-size:11px;transition:background .2s,border-color .2s,color .2s}
+#aurora-home-preview .ah-workspace-switch button svg{width:13px;height:13px}
+#aurora-home-preview .ah-workspace-switch button[aria-pressed="true"]{color:var(--ah-accent);background:color-mix(in srgb,var(--ah-accent) 9%,#101a2c);border-color:color-mix(in srgb,var(--ah-accent) 30%,transparent)}
+#aurora-home-preview .ah-workspace-caption{font-size:11px;color:#8ca3be;margin-left:auto;padding-left:5px}
+#aurora-home-preview .ah-atmosphere{filter:brightness(var(--ah-illumination,1));transition:filter .4s,background .6s}
+#aurora-home-preview .ah-welcome,#aurora-home-preview .ah-workspace-switch{order:0}
+#aurora-home-preview .ah-core-stage{order:1}
+#aurora-home-preview .ah-library{order:2}
+#aurora-home-preview .ah-weather{order:3}
+#aurora-home-preview[data-workspace="work"] .ah-library{border-color:#8ad1ec42}
+#aurora-home-preview[data-workspace="create"] .ah-atmosphere{background:radial-gradient(ellipse at 35% 22%,#67489d65,transparent 58%),radial-gradient(ellipse at 90% 70%,#254c7c55,transparent 60%),#0d1227}
+#aurora-home-preview[data-workspace="create"] .ah-core-stage{height:286px}
+#aurora-home-preview[data-workspace="create"] .ah-core-grid{box-shadow:0 0 0 34px #bc8bff08,0 0 0 68px #bc8bff04}
+#aurora-home-preview[data-workspace="create"] .ah-companion-shell{box-shadow:inset -12px -15px 20px #19083870,inset 9px 8px 15px #e9d5ff66,0 0 0 1px #dec0ff60,0 0 65px #b278eb45,0 22px 50px #01091f88}
+#aurora-home-preview[data-workspace="relax"] .ah-atmosphere{background:radial-gradient(ellipse at 25% 38%,#23594f68,transparent 55%),radial-gradient(ellipse at 92% 5%,#36436945,transparent 60%),#0b1622}
+#aurora-home-preview[data-workspace="relax"] .ah-weather{order:1;border-color:#a4dcc84a}
+#aurora-home-preview[data-workspace="relax"] .ah-core-stage{order:2}
+#aurora-home-preview[data-workspace="relax"] .ah-library{order:3}
+#aurora-home-preview[data-workspace="relax"] .ah-nebula{animation-duration:65s}
+#aurora-home-preview .ah-command-heading{font-size:11px;letter-spacing:1px;color:#8da7c4;margin:0 0 9px}
+#aurora-home-preview .ah-command-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:20px}
+#aurora-home-preview .ah-command{display:flex;align-items:center;gap:9px;text-align:left;min-width:0;padding:10px;border-radius:10px;border:1px solid #a7cfff20;background:#82b9ec08;transition:background .2s,transform .2s}
+#aurora-home-preview .ah-command:hover{background:#92c4f518;transform:translateY(-2px)}
+#aurora-home-preview .ah-command>svg{width:16px;height:16px;color:var(--ah-accent)}
+#aurora-home-preview .ah-command>span{display:flex;flex-direction:column;gap:3px;min-width:0;font-size:12px}
+#aurora-home-preview .ah-command small{font-size:11px;color:#91a8c2;line-height:1.35}
+#aurora-home-preview .ah-illumination-line{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#aurora-home-preview .ah-illumination-line output{color:var(--ah-accent);font-variant-numeric:tabular-nums;font-size:11px}
+#aurora-home-preview .ah-illumination{width:100%;accent-color:var(--ah-accent);margin:5px 0}
+#aurora-home-preview .ah-control-note{font-size:11px;color:#849db9}
+#aurora-home-preview .ah-notice-list{display:flex;flex-direction:column;gap:8px;margin:18px 0;list-style:none;padding:0}
+#aurora-home-preview .ah-notice{display:flex;gap:11px;align-items:flex-start;padding:12px;border:1px solid #a7d0ff18;background:#94c3ff07;border-radius:11px}
+#aurora-home-preview .ah-notice>svg{color:var(--ah-accent);width:15px;height:15px;margin-top:2px}
+#aurora-home-preview .ah-notice>div{min-width:0;display:flex;flex-direction:column;gap:4px}
+#aurora-home-preview .ah-notice span{font-size:12px;color:#c0d3e7}
+#aurora-home-preview .ah-notice time{font-size:11px;color:#809bb9}
+#aurora-home-preview .ah-notification-empty{padding:24px 16px;border:1px dashed #a9ceff28;border-radius:12px;color:#91abc7;text-align:center;font-size:12px;margin-top:18px}
+#aurora-home-preview[data-motion="reduced"] .ah-animated,#aurora-home-preview[data-motion="reduced"] .ah-star,#aurora-home-preview[data-motion="off"] *,#aurora-home-preview[data-motion="off"] *::before,#aurora-home-preview[data-motion="off"] *::after{animation:none!important}
+#aurora-home-preview[data-motion="reduced"] .ah-surface,#aurora-home-preview[data-motion="reduced"] .ah-scene,#aurora-home-preview[data-motion="off"] .ah-surface,#aurora-home-preview[data-motion="off"] .ah-scene{--tilt-x:0deg!important;--tilt-y:0deg!important;--ah-px:0!important;--ah-py:0!important}
+#aurora-home-preview[data-motion="reduced"] .ah-dock-button:hover,#aurora-home-preview[data-motion="reduced"] .ah-folder:hover,#aurora-home-preview[data-motion="off"] button:hover{transform:none!important}
+#aurora-home-preview[data-motion="off"] *,#aurora-home-preview[data-motion="off"] *::before,#aurora-home-preview[data-motion="off"] *::after{transition:none!important}
+#aurora-home-preview[data-paused="true"] *,#aurora-home-preview[data-paused="true"] *::before,#aurora-home-preview[data-paused="true"] *::after{animation-play-state:paused!important}
+@keyframes ah-nebula{from{transform:translate(-5%,0) rotate(-12deg) scale(1)}to{transform:translate(35%,12%) rotate(20deg) scale(1.2)}}
+@keyframes ah-star{from{opacity:.15;transform:translateY(0)}to{opacity:.7;transform:translateY(-7px)}}
+@keyframes ah-orbit{from{transform:rotate(var(--orb-rotate)) rotateX(var(--orb-x)) rotateZ(0)}to{transform:rotate(var(--orb-rotate)) rotateX(var(--orb-x)) rotateZ(360deg)}}
+@keyframes ah-float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes ah-shadow{0%,100%{transform:scaleX(.9);opacity:.55}50%{transform:scaleX(1.1);opacity:.35}}
+@keyframes ah-spin{to{transform:rotate(360deg)}}
+@keyframes ah-pointer-orbit{from{transform:rotate(0) scaleX(1.25)}to{transform:rotate(360deg) scaleX(1.25)}}
+@keyframes ah-window-in{from{opacity:0;transform:translateY(15px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:900px){#aurora-home-preview .ah-topbar{gap:15px}#aurora-home-preview .ah-navigation{display:none}#aurora-home-preview .ah-desktop{grid-template-columns:minmax(0,1fr) 235px;gap:15px;padding-left:18px;padding-right:18px}#aurora-home-preview h1{font-size:24px}#aurora-home-preview .ah-folders{grid-template-columns:repeat(2,minmax(0,1fr))}#aurora-home-preview .ah-folder{padding:8px}#aurora-home-preview .ah-folder-label{font-size:11px}#aurora-home-preview .ah-folder-label small{display:none}#aurora-home-preview .ah-core-stage{height:250px}#aurora-home-preview .ah-satellite-plan{left:0}#aurora-home-preview .ah-satellite-create{right:0}#aurora-home-preview .ah-satellite-explore{right:1%;top:130px}#aurora-home-preview .ah-satellite{padding:7px 8px;gap:4px}#aurora-home-preview .ah-orbit-c{opacity:.4}#aurora-home-preview .ah-sensors .ah-small{display:none}}
+@media(max-width:700px){#aurora-home-preview{border-radius:15px}#aurora-home-preview .ah-topbar{padding:14px 100px 14px 18px;gap:16px}#aurora-home-preview .ah-search-trigger{padding:8px;min-width:32px}#aurora-home-preview .ah-search-trigger span,#aurora-home-preview .ah-search-trigger kbd{display:none}#aurora-home-preview .ah-concept{left:18px}#aurora-home-preview .ah-desktop{grid-template-columns:1fr;padding-top:38px;gap:16px}#aurora-home-preview .ah-main{gap:16px}#aurora-home-preview .ah-core-stage{height:265px}#aurora-home-preview .ah-folders{grid-template-columns:repeat(4,minmax(0,1fr))}#aurora-home-preview .ah-folder{flex-direction:column;gap:8px;padding:10px}#aurora-home-preview .ah-folder-label{font-size:11px}#aurora-home-preview .ah-widget-rail{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:13px}#aurora-home-preview .ah-calendar{grid-row:span 2}#aurora-home-preview .ah-sensors{grid-column:1/-1}#aurora-home-preview .ah-sensor-grid{gap:20px}#aurora-home-preview .ah-sensor{grid-template-columns:24px 1fr}#aurora-home-preview .ah-sensor strong{font-size:12px}#aurora-home-preview .ah-sensor span{font-size:11px}#aurora-home-preview .ah-sensors .ah-small{display:inline}#aurora-home-preview .ah-satellite-plan{left:8%}#aurora-home-preview .ah-satellite-create{right:8%}#aurora-home-preview .ah-satellite-explore{right:8%}#aurora-home-preview .ah-bottom{padding:21px 18px 14px}#aurora-home-preview .ah-dock{gap:6px;padding:8px}#aurora-home-preview .ah-dock-button{width:38px;height:39px}#aurora-home-preview .ah-dock-restore span{display:none}#aurora-home-preview .ah-window-layer{padding:95px 14px 40px}#aurora-home-preview .ah-window-content{padding:20px}#aurora-home-preview .ah-statusbar{justify-content:center;gap:12px}#aurora-home-preview .ah-app-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:430px){#aurora-home-preview .ah-desktop{padding-left:13px;padding-right:13px}#aurora-home-preview .ah-topbar{padding-left:13px}#aurora-home-preview .ah-concept{left:13px}#aurora-home-preview h1{font-size:23px}#aurora-home-preview .ah-welcome .ah-eyebrow{font-size:11px}#aurora-home-preview .ah-core-stage{height:260px}#aurora-home-preview .ah-satellite{font-size:11px;padding:6px 7px}#aurora-home-preview .ah-satellite-plan{left:0;top:62px}#aurora-home-preview .ah-satellite-create{right:0;top:23px}#aurora-home-preview .ah-satellite-explore{right:0;top:143px}#aurora-home-preview .ah-satellite svg{width:12px;height:12px}#aurora-home-preview .ah-folders{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}#aurora-home-preview .ah-folder{flex-direction:row;padding:10px 8px}#aurora-home-preview .ah-folder-label{font-size:11px}#aurora-home-preview .ah-weather{padding:13px 10px}#aurora-home-preview .ah-weather .ah-section-head{gap:4px}#aurora-home-preview .ah-weather h2{font-size:12px}#aurora-home-preview .ah-weather h2 svg{display:none}#aurora-home-preview .ah-forecast{gap:1px}#aurora-home-preview .ah-weather-day{font-size:11px;padding:5px 1px}#aurora-home-preview .ah-weather-day strong{font-size:11px}#aurora-home-preview .ah-weather-day em{display:block;margin:0}#aurora-home-preview .ah-weather-day svg{width:18px;height:18px}#aurora-home-preview .ah-widget-rail{display:flex;flex-direction:column}#aurora-home-preview .ah-widget-rail>.ah-surface{width:100%}#aurora-home-preview .ah-calendar-days button,#aurora-home-preview .ah-calendar-days>span{aspect-ratio:1.3;font-size:12px}#aurora-home-preview .ah-weekdays{font-size:11px}#aurora-home-preview .ah-clock-face{gap:13px}#aurora-home-preview .ah-time{font-size:42px}#aurora-home-preview .ah-focus-body{justify-content:space-between}#aurora-home-preview .ah-focus-actions{gap:12px}#aurora-home-preview .ah-sensor-grid{gap:12px}#aurora-home-preview .ah-dock{gap:5px;flex-wrap:wrap}#aurora-home-preview .ah-dock-button{width:32px;height:35px;border-radius:9px}#aurora-home-preview .ah-dock-button svg{width:18px;height:18px}#aurora-home-preview .ah-dock-divider{margin:0;height:24px}#aurora-home-preview .ah-dock-restore{height:32px;padding:5px}#aurora-home-preview .ah-window-content{padding:18px 15px}#aurora-home-preview .ah-app-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}#aurora-home-preview .ah-app-tile{font-size:11px;padding:13px 5px}#aurora-home-preview .ah-appearance-grid{grid-template-columns:1fr}#aurora-home-preview .ah-window-layer{padding-left:9px;padding-right:9px}#aurora-home-preview .ah-window-bar{padding-left:14px}#aurora-home-preview .ah-bottom{padding-left:10px;padding-right:10px}}
+@media(pointer:coarse){#aurora-home-preview .ah-pointer{display:none!important}#aurora-home-preview .ah-icon-button{min-width:36px;min-height:36px}#aurora-home-preview .ah-calendar-days button{min-height:36px}#aurora-home-preview .ah-dock-button{min-width:38px;min-height:44px}#aurora-home-preview .ah-dock{flex-wrap:wrap}#aurora-home-preview input,#aurora-home-preview textarea,#aurora-home-preview select{font-size:16px}#aurora-home-preview .ah-satellite{min-height:36px}#aurora-home-preview .ah-primary,#aurora-home-preview .ah-secondary,#aurora-home-preview .ah-suggestion,#aurora-home-preview .ah-text-button{min-height:36px}#aurora-home-preview .ah-month-buttons .ah-icon-button{min-width:32px;min-height:32px}}
+@media(prefers-reduced-motion:reduce){#aurora-home-preview:not([data-motion="full"]) .ah-animated,#aurora-home-preview:not([data-motion="full"]) .ah-star{animation:none!important}}
+</style>
+
+<script>
+(() => {
+  const root = document.getElementById('aurora-home-preview');
+  if (!root) return;
+  const $ = selector => root.querySelector(selector);
+  const $$ = selector => [...root.querySelectorAll(selector)];
+  const icon = name => `<i data-lucide="${name}" aria-hidden="true"></i>`;
+  const icons = () => { if (globalThis.lucide) globalThis.lucide.createIcons({attrs:{width:16,height:16}}); };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = matchMedia('(pointer: fine)');
+  const sydney = () => {
+    const parts = new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Sydney',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(new Date());
+    const value = type => Number(parts.find(p => p.type === type).value);
+    return {year:value('year'),month:value('month')-1,day:value('day')};
+  };
+  const today = sydney();
+  const state = {motion:reduced.matches?'reduced':'full',pointer:true,month:today.month,year:today.year,selected:today.day,selectedMonth:today.month,selectedYear:today.year,minutes:25,remaining:1500,deadline:null,phase:'ready',panel:null,minimised:null,accent:'#82e8f9',depth:1,workspace:'work',illumination:1,sound:false,notices:[]};
+  const folders = [
+    {name:'Work',short:'Work & Career',colour:'#619fdf',icon:'briefcase-business',items:['Résumés','Applications','Qualifications','Employment records']},
+    {name:'Personal',short:'Identity & Immigration',colour:'#a189d7',icon:'badge-check',items:['Identity documents','Visa paperwork','ACS evidence']},
+    {name:'Finance',short:'Money & Home',colour:'#7bbda6',icon:'house',items:['Banking','Rent and home','Tax and super']},
+    {name:'Projects',short:'Projects',colour:'#6cbac6',icon:'layers-3',items:['Icebreaker','Source archives','Development notes']},
+    {name:'Media',short:'Photos & Videos',colour:'#cb91bc',icon:'images',items:['Photos','Screenshots','Recordings']},
+    {name:'Documents',short:'Documents & Notes',colour:'#d4a578',icon:'notebook-pen',items:['Documents','Notes','Technical logs']},
+    {name:'Apps',short:'Apps',colour:'#8da6c3',icon:'app-window',items:['Applications','Games','Shortcuts']},
+    {name:'Archives',short:'Archives',colour:'#94a4b7',icon:'archive',items:['Compressed files','Preserved bundles']}
+  ];
+  const apps = [
+    {name:'ChatGPT',icon:'sparkles',kind:'chat'}, {name:'Library',icon:'folder-open',kind:'library'},
+    {name:'YouTube',icon:'play-square'}, {name:'Netflix',icon:'clapperboard'}, {name:'Gmail',icon:'mail'},
+    {name:'Outlook',icon:'inbox'}, {name:'Books',icon:'book-open'}, {name:'Downloads',icon:'download'},
+    {name:'Projects',icon:'layers-3',kind:'folder',folder:3}, {name:'Calendar',icon:'calendar-days',kind:'calendar'},
+    {name:'Focus',icon:'orbit',kind:'focus'}, {name:'Appearance',icon:'sliders-horizontal',kind:'appearance'}
+  ];
+  const commands = [
+    {id:'start-focus',name:'Start focus',hint:'Begin your focus timer',icon:'timer',keywords:'focus timer start work'},
+    {id:'open-projects',name:'Open Projects',hint:'Your project collection',icon:'layers-3',keywords:'open projects folder library'},
+    {id:'show-calendar',name:'Show calendar',hint:'Dates and month navigation',icon:'calendar-days',keywords:'show calendar date month today'},
+    {id:'change-motion',name:'Change motion',hint:'Set the scene’s pace',icon:'orbit',keywords:'change motion animations effects'},
+    {id:'workspace-work',name:'Work workspace',hint:'Library and focus first',icon:'briefcase-business',keywords:'workspace work mode focus'},
+    {id:'workspace-create',name:'Create workspace',hint:'Give your ideas centre stage',icon:'sparkles',keywords:'workspace create mode creative'},
+    {id:'workspace-relax',name:'Relax workspace',hint:'A quieter orbit',icon:'moon-star',keywords:'workspace relax mode calm'},
+    {id:'motion-full',name:'Motion: Full',hint:'Orbit, parallax and hover depth',icon:'orbit',keywords:'motion full animation on'},
+    {id:'motion-reduced',name:'Motion: Reduced',hint:'Keep the scene still',icon:'circle-dot',keywords:'motion reduced animation calm'},
+    {id:'motion-off',name:'Motion: Off',hint:'Switch off all movement',icon:'circle-pause',keywords:'motion off animation disable'},
+    {id:'quick-controls',name:'Quick controls',hint:'Scene light and optional sound',icon:'sliders-horizontal',keywords:'quick controls sound illumination brightness light'},
+    {id:'notifications',name:'Notification centre',hint:'Your actions in this preview',icon:'bell',keywords:'notifications notification centre center activity history'}
+  ];
+  let draft = '';
+  let toastTimeout;
+  let returnFocus = null;
+  let audioContext = null;
+  const escape = value => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const readSaved = value => {
+    const saved = value?.privateContent?.auroraHome || value?.auroraHome;
+    if (!saved || saved.version !== 1) return;
+    if (['full','reduced','off'].includes(saved.motion)) state.motion = reduced.matches && saved.motion === 'full' ? 'reduced' : saved.motion;
+    if (typeof saved.pointer === 'boolean') state.pointer = saved.pointer;
+    if (['work','create','relax'].includes(saved.workspace)) state.workspace=saved.workspace;
+    if (typeof saved.illumination==='number'&&saved.illumination>=.6&&saved.illumination<=1.4) state.illumination=saved.illumination;
+    if (/^#[0-9a-f]{6}$/i.test(saved.accent || '')) state.accent = saved.accent;
+    if (Number.isInteger(saved.month) && saved.month>=0 && saved.month<12 && Number.isInteger(saved.year) && saved.year>1900 && saved.year<2200) {state.month=saved.month;state.year=saved.year;}
+  };
+  readSaved(window.openai?.widgetState);
+  const save = () => {
+    if (!window.openai?.setWidgetState) return;
+    const snapshot = {version:1,motion:state.motion,pointer:state.pointer,month:state.month,year:state.year,accent:state.accent,workspace:state.workspace,illumination:state.illumination};
+    window.openai.setWidgetState({modelContent:{concept:'Aurora Home',motion:state.motion,workspace:state.workspace,companionPointer:state.pointer,accent:state.accent},privateContent:{auroraHome:snapshot}}).catch(()=>{});
+  };
+  function toast(message) {
+    const el = $('.ah-toast'); el.textContent=message;el.classList.add('ah-show');
+    clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>el.classList.remove('ah-show'),3200);
+  }
+  function addNotice(message) {
+    state.notices.unshift({message,at:Date.now()});state.notices=state.notices.slice(0,12);
+    renderNotices();
+  }
+  function renderNotices() {
+    const badge=$('.ah-notification-count');badge.textContent=String(state.notices.length);badge.hidden=!state.notices.length;
+    $('.ah-notification-button').setAttribute('aria-label',`Notification centre, ${state.notices.length} preview actions`);
+    const list=$('.ah-notice-list');if(!list)return;
+    list.innerHTML=state.notices.length?state.notices.map(notice=>`<li class="ah-notice">${icon('circle-check')}<div><span>${escape(notice.message)}</span><time datetime="${new Date(notice.at).toISOString()}">${new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Sydney',hour:'numeric',minute:'2-digit',second:'2-digit'}).format(new Date(notice.at))} · Sydney</time></div></li>`).join(''):'<li class="ah-notification-empty">Your preview actions will appear here.</li>';
+    const clear=$('[data-action="clear-notices"]');if(clear)clear.disabled=!state.notices.length;
+    icons();
+  }
+  async function playTap() {
+    if(!state.sound||!audioContext||document.hidden)return;
+    try{
+      if(audioContext.state==='suspended')await audioContext.resume();
+      const oscillator=audioContext.createOscillator(),gain=audioContext.createGain(),now=audioContext.currentTime;
+      oscillator.type='sine';oscillator.frequency.setValueAtTime(740,now);oscillator.frequency.exponentialRampToValueAtTime(520,now+.065);
+      gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(.018,now+.006);gain.gain.exponentialRampToValueAtTime(.0001,now+.075);
+      oscillator.connect(gain);gain.connect(audioContext.destination);oscillator.start(now);oscillator.stop(now+.08);
+    }catch(_){state.sound=false;renderAppearance();}
+  }
+  function setWorkspace(workspace) {
+    if(!['work','create','relax'].includes(workspace))return;
+    state.workspace=workspace;state.accent={work:'#82e8f9',create:'#b9a1ff',relax:'#aadbc5'}[workspace];
+    renderAppearance();save();addNotice(`${workspace[0].toUpperCase()+workspace.slice(1)} workspace selected`);
+    toast({work:'Work space: your library and focus timer.',create:'Create space: your AI companion takes centre stage.',relax:'Relax space: a softer scene and your weekly outlook.'}[workspace]);
+  }
+  function runCommand(id) {
+    if(id.startsWith('workspace-')){closePanel();setWorkspace(id.slice(10));return;}
+    if(id.startsWith('motion-')){state.motion=id.slice(7);renderAppearance();save();addNotice(`Motion set to ${state.motion}`);closePanel();toast(`Motion: ${state.motion}`);return;}
+    if(id==='start-focus'){
+      closePanel();if(!state.deadline){if(!state.remaining)state.remaining=state.minutes*60;state.deadline=Date.now()+state.remaining*1000;state.phase='running';renderTimer();addNotice(`${state.minutes}-minute focus session started`);}
+      $('.ah-focus').scrollIntoView({behavior:state.motion==='full'?'smooth':'auto',block:'nearest'});toast('Your focus timer is running.');
+    }else if(id==='open-projects')openPanel('folder',{index:3,name:folders[3].name});
+    else if(id==='show-calendar')launchApp('Calendar');
+    else if(id==='change-motion'||id==='quick-controls')openPanel('quick-controls');
+    else if(id==='notifications')openPanel('notifications');
+  }
+  function renderAppearance() {
+    root.dataset.motion=state.motion;root.style.setProperty('--ah-accent',state.accent);root.style.setProperty('--ah-depth',state.depth);
+    root.dataset.workspace=state.workspace;root.style.setProperty('--ah-illumination',state.illumination);
+    $$('[data-workspace]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.workspace===state.workspace)));
+    $('.ah-workspace-caption').textContent={work:'Room to focus',create:'Room to imagine',relax:'Room to recharge'}[state.workspace];
+    $('.ah-motion').value=state.motion;
+    $('.ah-pointer-toggle').setAttribute('aria-pressed',String(state.pointer));
+    if (!state.pointer || state.motion==='off') $('.ah-pointer').style.opacity='0';
+    const select=$('[data-panel-motion]');if(select)select.value=state.motion;
+    const pointer=$('[data-panel-pointer]');if(pointer)pointer.textContent=state.pointer?'Companion on':'Companion off';
+    const sound=$('[data-panel-sound]');if(sound){sound.innerHTML=icon(state.sound?'volume-2':'volume-x')+(state.sound?'Sounds on':'Sounds off');sound.setAttribute('aria-pressed',String(state.sound));}
+    const light=$('[data-illumination]');if(light)light.value=String(Math.round(state.illumination*100));
+    const lightValue=$('.ah-illumination-value');if(lightValue)lightValue.textContent=`${Math.round(state.illumination*100)}%`;
+  }
+  function renderCalendar() {
+    $('.ah-month').textContent = new Intl.DateTimeFormat('en-AU',{month:'long',year:'numeric'}).format(new Date(state.year,state.month,1));
+    const first=(new Date(state.year,state.month,1).getDay()+6)%7;
+    const days=new Date(state.year,state.month+1,0).getDate();
+    let html=Array.from({length:first},()=>'<span aria-hidden="true"></span>').join('');
+    for(let d=1;d<=days;d++){
+      const isToday=d===today.day&&state.month===today.month&&state.year===today.year;
+      const isSelected=d===state.selected&&state.month===state.selectedMonth&&state.year===state.selectedYear;
+      const label=new Intl.DateTimeFormat('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(state.year,state.month,d));
+      html+=`<button type="button" class="cursor-interaction ${isToday?'ah-today':''} ${isSelected?'ah-selected':''}" data-day="${d}" aria-label="${escape(label)}" aria-pressed="${isSelected}">${d}</button>`;
+    }
+    $('.ah-calendar-days').innerHTML=html;
+    $('.ah-selected-date').textContent=new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short'}).format(new Date(state.selectedYear,state.selectedMonth,state.selected));
+  }
+  function renderClock() {
+    const parts=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Sydney',hour:'2-digit',minute:'2-digit',hour12:true}).formatToParts(new Date());
+    $('.ah-time').textContent=parts.filter(p=>['hour','literal','minute'].includes(p.type)).map(p=>p.value).join('').trim();
+    $('.ah-period').textContent=parts.find(p=>p.type==='dayPeriod')?.value.toUpperCase()||'';
+    $('.ah-date').textContent=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Sydney',weekday:'long',day:'numeric',month:'long'}).format(new Date());
+  }
+  function renderTimer() {
+    if(state.deadline){state.remaining=Math.max(0,Math.ceil((state.deadline-Date.now())/1000));if(state.remaining===0){state.deadline=null;state.phase='complete';toast('Focus session complete. Take a moment to reset.');addNotice('Focus session completed');}}
+    const mins=Math.floor(state.remaining/60),secs=state.remaining%60;
+    $('.ah-timer').textContent=`${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    $('.ah-timer-label').textContent={ready:'Ready',running:'Focusing',paused:'Paused',complete:'Complete'}[state.phase];
+    const progress=Math.min(100,Math.max(0,(1-state.remaining/(state.minutes*60))*100));
+    $('.ah-timer-ring').style.setProperty('--progress',`${progress*3.6}deg`);
+    $('.ah-timer-ring').setAttribute('aria-valuenow',String(Math.round(progress)));
+    const button=$('.ah-start');const label=state.deadline?'Pause':state.phase==='paused'?'Resume':'Start';
+    if(button.dataset.label!==label){button.innerHTML=icon(state.deadline?'pause':'play')+`<span>${label}</span>`;button.dataset.label=label;icons();}
+  }
+  function renderFolders(container,expanded=false) {
+    container.innerHTML=folders.map((f,i)=>`<button type="button" class="ah-folder cursor-interaction" data-folder="${i}" aria-label="Preview ${escape(f.name)}" style="--folder-color:${f.colour}"><span class="ah-folder-symbol" aria-hidden="true"></span><span class="ah-folder-label">${escape(f.short)}</span></button>`).join('');
+  }
+  function renderWeather() {
+    const samples=[['cloud-sun',24,17,'Partly cloudy'],['sun',25,18,'Sunny'],['cloud',22,17,'Cloudy'],['cloud-rain',21,16,'Light showers'],['cloud-sun',23,17,'Partly cloudy'],['sun',26,18,'Sunny'],['cloud-sun',24,18,'Partly cloudy']];
+    $('.ah-forecast').innerHTML=samples.map((sample,i)=>{
+      const day=new Date(today.year,today.month,today.day+i);
+      const label=i===0?'Today':new Intl.DateTimeFormat('en-AU',{weekday:'short'}).format(day);
+      return `<button type="button" class="ah-weather-day cursor-interaction" data-weather="${i}" aria-label="Sample forecast, ${label}, ${sample[3]}, ${sample[1]} to ${sample[2]} degrees Celsius"><span>${label}</span>${icon(sample[0])}<span><strong>${sample[1]}°</strong><em>${sample[2]}°</em></span></button>`;
+    }).join('');
+  }
+  function openPanel(kind,extra={}) {
+    if(document.activeElement&&root.contains(document.activeElement)&&!$('.ah-window').contains(document.activeElement))returnFocus=document.activeElement;
+    state.panel={kind,...extra};state.minimised=null;$('.ah-dock-restore').hidden=true;
+    $('.ah-window-layer').hidden=false;$('.ah-window').dataset.panel=kind;
+    const names={chat:'ChatGPT · draft space',draft:'ChatGPT · draft preview',launcher:'Launchpad',library:'Your library',folder:extra.name||'Collection',app:extra.name||'Application',appearance:'Make it yours',weather:'Sydney outlook',sensors:'System pulse','quick-controls':'Quick controls',notifications:'Notification centre'};
+    $('.ah-window-name').textContent=names[kind]||'Aurora Home';
+    $('.ah-window').setAttribute('aria-label',names[kind]||'Aurora Home');
+    const content=$('.ah-window-content');
+    if(kind==='launcher'){
+      content.innerHTML=`<h3>Find a space. Make a move.</h3><label class="ah-field">${icon('search')}<input type="search" class="ah-app-search" placeholder="Search apps or type a command" aria-label="Search apps and commands"></label><div class="ah-command-heading">COMMANDS</div><div class="ah-command-list"></div><div class="ah-app-grid"></div>`;
+      renderApps('');
+    }else if(kind==='chat'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('sparkles')}Your AI space</span><h3>What’s on your mind?</h3><label class="ah-draft-label" for="ah-draft-input">Your draft</label><textarea id="ah-draft-input" placeholder="An idea, a question, a plan…" maxlength="4000">${escape(draft)}</textarea><div class="ah-suggestions"><button type="button" class="ah-suggestion cursor-interaction" data-draft-prompt="Help me plan my week.">Plan my week</button><button type="button" class="ah-suggestion cursor-interaction" data-draft-prompt="Help me develop a creative idea.">Explore an idea</button><button type="button" class="ah-suggestion cursor-interaction" data-draft-prompt="Help me work through a problem step by step.">Work through a problem</button></div><button type="button" class="ah-primary cursor-interaction" data-action="draft-preview">Preview draft ${icon('arrow-up-right')}</button><p>This concept keeps your draft here. Nothing is sent to ChatGPT.</p>`;
+    }else if(kind==='draft'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('file-pen-line')}Local draft preview</span><h3>Ready for your next conversation.</h3><div class="ah-draft-preview">${escape(draft)}</div><div class="ah-panel-actions"><button type="button" class="ah-primary cursor-interaction" data-action="edit-draft">${icon('pencil')}Edit draft</button><button type="button" class="ah-secondary cursor-interaction" data-action="close">Done</button></div><p>In the finished desktop, this action would open the draft in ChatGPT for you to review and send.</p>`;
+    }else if(kind==='library'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('folder-open')}Your existing categories</span><h3>Everything has a place.</h3><p>Choose a collection to explore its purpose.</p><div class="ah-folders" style="margin-top:20px"></div>`;
+      renderFolders(content.querySelector('.ah-folders'),true);
+    }else if(kind==='folder'){
+      const f=folders[extra.index];
+      content.innerHTML=`<div class="ah-category-symbol">${icon(f.icon)}</div><h3>${escape(f.name)}</h3><p>Category preview</p><div class="ah-category-tags">${f.items.map(item=>`<span>${escape(item)}</span>`).join('')}</div><div class="ah-panel-actions"><button type="button" class="ah-secondary cursor-interaction" data-action="library">${icon('arrow-left')}All collections</button></div><p>No files are opened or moved in this preview.</p>`;
+    }else if(kind==='app'){
+      const app=apps.find(a=>a.name===extra.name)||{icon:'app-window',name:extra.name};
+      content.innerHTML=`<div class="ah-category-symbol">${icon(app.icon)}</div><h3>${escape(app.name)}</h3><span class="ah-panel-badge">Preview shortcut</span><p>This is where ${escape(app.name)} would open from your desktop. This concept stays on this page.</p><div class="ah-panel-actions"><button type="button" class="ah-primary cursor-interaction" data-action="launcher">${icon('grid-2x2')}Back to Launchpad</button></div>`;
+    }else if(kind==='appearance'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('sliders-horizontal')}Personalise this concept</span><h3>A space that feels like you.</h3><div class="ah-appearance-grid"><label class="ah-appearance-item">Motion<select class="ah-select" data-panel-motion><option value="full">Full orbit</option><option value="reduced">Reduced motion</option><option value="off">Motion off</option></select></label><div class="ah-appearance-item"><span>Accent light</span><div class="ah-colours">${[['#82e8f9','Glacier'],['#b9a1ff','Nebula'],['#aadbc5','Mint']].map(([value,label])=>`<button type="button" class="ah-colour cursor-interaction" style="--colour:${value}" data-colour="${value}" aria-label="${label} accent" aria-pressed="${state.accent===value}"></button>`).join('')}</div></div><div class="ah-appearance-item"><span>Pointer companion</span><button type="button" class="ah-secondary cursor-interaction" data-action="pointer" data-panel-pointer></button></div><div class="ah-appearance-item"><span>Workspace</span><button type="button" class="ah-secondary cursor-interaction" data-action="home">${icon('house')}Return home</button></div></div>`;
+      renderAppearance();
+    }else if(kind==='quick-controls'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('sliders-horizontal')}This preview only</span><h3>Set the atmosphere.</h3><div class="ah-appearance-grid"><div class="ah-appearance-item"><label class="ah-illumination-line" for="ah-scene-light"><span>Scene illumination</span><output class="ah-illumination-value" for="ah-scene-light">100%</output></label><input id="ah-scene-light" class="ah-illumination" data-illumination type="range" min="60" max="140" step="5" value="100"><span class="ah-control-note">Adjusts the scene, not your screen.</span></div><label class="ah-appearance-item">Motion<select class="ah-select" data-panel-motion><option value="full">Full orbit</option><option value="reduced">Reduced motion</option><option value="off">Motion off</option></select></label><div class="ah-appearance-item"><span>Interaction sounds</span><button type="button" class="ah-secondary cursor-interaction" data-action="sound" data-panel-sound aria-pressed="false">Sounds off</button><span class="ah-control-note">Soft tones on your clicks. Off by default.</span></div><div class="ah-appearance-item"><span>Pointer companion</span><button type="button" class="ah-secondary cursor-interaction" data-action="pointer" data-panel-pointer></button><span class="ah-control-note">Follows you inside this scene.</span></div></div>`;
+      renderAppearance();
+    }else if(kind==='notifications'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('bell')}Your preview activity</span><h3>A little history of your space.</h3><ul class="ah-notice-list"></ul><div class="ah-panel-actions"><button type="button" class="ah-secondary cursor-interaction" data-action="clear-notices">${icon('trash-2')}Clear all</button></div>`;
+      renderNotices();
+    }else if(kind==='weather'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('cloud-sun')}Sample forecast</span><h3>A week at a glance.</h3><p>The forecast cards use illustrative weather data to show the design. A live Sydney forecast is not connected in this concept.</p><div class="ah-panel-actions"><button type="button" class="ah-primary cursor-interaction" data-action="close">Back home</button></div>`;
+    }else if(kind==='sensors'){
+      content.innerHTML=`<span class="ah-panel-badge">${icon('activity')}Hardware readings</span><h3>Real readings, when connected.</h3><div class="ah-category-tags"><span>CPU temperature: not connected</span><span>GPU temperature: not connected</span></div><p>The final desktop would display verified sensor readings. This concept does not simulate temperatures.</p><div class="ah-panel-actions"><button type="button" class="ah-primary cursor-interaction" data-action="close">Back home</button></div>`;
+    }
+    if(['folder','app','chat','draft'].includes(kind))addNotice(kind==='draft'?'ChatGPT draft previewed locally':kind==='chat'?'ChatGPT draft space opened':`${names[kind]} preview opened`);
+    icons();
+    requestAnimationFrame(()=>{$('.ah-window').scrollIntoView({behavior:'auto',block:'nearest'});const focus=content.querySelector('input,textarea,button,select');if(focus)focus.focus({preventScroll:true});});
+  }
+  function renderApps(query) {
+    const grid=$('.ah-app-grid');if(!grid)return;
+    const normalised=query.toLowerCase().replace(/^[/>]/,'').trim();
+    const words=normalised.split(/\s+/).filter(Boolean);
+    const matches=value=>words.every(word=>value.toLowerCase().includes(word));
+    const filtered=apps.filter(a=>matches(a.name));
+    const matchedCommands=normalised?commands.filter(command=>matches(command.name+' '+command.keywords)):commands.slice(0,4);
+    const commandList=$('.ah-command-list');
+    if(commandList)commandList.innerHTML=matchedCommands.map(command=>`<button type="button" class="ah-command cursor-interaction" data-command="${command.id}">${icon(command.icon)}<span>${command.name}<small>${command.hint}</small></span></button>`).join('');
+    const commandHeading=$('.ah-command-heading');if(commandHeading)commandHeading.hidden=!matchedCommands.length;
+    grid.innerHTML=filtered.length?filtered.map(a=>`<button type="button" class="ah-app-tile cursor-interaction" data-app="${escape(a.name)}">${icon(a.icon)}<span>${escape(a.name)}</span></button>`).join(''):matchedCommands.length?'':'<div class="ah-empty">No matching spaces or commands. Try another name.</div>';
+    icons();
+  }
+  function closePanel(minimise=false) {
+    if(minimise&&state.panel){state.minimised={...state.panel};$('.ah-dock-restore').hidden=false;$('.ah-dock-restore span').textContent=$('.ah-window-name').textContent.split(' · ')[0];}
+    state.panel=null;$('.ah-window-layer').hidden=true;
+    if(returnFocus&&returnFocus.isConnected)returnFocus.focus({preventScroll:true});
+  }
+  function launchApp(name) {
+    const app=apps.find(a=>a.name===name);
+    if(!app)return;
+    if(app.kind==='chat'||app.kind==='library'||app.kind==='appearance')openPanel(app.kind);
+    else if(app.kind==='folder')openPanel('folder',{index:app.folder,name:folders[app.folder].name});
+    else if(app.kind==='calendar'){closePanel();$('.ah-calendar').scrollIntoView({behavior:state.motion==='full'?'smooth':'auto',block:'nearest'});toast('Select a date or browse another month.');}
+    else if(app.kind==='focus'){closePanel();$('.ah-focus').scrollIntoView({behavior:state.motion==='full'?'smooth':'auto',block:'nearest'});$('.ah-start').focus({preventScroll:true});}
+    else openPanel('app',{name:app.name});
+  }
+  root.addEventListener('click',event=>{
+    const target=event.target.closest('button');if(!target||!root.contains(target))return;
+    if(state.sound&&target.dataset.action!=='sound')playTap();
+    if(target.dataset.command){runCommand(target.dataset.command);return;}
+    if(target.dataset.workspace){setWorkspace(target.dataset.workspace);return;}
+    if(target.dataset.folder!==undefined){const index=Number(target.dataset.folder);openPanel('folder',{index,name:folders[index].name});return;}
+    if(target.dataset.day){state.selected=Number(target.dataset.day);state.selectedMonth=state.month;state.selectedYear=state.year;renderCalendar();toast(new Intl.DateTimeFormat('en-AU',{weekday:'long',day:'numeric',month:'long'}).format(new Date(state.year,state.month,state.selected)));return;}
+    if(target.dataset.weather!==undefined){openPanel('weather');return;}
+    if(target.dataset.app){launchApp(target.dataset.app);return;}
+    if(target.dataset.prompt){draft=target.dataset.prompt;openPanel('chat');return;}
+    if(target.dataset.draftPrompt){draft=target.dataset.draftPrompt;$('#ah-draft-input').value=draft;$('#ah-draft-input').focus();return;}
+    if(target.dataset.colour){state.accent=target.dataset.colour;renderAppearance();$$('[data-colour]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.colour===state.accent)));save();return;}
+    const action=target.dataset.action;
+    if(['chat','library','launcher','appearance','sensors','quick-controls','notifications'].includes(action))openPanel(action);
+    else if(action==='home'){closePanel();root.scrollIntoView({behavior:state.motion==='full'?'smooth':'auto',block:'nearest'});}
+    else if(action==='close')closePanel();
+    else if(action==='minimise')closePanel(true);
+    else if(action==='restore'&&state.minimised){const panel={...state.minimised};openPanel(panel.kind,panel);}
+    else if(action==='prev-month'||action==='next-month'){state.month+=action==='prev-month'?-1:1;if(state.month<0){state.month=11;state.year--;}if(state.month>11){state.month=0;state.year++;}renderCalendar();save();}
+    else if(action==='today'){Object.assign(state,{month:today.month,year:today.year,selected:today.day,selectedMonth:today.month,selectedYear:today.year});renderCalendar();save();}
+    else if(action==='timer'){if(state.deadline){state.remaining=Math.max(0,Math.ceil((state.deadline-Date.now())/1000));state.deadline=null;state.phase='paused';addNotice('Focus session paused');}else{if(!state.remaining)state.remaining=state.minutes*60;state.deadline=Date.now()+state.remaining*1000;state.phase='running';addNotice('Focus session started');}renderTimer();}
+    else if(action==='timer-reset'){state.deadline=null;state.remaining=state.minutes*60;state.phase='ready';renderTimer();addNotice('Focus timer reset');}
+    else if(action==='pointer'){state.pointer=!state.pointer;renderAppearance();save();}
+    else if(action==='draft-preview'){draft=$('#ah-draft-input').value.trim();if(!draft){toast('Add an idea or question to preview your draft.');$('#ah-draft-input').focus();return;}openPanel('draft');}
+    else if(action==='edit-draft')openPanel('chat');
+    else if(action==='clear-notices'){state.notices=[];renderNotices();toast('Preview activity cleared.');}
+    else if(action==='sound'){
+      if(state.sound){state.sound=false;addNotice('Interaction sounds turned off');renderAppearance();icons();}
+      else{
+        try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw new Error('Unavailable');audioContext=audioContext||new Audio({latencyHint:'interactive'});state.sound=true;audioContext.resume().then(()=>playTap()).catch(()=>{state.sound=false;renderAppearance();toast('Sound is unavailable in this preview.');});addNotice('Interaction sounds turned on');renderAppearance();icons();}
+        catch(_){state.sound=false;toast('Sound is unavailable in this preview.');}
+      }
+    }
+  });
+  root.addEventListener('input',event=>{if(event.target.matches('.ah-app-search'))renderApps(event.target.value);if(event.target.matches('#ah-draft-input'))draft=event.target.value;if(event.target.matches('[data-illumination]')){state.illumination=Number(event.target.value)/100;renderAppearance();}});
+  root.addEventListener('change',event=>{
+    if(event.target.matches('.ah-motion,[data-panel-motion]')){state.motion=event.target.value;renderAppearance();save();addNotice(`Motion set to ${state.motion}`);}
+    if(event.target.matches('[data-illumination]')){save();addNotice(`Scene illumination set to ${Math.round(state.illumination*100)}%`);}
+    if(event.target.matches('.ah-focus select')){state.minutes=Number(event.target.value);state.deadline=null;state.remaining=state.minutes*60;state.phase='ready';renderTimer();}
+  });
+  root.addEventListener('keydown',event=>{
+    if(event.key==='Enter'&&event.target.matches('.ah-app-search')){event.preventDefault();const result=$('.ah-command-list button')||$('.ah-app-grid button');result?.click();return;}
+    if(event.key==='Escape'&&state.panel){event.preventDefault();closePanel();}
+    if(event.key==='/'&&!event.target.matches('input,textarea,select')){event.preventDefault();openPanel('launcher');}
+    if(event.key==='Tab'&&state.panel){
+      const controls=[...$('.ah-window').querySelectorAll('button,input,textarea,select')].filter(el=>!el.disabled&&!el.hidden);
+      const first=controls[0],last=controls[controls.length-1];
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+    }
+  });
+  $('.ah-window-shade').addEventListener('click',()=>closePanel());
+
+  for(let i=0;i<42;i++){const star=document.createElement('span');star.className='ah-star';star.style.cssText=`left:${(i*73.17)%100}%;top:${(i*41.73)%100}%;--s:${i%9};width:${i%5===0?3:2}px;height:${i%5===0?3:2}px`;$('.ah-stars').append(star);}
+  let pointerX=0,pointerY=0,currentX=0,currentY=0,pointerInside=false,frame=0;
+  const companionPointer=$('.ah-pointer');
+  function pointerFrame(){frame=0;if(!pointerInside||document.hidden||!state.pointer||state.motion==='off')return;const smoothing=state.motion==='full'?.22:1;currentX+=(pointerX-currentX)*smoothing;currentY+=(pointerY-currentY)*smoothing;companionPointer.style.transform=`translate(${currentX}px,${currentY}px)`;if(Math.abs(pointerX-currentX)+Math.abs(pointerY-currentY)>.2)frame=requestAnimationFrame(pointerFrame);}
+  root.addEventListener('pointermove',event=>{
+    if(!finePointer.matches)return;
+    const rect=root.getBoundingClientRect();pointerX=event.clientX-rect.left+14;pointerY=event.clientY-rect.top+14;
+    const hide=event.target.closest('input,textarea,select');
+    pointerInside=true;companionPointer.style.opacity=state.pointer&&state.motion!=='off'&&!hide?'1':'0';
+    if(!frame)frame=requestAnimationFrame(pointerFrame);
+    if(state.motion==='full'){
+      root.style.setProperty('--ah-px',((event.clientX-rect.left)/rect.width-.5)*2);
+      root.style.setProperty('--ah-py',Math.max(-1,Math.min(1,((event.clientY-rect.top)/Math.min(rect.height,800)-.5)*2)));
+    }
+  });
+  root.addEventListener('pointerenter',event=>{const rect=root.getBoundingClientRect();currentX=event.clientX-rect.left+14;currentY=event.clientY-rect.top+14;pointerInside=true;});
+  root.addEventListener('pointerleave',()=>{pointerInside=false;companionPointer.style.opacity='0';root.style.setProperty('--ah-px',0);root.style.setProperty('--ah-py',0);if(frame)cancelAnimationFrame(frame);frame=0;});
+  $$('[data-tilt]').forEach(panel=>{
+    panel.addEventListener('pointermove',event=>{if(state.motion!=='full'||!finePointer.matches)return;const r=panel.getBoundingClientRect();panel.style.setProperty('--tilt-x',`${-(event.clientY-r.top-r.height/2)/r.height*5*state.depth}deg`);panel.style.setProperty('--tilt-y',`${(event.clientX-r.left-r.width/2)/r.width*5*state.depth}deg`);});
+    panel.addEventListener('pointerleave',()=>{panel.style.setProperty('--tilt-x','0deg');panel.style.setProperty('--tilt-y','0deg');});
+  });
+  document.addEventListener('visibilitychange',()=>{root.dataset.paused=String(document.hidden);if(document.hidden&&frame){cancelAnimationFrame(frame);frame=0;}if(document.hidden&&audioContext?.state==='running')audioContext.suspend().catch(()=>{});if(!document.hidden){renderClock();renderTimer();}});
+  const mediaChange=()=>{if(reduced.matches&&state.motion==='full'){state.motion='reduced';renderAppearance();}};
+  reduced.addEventListener?.('change',mediaChange);
+  window.addEventListener('openai:set_globals',event=>{const incoming=event.detail?.globals?.widgetState;if(incoming){readSaved(incoming);renderAppearance();renderCalendar();}});
+  renderFolders($('.ah-folders'));renderWeather();renderCalendar();renderClock();renderTimer();renderAppearance();icons();
+  setInterval(()=>{if(!root.isConnected)return;if(!document.hidden){renderClock();renderTimer();}},1000);
+  if(globalThis.Tweak){
+    const tweakState={accent:state.accent,depth:state.depth,motion:state.motion};
+    const tweak=new Tweak({container:root,onChange:()=>{state.accent=tweakState.accent;state.depth=tweakState.depth;state.motion=tweakState.motion;renderAppearance();}});
+    tweak.addColorPicker(tweakState,'accent',{label:'Accent light',reference:'--ah-accent'});
+    tweak.addSlider(tweakState,'depth',{label:'Hover depth',min:0,max:2,step:.25,reference:'ah.depth'});
+    tweak.addSelect(tweakState,'motion',{label:'Motion',options:[{label:'Full orbit',value:'full'},{label:'Reduced',value:'reduced'},{label:'Off',value:'off'}],reference:'ah.motion'});
+  }
+})();
+</script>
