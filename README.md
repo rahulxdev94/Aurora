@@ -13,7 +13,7 @@ This repository contains the desktop implementation only. It does not replace Wi
 - System status chips and access to Seelen's existing network, audio, Bluetooth, tray, power and settings panels.
 - Native CPU/GPU usage when the host reports it. Missing readings remain unavailable. The portable version selects the first GPU reporting valid usage.
 - A matching shell theme with steady dock hit areas, restrained magnification and press feedback. App membership and order remain Seelen's responsibility.
-- Optional seven-day Open-Meteo forecast and an optional read-only Outlook cache adapter.
+- Optional Open-Meteo current conditions and seven-day forecast, plus an optional read-only Outlook cache adapter. Current conditions have their own timestamp and never borrow the day’s most severe forecast animation.
 
 ## Requirements and build
 
@@ -30,7 +30,7 @@ The lockfile pins the dependencies. Build outputs go to `dist/` and temporary co
 
 Copy `config.example.json` to `config.local.json` if you need custom settings. The local file is ignored by Git. Desktop, Documents, Pictures, Music, Videos and Downloads default to `%USERPROFILE%` subfolders. For OneDrive or redirected folders, set the corresponding `roots` entries explicitly, for example `"Desktop": "%USERPROFILE%\\OneDrive\\Desktop"`. Aurora does not create, move or rename category folders. Default categories are Work, Personal, Finance, Projects, Media, Documents, Apps and Archives.
 
-The clock defaults to the public Sydney preset. Configure `timezone` and `clockLabel` together. Weather is **off by default**. To enable it, set `weather.enabled` to `true` and enter the city, latitude and longitude you want. Forecast requests go directly to Open-Meteo without credentials. No location detection or background location permission is used. Do not put secrets in configuration.
+The clock defaults to the public Sydney preset. Configure `timezone` and `clockLabel` together. Weather is **off by default**. To enable it, set `weather.enabled` to `true` and enter the city, latitude and longitude you want. Forecast requests go directly to Open-Meteo without credentials. No location detection or background location permission is used. Current conditions older than 45 minutes, invalid responses and stale cached readings display an unavailable animation instead of pretending to be current. A manual refresh shares the existing 15-minute polling loop; failures retry after 60 seconds. The forecast detail keeps today’s daily outlook separate from Now. Do not put secrets in configuration.
 
 ## Install and run
 
