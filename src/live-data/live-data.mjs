@@ -1,9 +1,7 @@
 import {config} from '../config.mjs';
 /* Desktop-only adapter. This module is never part of the in-chat preview. */
 export const WEATHER_URL='https://api.open-meteo.com/v1/forecast?'+new URLSearchParams({latitude:String(config.weather.latitude),longitude:String(config.weather.longitude),current:'temperature_2m,weather_code',daily:'weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max',timezone:config.timezone,forecast_days:'7',timeformat:'unixtime'});
-export const GPU_URL='http://127.0.0.1:18764/status.json';
-export const ENABLE_GPU_TEMPERATURE_HELPER=false;
-const WEATHER_INTERVAL=15*60*1000,MAX_CACHE_AGE=24*60*60*1000,GPU_INTERVAL=5000,CACHE_KEY='auroraWeather.v1.'+config.weather.city+'.'+config.timezone;
+const WEATHER_INTERVAL=15*60*1000,MAX_CACHE_AGE=24*60*60*1000,GPU_INTERVAL=15000,CACHE_KEY='auroraWeather.v1.'+config.weather.city+'.'+config.timezone;
 const validNumber=(value,min,max)=>typeof value==='number'&&Number.isFinite(value)&&value>=min&&value<=max;
 const text=(node,value)=>{if(node&&node.textContent!==value)node.textContent=value;};
 export const CURRENT_WEATHER_MAX_AGE=45*60*1000;
@@ -59,9 +57,9 @@ export function normaliseGpuPayload(raw,now=Date.now()){
   const gpu=raw?.gpu;
   if(raw?.schemaVersion!==1||gpu?.source!=='nvidia-smi')throw new Error('Unexpected telemetry source');
   const updated=Date.parse(gpu.updatedAt),age=now-updated;
-  const validTemp=validNumber(gpu.temperatureC,-20,130);
-  const status=gpu.status==='ok'&&validTemp&&Number.isFinite(updated)&&age>=-5000&&age<20000?'ok':validTemp&&Number.isFinite(updated)?'stale':'unavailable';
-  return{source:'nvidia-smi',name:typeof gpu.name==='string'?gpu.name.slice(0,128):'NVIDIA GPU',temperatureC:validTemp?gpu.temperatureC:null,utilisationPct:validNumber(gpu.utilisationPct,0,100)?gpu.utilisationPct:null,memoryUsedMiB:validNumber(gpu.memoryUsedMiB,0,1048576)?gpu.memoryUsedMiB:null,memoryTotalMiB:validNumber(gpu.memoryTotalMiB,0,1048576)?gpu.memoryTotalMiB:null,updatedAt:Number.isFinite(updated)?gpu.updatedAt:null,status};
+  const validTime=Number.isFinite(updated)&&age>=-5000,validTemp=validNumber(gpu.temperatureC,-20,130)&&validTime;
+  const status=gpu.status==='ok'&&validTemp&&age<20000?'ok':validTemp?'stale':'unavailable';
+  return{source:'nvidia-smi',uuid:typeof gpu.uuid==='string'&&/^GPU-[0-9a-f-]{36}$/i.test(gpu.uuid)?gpu.uuid:null,name:typeof gpu.name==='string'?gpu.name.slice(0,128):'NVIDIA GPU',temperatureC:validTemp?gpu.temperatureC:null,utilisationPct:validNumber(gpu.utilisationPct,0,100)?gpu.utilisationPct:null,memoryUsedMiB:validNumber(gpu.memoryUsedMiB,0,1048576)?gpu.memoryUsedMiB:null,memoryTotalMiB:validNumber(gpu.memoryTotalMiB,0,1048576)?gpu.memoryTotalMiB:null,updatedAt:validTime?gpu.updatedAt:null,status,message:typeof gpu.message==='string'?gpu.message.slice(0,200):null};
 }
 
 export function normaliseNativeCpuUsage(raw){
@@ -130,7 +128,7 @@ function makeWeatherArt(document,kind){
   return art;
 }
 
-export async function initLiveData({root,invoke,SeelenCommand,subscribe,SeelenEvent}={}){
+export async function initLiveData({root,invoke,SeelenCommand,subscribe,SeelenEvent,readGpu}={}){
   // Native usage uses fixed read-only Seelen commands/events, never Run or a shell.
   if(!root||root.dataset.ahLiveDataReady)return()=>{};
   root.dataset.ahLiveDataReady='true';
@@ -183,6 +181,7 @@ export async function initLiveData({root,invoke,SeelenCommand,subscribe,SeelenEv
     icons();renderOpenPanel();
   }
   function renderSensors(){
+    root.dataset.gpuTemperatureStatus=gpu.status;
     root.querySelectorAll('.ah-sensor').forEach(button=>{
       const isGpu=button.querySelector('span')?.textContent.includes('GPU');
       if(isGpu&&gpu.temperatureC!==null)text(button.querySelector('span'),'GPU core temperature');
@@ -201,7 +200,7 @@ export async function initLiveData({root,invoke,SeelenCommand,subscribe,SeelenEv
       const track=usage.querySelector('.ah-native-usage-track');track.style.display=reading.usagePct===null?'none':'block';
       if(reading.usagePct!==null){track.setAttribute('aria-valuenow',String(reading.usagePct));track.setAttribute('aria-label',label+', Seelen host reading');usage.querySelector('.ah-native-usage-fill').style.width=reading.usagePct+'%';}
       else track.removeAttribute('aria-valuenow');
-      button.setAttribute('aria-label',(isGpu?'GPU core temperature: '+gpuText():'CPU temperature: unavailable')+'. '+label+': '+usageText(reading)+'. Seelen host reported value.');
+      button.setAttribute('aria-label',(isGpu?'GPU core temperature: '+gpuText()+'. Source: NVIDIA nvidia-smi.':'CPU temperature: unavailable.')+' '+label+': '+usageText(reading)+'. Usage source: Seelen host.');
     });
     renderOpenPanel();
   }
@@ -218,7 +217,7 @@ export async function initLiveData({root,invoke,SeelenCommand,subscribe,SeelenEv
       const memory=Number.isFinite(nativeGpu.dedicatedMemoryUsedBytes)&&Number.isFinite(nativeGpu.dedicatedMemoryTotalBytes)?Math.round(nativeGpu.dedicatedMemoryUsedBytes/1048576)+' / '+Math.round(nativeGpu.dedicatedMemoryTotalBytes/1048576)+' MiB VRAM':'';
       text(details.querySelector('.ah-live-gpu-info'),[nativeGpu.name,memory].filter(Boolean).join(' · '));
       text(details.querySelector('.ah-native-usage-source'),'Usage source: Seelen host, last reported values.');
-      text(details.querySelector('.ah-live-gpu-status'),gpu.updatedAt?'GPU core temperature '+(gpu.status==='ok'?'reported ':'last read ')+timeLabel(gpu.updatedAt)+' · NVIDIA telemetry. CPU temperature is unavailable.':'GPU core temperature is not connected. CPU temperature is deferred.');
+      text(details.querySelector('.ah-live-gpu-status'),gpu.updatedAt?'GPU core temperature '+(gpu.status==='ok'?'reported ':'last read ')+timeLabel(gpu.updatedAt)+' · '+gpu.name+' · nvidia-smi.'+(gpu.status!=='ok'?' '+(gpu.message||'The last reading is stale.'):'')+' CPU temperature is unavailable.':(gpu.message||'GPU core temperature is not connected.')+' CPU temperature is deferred.');
     }
     if(panel.dataset.panel==='weather'){
       const day=weather?.daily?.find(item=>item.date===selectedDate)||weather?.daily?.find(item=>item.date>=weatherDate(Date.now()));
@@ -249,12 +248,14 @@ export async function initLiveData({root,invoke,SeelenCommand,subscribe,SeelenEv
     renderWeather();if(!stopped&&!document.hidden)weatherTimer=setTimeout(updateWeather,delay);
   }
   async function updateGpu(){
-    if(!ENABLE_GPU_TEMPERATURE_HELPER||stopped||document.hidden||gpuBusy)return;
+    if(typeof readGpu!=='function'||stopped||document.hidden||gpuBusy)return;
+    clearTimeout(gpuTimer);
     gpuBusy=true;
-    try{const raw=await fetchJSON(GPU_URL,2500);if(stopped)return;gpu=normaliseGpuPayload(raw);}
-    catch{if(stopped)return;gpu={...gpu,status:gpu.temperatureC===null?'unavailable':'stale'};}
-    finally{gpuBusy=false;}
-    renderSensors();if(!stopped&&!document.hidden)gpuTimer=setTimeout(updateGpu,GPU_INTERVAL);
+    const controller=new AbortController();pending.add(controller);
+    try{const raw=await readGpu({signal:controller.signal});if(stopped)return;gpu=normaliseGpuPayload(raw);}
+    catch{if(stopped)return;gpu={...gpu,status:gpu.temperatureC===null?'unavailable':'stale',message:'The local GPU temperature connection is unavailable.'};}
+    finally{gpuBusy=false;pending.delete(controller);}
+    renderSensors();root.dispatchEvent(new win.CustomEvent('aurora:gpu-temperature-updated',{detail:{...gpu}}));if(!stopped&&!document.hidden)gpuTimer=setTimeout(updateGpu,GPU_INTERVAL);
   }
   const onClick=event=>{const refreshButton=event.target.closest('[data-live-weather-refresh]');if(refreshButton&&weatherPanel.contains(refreshButton)){event.preventDefault();event.stopPropagation();updateWeather();return;}const card=event.target.closest('.ah-weather-day[data-live-weather-date]');if(card&&forecast.contains(card))selectedDate=card.dataset.liveWeatherDate;};
   const onVisibility=()=>{clearTimeout(weatherTimer);clearTimeout(gpuTimer);if(document.hidden){pending.forEach(controller=>controller.abort());return;}updateWeather();updateGpu();};

@@ -11,3 +11,6 @@ config.local.json
 !.env.example
 Thumbs.db
 .DS_Store
+/galaxy-windows/launcher/GalaxyAtlas.exe
+/galaxy-windows/launcher/launcher-build-report.json
+/galaxy-windows/motion/GalaxyAtlasMotion.exe

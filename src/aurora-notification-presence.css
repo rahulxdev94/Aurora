@@ -1,0 +1,2 @@
+/* The topmost overlay takes ownership only while carrying a real notification. */
+#aurora-home-preview[data-notification-presence="away"] :is(.ah-dyson-canvas,.ah-companion,.aas-bubble,.aas-toggle){opacity:0!important;pointer-events:none!important}

@@ -1,0 +1,364 @@
+/* Aurora Black, Silver & Gold. Shared light, warm accents and dimensional glass, with the
+   existing desktop geometry and all text on stable dark surfaces. */
+#aurora-home-preview {
+  --ah-accent: #d6b466;
+  --ah-violet: #a8adb6;
+  --ah-sky: #d8dce3;
+  --ah-gold: #d6b466;
+  --ah-peach: #d6b466;
+  --ah-rose: #d6b466;
+  --ah-text: #f4f3ed;
+  --ah-muted: #a8adb6;
+  --ah-panel: #16181d;
+  --ah-edge: #d8dce34d;
+  background: #090a0d;
+  color: var(--ah-text);
+}
+
+/* These selectors deliberately include the Dyson and workspace states. The
+   one continuous atmosphere also keeps the header and footer seam invisible. */
+#aurora-home-preview .ah-atmosphere,
+#aurora-home-preview.ah-dyson-on .ah-atmosphere {
+  background:
+    radial-gradient(ellipse at 43% 32%, #d8dce313 0%, transparent 47%),
+    radial-gradient(ellipse at 83% 10%, #d6b46615 0%, transparent 42%),
+    radial-gradient(ellipse at 9% 76%, #d8dce30c 0%, transparent 45%),
+    radial-gradient(ellipse at 64% 98%, #d6b4660c 0%, transparent 48%),
+    linear-gradient(142deg, #090a0d 3%, #15171c 42%, #0d0f13 76%, #16181d);
+}
+#aurora-home-preview[data-workspace="create"] .ah-atmosphere,
+#aurora-home-preview.ah-dyson-on[data-workspace="create"] .ah-atmosphere {
+  background:
+    radial-gradient(ellipse at 42% 34%, #d6b4661b 0%, transparent 48%),
+    radial-gradient(ellipse at 78% 8%, #d6b46613 0%, transparent 46%),
+    radial-gradient(ellipse at 8% 83%, #d8dce310 0%, transparent 49%),
+    linear-gradient(142deg, #090a0d, #1b1915 49%, #101114 75%, #16181d);
+}
+#aurora-home-preview[data-workspace="relax"] .ah-atmosphere,
+#aurora-home-preview.ah-dyson-on[data-workspace="relax"] .ah-atmosphere {
+  background:
+    radial-gradient(ellipse at 41% 32%, #d8dce311 0%, transparent 48%),
+    radial-gradient(ellipse at 82% 10%, #d8dce30c 0%, transparent 45%),
+    radial-gradient(ellipse at 62% 96%, #d6b4660a 0%, transparent 49%),
+    linear-gradient(142deg, #090a0d, #121419 48%, #0d0f13 80%, #16181d);
+}
+#aurora-home-preview .ah-topbar,
+#aurora-home-preview .ah-bottom {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+#aurora-home-preview .ah-nebula {
+  background: conic-gradient(from 40deg, transparent, #d8dce380,
+    transparent 28%, #d6b46667, #d6b46630, transparent 65%);
+  opacity: .68;
+}
+#aurora-home-preview .ah-dyson-background { opacity: .96; }
+#aurora-home-preview .ah-horizon {
+  background-image: linear-gradient(#d8dce31a 1px, transparent 1px),
+    linear-gradient(90deg, #d8dce31a 1px, transparent 1px);
+}
+
+/* Directional highlights are painted into each surface. No new raster blur or
+   continuous card animation is needed to make the panels feel substantial. */
+#aurora-home-preview .ah-surface {
+  background:
+    linear-gradient(158deg, #d8dce318 0%, transparent 22%, #d6b46607 53%, transparent 78%),
+    radial-gradient(ellipse at 100% 100%, #d8dce308, transparent 60%),
+    linear-gradient(138deg, #23262deb, #121419f5 55%, #1d2027f0);
+  border-color: #d8dce348;
+  border-top-color: #d8dce36b;
+  border-bottom-color: #a8adb64a;
+  box-shadow: inset 0 1px 0 #f4f3ed24, inset 0 -1px 0 #a8adb612,
+    inset 1px 0 0 #d8dce312, 0 8px 0 -5px #000000a6,
+    0 16px 32px #00000057, 0 0 28px #00000007;
+  transition: transform .35s ease-out, border-color .22s ease,
+    box-shadow .22s ease;
+}
+#aurora-home-preview .ah-surface:is(:hover, :focus-within) {
+  border-color: #d8dce385;
+  border-top-color: #f4f3eda3;
+  box-shadow: inset 0 1px 0 #f4f3ed35, inset 0 -1px 0 #d6b4661c,
+    inset 1px 0 0 #d8dce31c, 0 8px 0 -5px #000000a6,
+    0 18px 36px #0000005c, 0 0 28px #00000012;
+}
+#aurora-home-preview .ah-clock {
+  background: radial-gradient(ellipse at 100% 0%, #d6b4661b, transparent 66%),
+    linear-gradient(135deg, #26292f, #15171c 52%, #202329 68%, #16181d);
+}
+#aurora-home-preview .ah-clock::after {
+  border-color: #d6b46645;
+  box-shadow: 0 0 0 18px #00000009, 0 0 0 36px #00000006;
+}
+#aurora-home-preview .ah-time { color: #f4f3ed; text-shadow: 0 2px 15px #00000040; }
+#aurora-home-preview .ah-brand-mark {
+  border-color: #d8dce3b3;
+  background: radial-gradient(circle at 28% 22%, #f4f3ed33, transparent 52%), #d8dce30b;
+  box-shadow: inset 0 0 13px #d8dce336, 0 3px 9px #00000066, 0 0 19px #00000026;
+}
+#aurora-home-preview .ah-brand-mark::before { border-color: #d6b466bd; }
+#aurora-home-preview .ah-brand small,
+#aurora-home-preview .ah-eyebrow,
+#aurora-home-preview .ah-date,
+#aurora-home-preview .ah-period,
+#aurora-home-preview .ah-statusbar,
+#aurora-home-preview .ah-weekdays,
+#aurora-home-preview .ah-folder-label small,
+#aurora-home-preview .ah-weather-day span:first-child,
+#aurora-home-preview .ah-weather-day em,
+#aurora-home-preview .ah-sensor span,
+#aurora-home-preview .ah-timer-label,
+#aurora-home-preview .ah-calendar-footer .ah-small { color: #a8adb6; }
+#aurora-home-preview .ah-section-head h2 > svg,
+#aurora-home-preview .ah-section-head > svg,
+#aurora-home-preview .ah-sensor svg { color: #d8dce3; }
+#aurora-home-preview .ah-text-button { color: #d8dce3; }
+#aurora-home-preview .ah-text-button:hover { color: #d6b466; }
+#aurora-home-preview .ah-status-dot {
+  background: #d8dce3;
+  box-shadow: 0 0 6px #00000066;
+}
+
+#aurora-home-preview .ah-navigation button,
+#aurora-home-preview .ah-icon-button,
+#aurora-home-preview .ah-pointer-toggle { color: #a8adb6; }
+#aurora-home-preview .ah-navigation button:is(:hover, .ah-current),
+#aurora-home-preview .ah-icon-button:hover,
+#aurora-home-preview .ah-pointer-toggle[aria-pressed="true"] {
+  color: #f4f3ed;
+  background: linear-gradient(135deg, #d8dce325, #d8dce312);
+  box-shadow: inset 0 1px 0 #f4f3ed1c, 0 3px 8px #00000024;
+}
+#aurora-home-preview .ah-search-trigger,
+#aurora-home-preview .ah-select,
+#aurora-home-preview .ah-core-mode,
+#aurora-home-preview.ah-dyson-on .ah-core-mode {
+  background: linear-gradient(145deg, #16181dee, #16181ded);
+  border-color: #d8dce348;
+  color: #a8adb6;
+  box-shadow: inset 0 1px 0 #f4f3ed12, 0 3px 9px #00000026;
+}
+#aurora-home-preview .ah-search-trigger:hover { border-color: #d8dce391; color: #f4f3ed; }
+#aurora-home-preview .ah-select option { background: #16181d; color: #f4f3ed; }
+#aurora-home-preview kbd { color: #a8adb6; background: #090a0d80; border-color: #d8dce32c; }
+#aurora-home-preview .ah-workspace-switch button[aria-pressed="true"],
+#aurora-home-preview.ah-dyson-on .ah-core-mode button[aria-pressed="true"] {
+  color: #d6b466;
+  background: linear-gradient(135deg, #d6b4661e, #d6b46615);
+  border-color: #d6b46657;
+  box-shadow: inset 0 1px 0 #f4f3ed20, 0 2px 8px #0000002b;
+}
+
+#aurora-home-preview .ah-folder {
+  background: linear-gradient(132deg, #d8dce30f, #d8dce305 55%, #a8adb60a);
+  border-color: #d8dce320;
+  box-shadow: inset 0 1px 0 #f4f3ed0c, 0 3px 8px #00000015;
+}
+#aurora-home-preview .ah-folder:hover {
+  transform: none;
+  background: linear-gradient(132deg, #d8dce322, #d8dce312 55%, #d6b46615);
+  border-color: #d8dce372;
+  box-shadow: inset 0 1px 0 #f4f3ed1c, 0 4px 12px #00000030;
+}
+#aurora-home-preview .ah-folder-label,
+#aurora-home-preview .ah-sensor strong { color: #f4f3ed; }
+#aurora-home-preview .ah-folder-symbol {
+  background: linear-gradient(145deg, #f4f3ed, #a8adb6 29%, #d8dce3 46%, #777d88 76%, #c0c4cc);
+  box-shadow: inset 0 1px 1px #f4f3ed70, inset 0 -2px 0 #090a0d35,
+    1px 2px 0 #00000055, 0 5px 10px #00000066;
+}
+#aurora-home-preview .ah-folder-symbol::before { background: linear-gradient(120deg, #f2d48a, #b09350); }
+#aurora-home-preview .ah-weather-day:hover { background: #d8dce313; }
+#aurora-home-preview .ah-sample { color: #a8adb6; border-color: #d8dce335; background: #090a0d33; }
+#aurora-home-preview .ah-calendar-days button { color: #d8dce3; }
+#aurora-home-preview .ah-calendar-days button:hover { background: #d8dce322; }
+#aurora-home-preview .ah-calendar-days button.ah-today { color: #d6b466; background: #d6b46613; }
+#aurora-home-preview .ah-calendar-days button.ah-selected,
+#aurora-home-preview .ac-grid button[aria-pressed="true"] {
+  color: #090a0d;
+  background: linear-gradient(140deg, #f2d48a, #d6b466 68%, #ba9650);
+  box-shadow: inset 0 1px 0 #f4f3ed75, 0 2px 0 #00000040, 0 3px 12px #00000025;
+}
+#aurora-home-preview .ah-calendar-footer,
+#aurora-home-preview .ac-tasks-widget { border-color: #d8dce32b; }
+#aurora-home-preview .ah-timer-ring {
+  background: conic-gradient(#d8dce3 var(--progress), #d8dce325 0);
+  box-shadow: 0 0 14px #00000016;
+}
+#aurora-home-preview .ah-timer-ring > div { background: #16181d; box-shadow: inset 0 2px 8px #090a0d55; }
+
+#aurora-home-preview .ah-primary {
+  color: #090a0d;
+  background: linear-gradient(142deg, #f2d48a, #d6b466 58%, #d6b466);
+  box-shadow: inset 0 1px 0 #f4f3edaa, inset 0 -1px 0 #00000044,
+    0 3px 0 #00000047, 0 6px 17px #00000021;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+#aurora-home-preview .ah-primary:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(142deg, #f7e4ae, #e3c47e 58%, #c3a25d);
+  box-shadow: inset 0 1px 0 #f4f3edcc, inset 0 -1px 0 #00000044,
+    0 4px 0 #00000047, 0 8px 20px #00000030;
+}
+#aurora-home-preview .ah-primary:active { transform: translateY(1px); box-shadow: inset 0 1px 3px #00000033, 0 1px 0 #00000047; }
+#aurora-home-preview .ah-satellite,
+#aurora-home-preview.ah-dyson-on .ah-satellite {
+  color: #f4f3ed;
+  background: radial-gradient(ellipse at 0 0, #d8dce315, transparent 70%),
+    linear-gradient(145deg, #25282fec, #16181df5);
+  border-color: #d8dce35c;
+  border-top-color: #d8dce380;
+  box-shadow: inset 0 1px 0 #f4f3ed22, 0 4px 0 -2px #0000009c,
+    0 10px 22px #0000005c, 0 0 18px #0000000c;
+}
+#aurora-home-preview .ah-satellite-create svg { color: #d6b466; }
+#aurora-home-preview .ah-satellite-explore svg { color: #d6b466; }
+#aurora-home-preview .ah-satellite:hover,
+#aurora-home-preview.ah-dyson-on .ah-satellite:hover {
+  transform: translateY(-2px);
+  border-color: #d6b46691;
+  background: linear-gradient(145deg, #25282ff5, #25282ff5);
+  box-shadow: inset 0 1px 0 #f4f3ed33, 0 4px 0 -2px #0000009c, 0 12px 25px #00000066, 0 0 20px #00000015;
+}
+#aurora-home-preview .ah-core-name,
+#aurora-home-preview.ah-dyson-on .ah-core-name { color: #a8adb6; }
+#aurora-home-preview .ah-chat-launch { color: #f4f3ed; text-shadow: 0 1px 9px #090a0d; }
+#aurora-home-preview .ah-chat-launch svg { color: #d6b466; }
+#aurora-home-preview .ah-orbit { border-color: #d8dce399; box-shadow: 0 0 11px #00000022, inset 0 0 9px #d8dce312; }
+#aurora-home-preview .ah-orbit-b { border-color: #d6b46680; }
+#aurora-home-preview .ah-orbit-c { border-color: #d6b46650; }
+#aurora-home-preview .ah-orbit-b::after { background: #d6b466; box-shadow: 0 0 13px #00000055; }
+
+/* Native and preview dialogs, including the existing file and calendar panels. */
+#aurora-home-preview .ah-window,
+#aurora-home-preview .ac-window {
+  border-color: #d8dce366;
+  background: radial-gradient(ellipse at 100% 0%, #d6b4661c, transparent 60%),
+    linear-gradient(140deg, #25282f, #16181d 64%, #25282f);
+  box-shadow: inset 0 1px 0 #f4f3ed29, inset 0 -1px 0 #a8adb620,
+    0 6px 0 -3px #000000a6, 0 28px 80px #000000a6, 0 0 35px #0000000d;
+}
+#aurora-home-preview .ah-window-bar,
+#aurora-home-preview .ac-bar,
+#aurora-home-preview .ac-note { background: #090a0da6; border-color: #d8dce32b; }
+#aurora-home-preview .ah-window-name,
+#aurora-home-preview .ah-window-content p,
+#aurora-home-preview .ac-note { color: #a8adb6; }
+#aurora-home-preview textarea,
+#aurora-home-preview .ah-field,
+#aurora-home-preview .ac-task-panel,
+#aurora-home-preview .ac-jump input,
+#aurora-home-preview .ac-form input {
+  color: #f4f3ed;
+  background: #090a0dd9;
+  border-color: #d8dce348;
+  box-shadow: inset 0 2px 7px #090a0d40;
+}
+#aurora-home-preview :is(textarea, input)::placeholder { color: #a8adb6; opacity: .8; }
+#aurora-home-preview .ah-window-content .ah-panel-badge,
+#aurora-home-preview .ah-suggestion,
+#aurora-home-preview .ah-secondary,
+#aurora-home-preview .ac-open { color: #d8dce3; border-color: #d8dce342; background: #d8dce310; }
+#aurora-home-preview .ah-app-tile,
+#aurora-home-preview .ac-task-row { border-color: #d8dce32b; background: #d8dce30b; }
+#aurora-home-preview .ah-app-tile:hover { background: #d8dce31c; }
+#aurora-home-preview .afb-shell { color: #f4f3ed; background: linear-gradient(140deg, #16181d, #16181d 70%, #25282f); }
+#aurora-home-preview .afb-sidebar { background: #090a0d9e; border-color: #d8dce32b; }
+#aurora-home-preview .afb-entry {
+  color: #f4f3ed;
+  background: linear-gradient(135deg, #d8dce310, #a8adb60c);
+  border-color: #d8dce330;
+  box-shadow: inset 0 1px 0 #f4f3ed0f, 0 3px 8px #00000020;
+}
+#aurora-home-preview .afb-entry:hover { background: linear-gradient(135deg, #d8dce326, #d6b4661a); border-color: #d8dce375; }
+#aurora-home-preview .afb-entry[data-kind="folder"] > svg { color: #d6b466; }
+#aurora-home-preview .afb-entry-text small,
+#aurora-home-preview .afb-status,
+#aurora-home-preview .afb-details,
+#aurora-home-preview .afb-drive-detail,
+#aurora-home-preview .afb-nav-heading { color: #a8adb6; }
+#aurora-home-preview .afb-button[aria-current="true"] { background: linear-gradient(120deg, #d8dce328, #d8dce31c); color: #f4f3ed; border-color: #d8dce366; }
+#aurora-home-preview .afb-search { background: #090a0dc7; border-color: #d8dce34d; }
+#aurora-home-preview .afb-footer { border-color: #d8dce32b; }
+#aurora-home-preview .aas-bubble { background: linear-gradient(135deg, #25282ff5, #25282ff5); border-color: #d8dce35c; color: #f4f3ed; }
+
+/* Weather and activity keep their existing motion with a matching metal finish. */
+#aurora-home-preview .ah-wm-art,
+#aurora-home-preview .ah-wm-art:is([data-condition="rain"], [data-condition="thunder"]) {
+  --ah-wm-cloud: #d8dce3;
+  --ah-wm-cloud-back: #777d88;
+}
+#aurora-home-preview .ah-wm-sun {
+  background: radial-gradient(circle at 32% 25%, #f4f3ed, #f2d48a 34%, #d6b466 64%, #9d7c39);
+  box-shadow: inset 0 1px 0 #f4f3ed99, 0 3px 8px #00000059;
+}
+#aurora-home-preview .ah-wm-rays { background: repeating-conic-gradient(from 0deg, #d6b466bd 0deg 6deg, transparent 6deg 45deg); }
+#aurora-home-preview .ah-wm-cloud { filter: drop-shadow(0 2px 2px #00000040); }
+#aurora-home-preview .ah-wm-drop { background: linear-gradient(transparent, #d8dce3); }
+#aurora-home-preview .ah-wm-flake { background: #f4f3ed; }
+#aurora-home-preview .ah-wm-bolt { color: #f2d48a; filter: drop-shadow(0 2px 3px #00000066); }
+#aurora-home-preview .ah-wm-bolt svg { fill: #d6b46640; }
+#aurora-home-preview .ah-wm-wind { border-color: #d8dce3; }
+#aurora-home-preview .ah-wm-stage,
+#aurora-home-preview .ah-wm-stage[data-condition] {
+  background: radial-gradient(ellipse at 52% 25%, #d8dce30f, transparent 65%),
+    linear-gradient(160deg, #202329, #090a0d);
+  border-color: #d8dce333;
+}
+#aurora-home-preview .ah-wm-stage:is([data-condition="sunny"], [data-condition="partly"]) {
+  background: radial-gradient(ellipse at 58% 26%, #d6b46618, transparent 64%),
+    linear-gradient(160deg, #202329, #090a0d);
+}
+#aurora-home-preview .ah-wm-stage .ah-wm-sun { box-shadow: inset 0 1px 0 #f4f3ed99, 0 5px 20px #00000066; }
+#aurora-home-preview .ah-wm-stage .ah-wm-flake { box-shadow: 0 2px 5px #00000055; }
+#aurora-home-preview .ah-wm-selection { color: #f4f3ed; }
+#aurora-home-preview .ah-wm-range,
+#aurora-home-preview .ah-wm-demo-label,
+#aurora-home-preview .ah-wm-demo-note { color: #a8adb6 !important; }
+#aurora-home-preview .ah-wm-demo-select { background: #090a0d; border-color: #d8dce342; color: #f4f3ed; }
+#aurora-home-preview .aas-bubble::before,
+#aurora-home-preview .aas-bubble[data-kind="error"]::before { background: #d6b466; }
+#aurora-home-preview .aas-bubble[data-kind="success"]::before { background: #d8dce3; }
+#aurora-home-preview .aas-message { color: #d8dce3; }
+#aurora-home-preview .aas-dismiss { color: #a8adb6; }
+#aurora-home-preview .aas-dismiss:hover { color: #f4f3ed; background: #d8dce316; }
+#aurora-home-preview .aas-toggle { background: #16181de8; border-color: #d8dce366; box-shadow: 0 3px 12px #00000066; }
+#aurora-home-preview .aas-toggle:is(:hover, [aria-expanded="true"]) { background: #25282f; border-color: #d6b4669c; }
+#aurora-home-preview .aas-dot,
+#aurora-home-preview .aas-toggle[data-kind="error"] .aas-dot { background: #d6b466; box-shadow: 0 2px 5px #00000066; }
+#aurora-home-preview .aas-toggle[data-kind="success"] .aas-dot { background: #d8dce3; }
+
+/* Preview dock paints only. Native dock hit areas are handled by motion.css. */
+#aurora-home-preview .ah-dock {
+  background: radial-gradient(ellipse at 12% 0, #d8dce31f, transparent 60%),
+    linear-gradient(130deg, #25282fed, #25282fed);
+  border-color: #d8dce366;
+  box-shadow: inset 0 1px 0 #f4f3ed30, inset 0 -1px 0 #d6b46625, 0 5px 0 -2px #00000080, 0 15px 30px #00000066;
+}
+#aurora-home-preview .ah-dock-button {
+  background: linear-gradient(145deg, #d8dce319, #d8dce308);
+  border-color: #d8dce336;
+  box-shadow: inset 0 1px 0 #f4f3ed24, inset 0 -1px 0 #090a0d55, 0 3px 7px #00000040;
+}
+#aurora-home-preview .ah-dock-button svg { color: #d8dce3; }
+#aurora-home-preview .ah-dock-button[data-action="chat"] { background: linear-gradient(140deg, #d8dce32b, #a8adb624); }
+#aurora-home-preview .ah-dock-button:hover { border-color: #d6b46680; background: linear-gradient(145deg, #d8dce335, #d6b46626); }
+#aurora-home-preview .ah-dock-button[data-action="chat"] svg { color: #d6b466; }
+#aurora-home-preview .ah-dock-button[data-app="YouTube"] svg { color: #d6b466; }
+#aurora-home-preview .ah-dock-button[data-app="Gmail"] svg { color: #d6b466; }
+#aurora-home-preview .ah-dock-button[data-action="library"] svg { color: #d6b466; }
+#aurora-home-preview :is(button, input, textarea, select):focus-visible {
+  outline-color: #d6b466;
+  outline-offset: 3px;
+}
+
+#aurora-home-preview:is([data-motion="off"], [data-motion="reduced"], [data-paused="true"]) :is(.ah-surface, .ah-folder, .ah-satellite, .ah-primary, .ah-dock-button) {
+  transform: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #aurora-home-preview :is(.ah-surface, .ah-folder, .ah-satellite, .ah-primary, .ah-dock-button) {
+    transform: none !important;
+    transition: none !important;
+  }
+}

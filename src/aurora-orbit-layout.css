@@ -1,0 +1,269 @@
+/* Aurora Orbit. Shape follows the content: circular instruments, square
+   controls and wide reading surfaces. The existing DOM and actions stay intact. */
+#aurora-home-preview {
+  --orbit-gap: clamp(10px, 1vw, 18px);
+  --orbit-column-width: calc((100vw - 52px - var(--orbit-gap) * 3) * .199565);
+  --orbit-gold: #e4c477;
+  --orbit-silver: #e8ebef;
+  --ah-text: #f1f1f0;
+  --ah-muted: #b9bcc1;
+  --ah-panel: #131416;
+  --ah-edge: #7e80864d;
+  background: #060607;
+}
+#aurora-home-preview .ah-topbar { min-height: 56px; padding-inline: 26px; }
+#aurora-home-preview .ah-desktop {
+  display: grid;
+  grid-template-columns: minmax(200px, .92fr) minmax(280px, 1.65fr) minmax(204px, .92fr) minmax(238px, 1.12fr);
+  grid-template-rows: 44px minmax(192px, 1fr) minmax(192px, .95fr) 116px;
+  grid-template-areas: "welcome welcome workspace workspace" "clock core focus calendar" "library core sensors calendar" "weather weather weather calendar";
+  gap: var(--orbit-gap);
+  padding: 10px 26px 14px;
+  align-items: stretch;
+  min-height: 0;
+  overflow: hidden;
+}
+#aurora-home-preview .ah-main,
+#aurora-home-preview .ah-widget-rail,
+#aurora-home-preview .ah-main > .an-lower-grid { display: contents; }
+#aurora-home-preview .ah-main > .ah-welcome { grid-area: welcome; align-self: center; }
+#aurora-home-preview .ah-main > .ah-workspace-switch {
+  grid-area: workspace; align-self: center; justify-self: end; margin: 0; padding: 0; gap: 6px;
+}
+#aurora-home-preview .ah-workspace-caption { display: none; }
+#aurora-home-preview .ah-welcome .ah-eyebrow { font-size: 9px; letter-spacing: 2.3px; margin-bottom: 2px; }
+#aurora-home-preview h1 { font-size: clamp(20px, 1.65vw, 29px); line-height: 1.15; }
+#aurora-home-preview .ah-main > .ah-library { grid-area: library; min-height: 0; }
+#aurora-home-preview .ah-widget-rail > .ah-clock { grid-area: clock; }
+#aurora-home-preview .ah-widget-rail > .ah-calendar { grid-area: calendar; }
+#aurora-home-preview .an-lower-grid > .ah-focus { grid-area: focus; }
+#aurora-home-preview .an-lower-grid > .ah-sensors { grid-area: sensors; }
+#aurora-home-preview .an-lower-grid > .ah-weather { grid-area: weather; }
+
+/* One uninterrupted black stage, with soft gold and silver light. */
+#aurora-home-preview[data-workspace] .ah-atmosphere,
+#aurora-home-preview.ah-dyson-on[data-workspace] .ah-atmosphere {
+  background: radial-gradient(ellipse at 43% 30%, #a0813220, transparent 43%),
+    radial-gradient(ellipse at 84% 16%, #bfc5ce16, transparent 42%),
+    linear-gradient(135deg, #050506, #121212 52%, #08090b);
+}
+#aurora-home-preview .ah-surface {
+  border-radius: 21px;
+  border: 1px solid #b9bcc143;
+  border-top-color: #f5f6f76b;
+  border-bottom-color: #313235;
+  background: radial-gradient(ellipse at 0 0, #ffffff13, transparent 60%),
+    linear-gradient(135deg, #252629ed, #0e0f11f2 55%, #1d1d20f5);
+  box-shadow: inset 0 1px 0 #ffffff24, inset 0 -1px 0 #000,
+    0 5px 0 -3px #000b, 0 14px 32px #0007;
+  padding: 14px 16px;
+}
+#aurora-home-preview .ah-surface:is(:hover, :focus-within) {
+  border-color: #e4c47789;
+  box-shadow: inset 0 1px 0 #fff5, inset 0 -1px 0 #000, 0 6px 0 -3px #000b, 0 18px 38px #0008;
+}
+#aurora-home-preview .ah-section-head { margin-bottom: 9px; gap: 7px; }
+#aurora-home-preview .ah-section-head h2 { font-size: 12px; font-weight: 600; letter-spacing: .15px; }
+#aurora-home-preview .ah-section-head h2 > svg,
+#aurora-home-preview .ah-section-head > svg,
+#aurora-home-preview .ah-text-button { color: var(--orbit-gold); }
+#aurora-home-preview .ah-pointer-face { background: linear-gradient(135deg, #f4e8c6, #a48a50); box-shadow: 0 0 12px #e4c47770; }
+#aurora-home-preview .ah-pointer-face b { background: #302b22; }
+#aurora-home-preview .ah-pointer-orbit { border-color: #e4c47791; }
+#aurora-home-preview .ah-live-weather-status { color: #b9bcc1 !important; }
+#aurora-home-preview :is(.ah-live-weather-source, .ah-live-weather-refresh) { color: #e4c477 !important; }
+
+/* The clock is a machined silver disc, with accessible system chips inside. */
+#aurora-home-preview .ah-widget-rail > .ah-clock {
+  width: auto; height: min(100%, var(--orbit-column-width), 248px); max-width: 100%; aspect-ratio: 1;
+  align-self: center; justify-self: center; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 25px; text-align: center; overflow: hidden;
+  background: radial-gradient(circle at 28% 18%, #fff2, transparent 47%),
+    linear-gradient(145deg, #36383c, #111214 47%, #090a0c 72%, #393b3f);
+  border: 2px solid #c7cbd384;
+  box-shadow: inset 0 0 0 5px #050507, inset 0 0 0 6px #ffffff25,
+    inset 0 12px 20px #ffffff0c, 0 10px 0 -6px #000, 0 20px 36px #0008;
+}
+#aurora-home-preview .ah-clock::after {
+  inset: 11px; width: auto; height: auto; border: 1px solid #e4c4774f;
+  box-shadow: none; border-radius: 50%;
+}
+#aurora-home-preview .ah-clock .ah-section-head { justify-content: center; margin: 0 0 4px; }
+#aurora-home-preview .ah-clock .ah-section-head > svg { width: 12px; height: 12px; color: #cbd0d8; }
+#aurora-home-preview .ah-clock .ah-eyebrow { color: #d9dce1; font-size: 9px; letter-spacing: 2.5px; }
+#aurora-home-preview .ah-clock-face { justify-content: center; gap: 5px; }
+#aurora-home-preview .ah-time { font-size: clamp(31px, 3.1vw, 48px); color: #fafaf8; letter-spacing: -2px; text-shadow: 0 2px 14px #ffffff13; }
+#aurora-home-preview .ah-clock .ah-date { font-size: 10px; margin: 2px 0 5px; color: #c7c8cc; }
+#aurora-home-preview .ah-period { color: #e4c477; font-size: 10px; }
+#aurora-home-preview .ah-clock .asc-status { grid-template-columns: repeat(2, minmax(0,1fr)); width: 100%; max-width: 166px; gap: 4px; margin-top: 4px; }
+#aurora-home-preview .ah-clock .asc-chip { min-height: 23px; padding: 3px 5px; color: #e3e4e7; background: #0007; border-color: #d3d5db33; border-radius: 8px; font-size: 9px; }
+#aurora-home-preview .ah-clock .asc-icon { color: #e4c477; width: 12px; height: 12px; }
+
+/* The atom gets the horizontal breathing room; quick actions become square tiles. */
+#aurora-home-preview[data-workspace] .ah-main > .ah-core-stage {
+  grid-area: core; width: 100%; height: 100%; min-height: 0; max-height: none;
+  max-width: none; align-self: stretch; justify-self: stretch;
+}
+#aurora-home-preview.ah-dyson-on .ah-core-caption { bottom: 6px; }
+#aurora-home-preview.ah-dyson-on .ah-satellite {
+  width: 66px; height: 66px; padding: 9px 5px; border-radius: 16px;
+  flex-direction: column; justify-content: center; gap: 6px;
+  color: #f4f3ef; font-size: 11px; transform: none;
+  background: linear-gradient(145deg, #444444, #161719 44%, #08090b 80%, #343538);
+  border: 1px solid #e7e8ed5c; border-top-color: #fff9;
+  box-shadow: inset 0 1px 0 #fff3, 0 4px 0 -1px #000c, 0 12px 20px #0007;
+}
+#aurora-home-preview.ah-dyson-on .ah-satellite svg { width: 21px; height: 21px; color: #e4c477; }
+#aurora-home-preview.ah-dyson-on .ah-satellite:hover { border-color: #ebcc82; background: linear-gradient(145deg, #5d5136, #191816 60%, #0c0b09); }
+#aurora-home-preview.ah-dyson-on .ah-satellite-plan { left: 3%; top: 16%; }
+#aurora-home-preview.ah-dyson-on .ah-satellite-create { right: 3%; top: 8%; }
+#aurora-home-preview.ah-dyson-on .ah-satellite-explore { right: 3%; top: auto; bottom: 16%; }
+
+/* A true circular timer, with the controls retained within its safe inner disc. */
+#aurora-home-preview .an-lower-grid > .ah-focus {
+  width: auto; height: min(100%, var(--orbit-column-width), 238px); max-width: 100%; aspect-ratio: 1;
+  justify-self: center; align-self: center; border-radius: 50%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 19px 24px; gap: 5px;
+  background: radial-gradient(circle at 25% 16%, #ebcf7f28, transparent 48%),
+    linear-gradient(140deg, #343027, #100f0d 65%, #363026);
+  border: 2px solid #e4c47795;
+  box-shadow: inset 0 0 0 5px #080807, inset 0 0 0 6px #e4c47735,
+    0 10px 0 -6px #000d, 0 20px 35px #0008;
+}
+#aurora-home-preview .ah-focus > .ah-section-head { flex-direction: column; margin: 0; gap: 3px; }
+#aurora-home-preview .ah-focus .ah-section-head h2 { font-size: 11px; }
+#aurora-home-preview .ah-focus .ah-section-head h2 svg { width: 12px; height: 12px; }
+#aurora-home-preview .ah-focus .ah-select { padding: 2px 6px; min-height: 22px; font-size: 10px; background: #090909; color: #dadce0; border-color: #d2b76f44; }
+#aurora-home-preview .ah-focus-body { flex-direction: column; gap: 5px; }
+#aurora-home-preview .ah-timer-ring { width: 76px; height: 76px; flex: none; padding: 3px; background: conic-gradient(#e4c477 var(--progress, 0deg), #bfc3cc2b 0deg); box-shadow: 0 0 0 1px #e4c4771f; }
+#aurora-home-preview .ah-timer-ring > div { width: 70px; height: 70px; background: radial-gradient(circle at 30% 20%, #30302e, #090909 80%); }
+#aurora-home-preview .ah-timer { font-size: 22px; color: #f3e3b8; }
+#aurora-home-preview .ah-timer-label { display: block; font-size: 9px; color: #bfc2c8; }
+#aurora-home-preview .ah-focus-actions { justify-content: center; gap: 5px; flex-wrap: nowrap; }
+#aurora-home-preview .ah-focus .ah-start { min-height: 28px; padding: 5px 12px; font-size: 10px; border-radius: 9px; }
+#aurora-home-preview .ah-focus .ah-icon-button { width: 27px; height: 27px; }
+
+/* Library uses a two-column collection shelf; it scrolls independently. */
+#aurora-home-preview .ah-library { border-radius: 20px; padding: 12px; overflow: hidden; }
+#aurora-home-preview .ah-library > .ah-folders { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: minmax(58px,auto); align-content: start; gap: 6px; padding: 1px 3px 2px 0; scrollbar-color: #b7a06a #090909; }
+#aurora-home-preview .ah-library .ah-folder { min-height: 58px; padding: 7px; flex-direction: row; gap: 6px; border-radius: 11px; background: linear-gradient(140deg, #ffffff0d, #0005); border-color: #d2d5dc24; }
+#aurora-home-preview .ah-library .ah-folder-symbol { width: 23px; height: 23px; flex: none; filter: saturate(0); }
+#aurora-home-preview .ah-library .ah-folder-label { font-size: 10px; line-height: 1.35; color: #e5e5e7; overflow-wrap: anywhere; }
+#aurora-home-preview .ah-library .ah-folder-label small { display: none; }
+
+/* Square instrument housing, with separate readable CPU and GPU readings. */
+#aurora-home-preview .an-lower-grid > .ah-sensors {
+  width: auto; height: min(100%, var(--orbit-column-width), 248px); max-width: 100%; aspect-ratio: 1;
+  justify-self: center; align-self: center; border-radius: 22px;
+  display: flex; flex-direction: column; justify-content: center; padding: 16px 13px;
+}
+#aurora-home-preview .ah-sensors .ah-section-head { justify-content: center; margin-bottom: 13px; }
+#aurora-home-preview .ah-sensors .ah-section-head > .ah-small { display: none; }
+#aurora-home-preview .ah-sensor-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+#aurora-home-preview .ah-sensor { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 4px; padding: 12px 4px; border-radius: 13px; background: linear-gradient(140deg, #ffffff0d, #0006); border: 1px solid #e0e3e92c; }
+#aurora-home-preview .ah-sensor > svg { grid-row: auto; width: 20px; height: 20px; color: #d9c28d; margin: 0 0 2px; }
+#aurora-home-preview .ah-sensor > span { color: #bfc2c8; font-size: 9px; }
+#aurora-home-preview .ah-sensor > strong { color: #f2f2f0; font-size: 10px; white-space: normal; }
+#aurora-home-preview .ah-sensors .ah-native-usage { width: 100%; margin-top: 5px; }
+#aurora-home-preview .ah-sensors .ah-native-usage-line { flex-direction: column; gap: 2px; }
+#aurora-home-preview .ah-sensors .ah-native-usage-label { font-size: 8px; color: #bfc2c8; }
+#aurora-home-preview .ah-sensors .ah-native-usage-value { font-size: 11px; color: #e4c477; }
+#aurora-home-preview .ah-sensors .ah-native-usage-track { background: #c8ccd222; }
+#aurora-home-preview .ah-sensors .ah-native-usage-fill { background: linear-gradient(90deg,#9c7d36,#f1d992); }
+
+/* Forecast is panoramic. Calendar keeps a generous, stable reading column. */
+#aurora-home-preview .an-lower-grid > .ah-weather { height: 100%; padding: 9px 16px; border-radius: 18px; }
+#aurora-home-preview .ah-weather .ah-section-head { margin-bottom: 3px; }
+#aurora-home-preview .ah-weather .ah-forecast { gap: clamp(6px,1.6vw,26px); }
+#aurora-home-preview .ah-weather .ah-weather-day { padding: 0 3px; min-width: 0; gap: 1px; }
+#aurora-home-preview .ah-weather .ah-wm-art { width: 30px; height: 27px; }
+#aurora-home-preview .ah-weather-day strong { font-size: 12px; }
+#aurora-home-preview .ah-weather-day em { font-size: 10px; }
+#aurora-home-preview .ah-weather :is(.ah-small,.ah-sample) { font-size: 9px; }
+#aurora-home-preview .ah-widget-rail > .ah-calendar { padding: 18px; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #b7a06a #090909; border-radius: 23px; }
+#aurora-home-preview .ah-calendar > .ah-section-head { margin-bottom: 18px; }
+#aurora-home-preview .ah-weekdays { color: #979ca4; margin-bottom: 8px; }
+#aurora-home-preview .ah-calendar-days { gap: 6px; }
+#aurora-home-preview .ah-calendar-days button,
+#aurora-home-preview .ah-calendar-days > span { height: clamp(30px,4.1vh,44px); font-size: 12px; border-radius: 50%; aspect-ratio: auto; }
+#aurora-home-preview .ah-calendar .ah-calendar-footer { margin-top: 14px; padding-top: 11px; }
+#aurora-home-preview .ah-calendar .ac-open { padding: 9px; margin-top: 12px; }
+#aurora-home-preview .ah-calendar .aco-widget-status { font-size: 10px; margin-top: 10px; }
+#aurora-home-preview .ah-calendar .ac-tasks-widget { display: block; margin-top: 18px; padding-top: 16px; }
+#aurora-home-preview .ah-calendar .ac-tasks-widget h2 { display: block; }
+#aurora-home-preview .ah-calendar .ac-task-summary { font-size: 11px; margin-top: 9px; }
+#aurora-home-preview .ah-bottom { height: 82px; padding: 5px 26px 54px; }
+#aurora-home-preview .ah-statusbar { flex-wrap: nowrap; font-size: 10px; }
+#aurora-home-preview .ah-statusbar > div { flex-wrap: nowrap; }
+
+@media (max-height: 790px) and (min-width: 1000px) {
+  #aurora-home-preview .ah-topbar { min-height: 48px; padding-block: 5px; }
+  #aurora-home-preview .ah-desktop { grid-template-rows: 36px minmax(176px,1fr) minmax(176px,.95fr) 100px; gap: 10px; padding-block: 7px 10px; }
+  #aurora-home-preview .ah-widget-rail > .ah-clock { padding: 19px; }
+  #aurora-home-preview .ah-time { font-size: 34px; }
+  #aurora-home-preview .an-lower-grid > .ah-focus { padding: 15px 20px; gap: 3px; }
+  #aurora-home-preview .ah-timer-ring { width: 62px; height: 62px; }
+  #aurora-home-preview .ah-timer-ring > div { width: 56px; height: 56px; }
+  #aurora-home-preview .ah-timer { font-size: 19px; }
+  #aurora-home-preview .ah-timer-label { display: none; }
+  #aurora-home-preview .an-lower-grid > .ah-sensors { padding: 12px 10px; }
+  #aurora-home-preview .ah-sensors .ah-section-head { margin-bottom: 8px; }
+  #aurora-home-preview .ah-sensor { padding-block: 7px; gap: 3px; }
+  #aurora-home-preview .an-lower-grid > .ah-weather { padding-block: 3px; }
+  #aurora-home-preview .ah-weather .ah-wm-art { height: 20px; }
+  #aurora-home-preview .ah-weather .ah-section-head { margin-bottom: 0; }
+  #aurora-home-preview .ah-widget-rail > .ah-calendar { padding: 14px; }
+  #aurora-home-preview .ah-calendar > .ah-section-head { margin-bottom: 10px; }
+  #aurora-home-preview .ah-calendar-days button,#aurora-home-preview .ah-calendar-days > span { height: 29px; }
+  #aurora-home-preview .ah-calendar-days { gap: 4px; }
+  #aurora-home-preview .ah-bottom { height: 80px; padding-bottom: 52px; }
+}
+@media (min-width: 1000px) and (max-width: 1180px) {
+  #aurora-home-preview { --orbit-column-width: calc((100vw - 59px) * .2); }
+  #aurora-home-preview .ah-desktop { grid-template-columns: minmax(180px,.9fr) minmax(260px,1.6fr) minmax(184px,.9fr) minmax(226px,1.1fr); padding-inline: 16px; gap: 9px; }
+  #aurora-home-preview .ah-library .ah-folder { padding: 6px 4px; gap: 4px; }
+  #aurora-home-preview .ah-library .ah-folder-label { font-size: 9px; }
+  #aurora-home-preview .ah-library .ah-folder-symbol { width: 19px; height: 19px; }
+  #aurora-home-preview.ah-dyson-on .ah-satellite { width: 54px; height: 54px; font-size: 10px; }
+  #aurora-home-preview.ah-dyson-on .ah-satellite svg { width: 17px; height: 17px; }
+}
+@media (min-aspect-ratio: 21/9) and (min-width: 1800px) {
+  #aurora-home-preview { --orbit-column-width: calc((96vw - 66px) * .199565); }
+  #aurora-home-preview .ah-desktop { grid-template-columns: minmax(280px,.92fr) minmax(400px,1.65fr) minmax(300px,.92fr) minmax(330px,1.12fr); grid-template-rows: 52px minmax(230px,1fr) minmax(230px,.9fr) 142px; padding-inline: 2vw; gap: 22px; }
+  #aurora-home-preview .ah-widget-rail > .ah-clock { height: min(100%,300px); }
+  #aurora-home-preview .an-lower-grid > .ah-focus { height: min(100%,280px); }
+  #aurora-home-preview .an-lower-grid > .ah-sensors { height: min(100%,280px); }
+  #aurora-home-preview .ah-library > .ah-folders { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  #aurora-home-preview .ah-library .ah-folder { min-height: 72px; flex-direction: column; justify-content: center; text-align: center; }
+  #aurora-home-preview .ah-weather .ah-wm-art { height: 42px; width: 44px; }
+  #aurora-home-preview .ah-weather .ah-section-head { margin-bottom: 7px; }
+}
+/* Portrait and small windows use the same instruments in a scrollable two-column canvas. */
+@media (max-width: 999px), (max-height: 650px) {
+  #aurora-home-preview .ah-desktop { overflow-y: auto; overflow-x: hidden; grid-template-columns: minmax(0,1fr) minmax(0,1fr); grid-template-rows: 44px 40px 270px 230px 230px 300px 132px; grid-template-areas: "welcome welcome" "workspace workspace" "core core" "clock focus" "library sensors" "calendar calendar" "weather weather"; gap: 14px; padding: 12px 20px 24px; align-content: start; scrollbar-width: thin; scrollbar-color: #b7a06a #090909; }
+  #aurora-home-preview .ah-main > .ah-workspace-switch { justify-self: start; }
+  #aurora-home-preview .ah-main > .ah-library { height: 100%; }
+  #aurora-home-preview .ah-widget-rail > .ah-calendar { height: 300px; }
+  #aurora-home-preview .ah-calendar-days button,#aurora-home-preview .ah-calendar-days > span { height: 33px; }
+  #aurora-home-preview .ah-widget-rail > .ah-clock { height: 220px; }
+  #aurora-home-preview .an-lower-grid > .ah-focus { height: 220px; }
+  #aurora-home-preview .an-lower-grid > .ah-sensors { height: 225px; }
+  #aurora-home-preview .ah-bottom { height: 88px; padding: 5px 20px 60px; }
+  #aurora-home-preview .ah-statusbar > span { display: none; }
+}
+@media (max-width: 540px) {
+  #aurora-home-preview .ah-desktop { grid-template-columns: minmax(0,1fr); grid-template-rows: 48px 38px 260px 226px 226px 230px 226px 400px 140px; grid-template-areas: "welcome" "workspace" "core" "clock" "focus" "library" "sensors" "calendar" "weather"; padding-inline: 14px; }
+  #aurora-home-preview .ah-widget-rail > .ah-calendar { height: 400px; }
+  #aurora-home-preview .ah-library > .ah-folders { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #aurora-home-preview .ah-topbar { padding-inline: 14px; }
+  #aurora-home-preview.ah-dyson-on .ah-satellite { width: 51px; height: 51px; border-radius: 12px; font-size: 9px; }
+  #aurora-home-preview .ah-weather .ah-forecast { gap: 1px; }
+  #aurora-home-preview .ah-weather { padding-inline: 9px; }
+  #aurora-home-preview .ah-statusbar { flex-wrap: wrap; gap: 3px; }
+  #aurora-home-preview .an-recovery { margin-left: 0; }
+}
+@media (max-width: 430px) {
+  #aurora-home-preview .ah-desktop { grid-template-rows: 48px 38px 260px 226px 226px 230px 226px 400px 190px; }
+}

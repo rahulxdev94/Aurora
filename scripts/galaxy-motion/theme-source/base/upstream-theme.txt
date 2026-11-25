@@ -1,0 +1,148 @@
+id: "@aurora/glass"
+metadata:
+  displayName: !extend i18n/display_name.yml
+  description: !extend i18n/description.yml
+  tags:
+    - glass
+    - dock
+    - toolbar
+    - launcher
+    - animation
+  appTargetVersion: [2, 8, 0]
+  extras:
+    homepage: "https://github.com/burgess1202/aurora-glass-seelen-ui"
+    repository: "https://github.com/burgess1202/aurora-glass-seelen-ui"
+    issues: "https://github.com/burgess1202/aurora-glass-seelen-ui/issues"
+
+settings:
+  - group:
+      header:
+        en: Glass surface
+        zh-TW: 玻璃表面
+      items:
+        - syntax: <number>
+          name: --aurora-glass-blur
+          label:
+            en: Blur strength
+            zh-TW: 模糊強度
+          initialValue: 10
+          min: 0
+          max: 24
+          step: 1
+        - syntax: <number>
+          name: --aurora-panel-radius
+          label:
+            en: Panel corner radius
+            zh-TW: 面板圓角
+          initialValue: 22
+          min: 12
+          max: 32
+          step: 1
+        - syntax: <color>
+          name: --aurora-panel-start
+          label:
+            en: Panel dark tint
+            zh-TW: 面板深色色調
+          initialValue: "#0a0a0a80"
+        - syntax: <color>
+          name: --aurora-panel-end
+          label:
+            en: Panel cool tint
+            zh-TW: 面板冷色色調
+          initialValue: "#3c506466"
+  - group:
+      header:
+        en: Motion
+        zh-TW: 動態效果
+      items:
+        - syntax: <number>
+          name: --aurora-dock-wave-enabled
+          label:
+            en: Dock wave animation
+            zh-TW: Dock 波浪動畫
+          description:
+            en: "0 = off, 1 = on. When enabled, the media player becomes a compact album-cover tile with in-cover controls on hover. Disabling it restores the native or third-party player layout."
+            zh-TW: "0 = 關閉，1 = 開啟。開啟後媒體播放器會成為專輯封面方形圖示，懸停時在封面內顯示歌曲與控制鍵；關閉後恢復原生或第三方播放器排版。"
+          initialValue: 1
+          options:
+            - 0
+            - 1
+        - syntax: <number>
+          name: --aurora-hide-native-tooltips
+          label:
+            en: Hide native tooltips
+            zh-TW: 隱藏原生工具提示
+          description:
+            en: "0 = show Seelen tooltips, 1 = hide all native tooltips. Aurora's dock media player keeps its own fixed song-title plate."
+            zh-TW: "0 = 顯示 Seelen 工具提示，1 = 隱藏所有原生工具提示。Aurora Dock 媒體播放器會保留自己的固定歌曲標題欄。"
+          initialValue: 1
+          options:
+            - 0
+            - 1
+        - syntax: <number>
+          name: --aurora-wave-duration
+          label:
+            en: Dock wave transition
+            zh-TW: Dock 波浪過渡時間
+          initialValue: 100
+          min: 60
+          max: 300
+          step: 10
+        - syntax: <number>
+          name: --aurora-wave-scale
+          label:
+            en: Dock wave scale
+            zh-TW: Dock 波浪放大倍率
+          initialValue: 1.35
+          min: 1
+          max: 1.6
+          step: 0.05
+        - syntax: <number>
+          name: --aurora-border-cycle
+          label:
+            en: Silver border cycle
+            zh-TW: 銀色邊框環繞週期
+          initialValue: 10
+          min: 4
+          max: 30
+          step: 1
+  - group:
+      header:
+        en: Toolbar layout
+        zh-TW: 工具欄排版
+      items:
+        - syntax: <number>
+          name: --aurora-onyx-toolbar-layout
+          label:
+            en: Centered 75% toolbar
+            zh-TW: Onyx 風格 75% 置中工具欄
+          description:
+            en: "0 = off, 1 = on. Only changes the toolbar width and centers it; item size, spacing and hover behavior stay unchanged."
+            zh-TW: "0 = 關閉，1 = 開啟。只調整工具欄寬度並置中；模組大小、間距與滑鼠停留效果完全不變。"
+          initialValue: 0
+          options:
+            - 0
+            - 1
+
+styles:
+  "@seelen/fancy-toolbar": !include styles/fancy-toolbar.scss
+  "@seelen/weg": !include styles/weg.scss
+  "@seelen/apps-menu": !include styles/apps-menu.scss
+  "@seelen/system-tray": !include styles/tray-menu.scss
+  "@seelen/user-menu": !include styles/user-menu.scss
+  "@seelen/notifications": !include styles/notifications.scss
+  "@seelen/network-popup": !include styles/network-popup.scss
+  "@seelen/calendar-popup": !include styles/calendar-popup.scss
+  "@seelen/bluetooth-popup": !include styles/bluetooth-popup.scss
+  "@seelen/media-popup": !include styles/media-popup.scss
+  "@seelen/power-menu": !include styles/power-menu.scss
+  "@seelen/context-menu": !include styles/context-menu.scss
+  "@seelen/flyouts": !include styles/flyouts.scss
+  "@seelen/keyboard-selector": !include styles/keyboard-selector.scss
+  "@seelen/quick-settings": !include styles/quick-settings.scss
+  "@seelen/tooltip": !include styles/tooltip.scss
+  "@seelen/workspaces-viewer": !include styles/workspaces-viewer.scss
+  "@seelen/task-switcher": !include styles/task-switcher.scss
+  "@jacky/aurora-command-bar": !include styles/command-bar.scss
+
+sharedStyles: !include shared/index.scss

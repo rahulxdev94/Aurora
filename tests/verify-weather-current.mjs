@@ -1,6 +1,6 @@
 import {config} from '../src/config.mjs';
 import assert from 'node:assert/strict';
-import {normaliseWeatherPayload,currentWeatherState,CURRENT_WEATHER_MAX_AGE,initLiveData,WEATHER_URL,ENABLE_GPU_TEMPERATURE_HELPER} from '../src/live-data/live-data.mjs';
+import {normaliseWeatherPayload,currentWeatherState,CURRENT_WEATHER_MAX_AGE,initLiveData,WEATHER_URL} from '../src/live-data/live-data.mjs';
 
 const now=Date.parse('2026-11-03T12:35:00Z');
 const raw={timezone:'Australia/Sydney',utc_offset_seconds:39600,current:{time:1793709000,temperature_2m:18.2,weather_code:0},daily:{time:Array.from({length:7},(_,i)=>1793624400+i*86400),weather_code:[95,53,53,3,80,51,0],temperature_2m_max:Array(7).fill(25),temperature_2m_min:Array(7).fill(15),precipitation_probability_max:Array(7).fill(70)}};
@@ -24,7 +24,6 @@ const firstDst=Date.parse('2026-04-04T00:00:00+11:00')/1000;
 const dst=normaliseWeatherPayload({...raw,daily:{...raw.daily,time:Array.from({length:7},(_,i)=>firstDst+i*86400)}},now);
 assert.deepEqual(dst.daily.map(day=>day.date),['2026-04-04','2026-04-05','2026-04-06','2026-04-07','2026-04-08','2026-04-09','2026-04-10']);
 assert.equal(new URL(WEATHER_URL).searchParams.get('timeformat'),'unixtime');
-assert.equal(ENABLE_GPU_TEMPERATURE_HELPER,false);
 
 class Events{
   listeners=new Map();

@@ -1,0 +1,124 @@
+/* Resolution-independent detailing. Transparent layers retain a dark reading plane. */
+#aurora-home-preview { --aurora-glass-edge: #e1e4eb42; --aurora-gold: #e8ca83; --aurora-panel-shadow: inset 0 1px 0 #ffffff2b,inset 0 -1px 0 #0009,0 6px 0 -3px #0008,0 14px 28px #0006,0 0 24px #e8ca830b; --aurora-panel-shadow-raised: inset 0 1px 0 #ffffff3b,inset 0 -1px 0 #0009,0 6px 0 -3px #0008,0 17px 32px #0007,0 0 26px #e8ca8313; -webkit-font-smoothing: antialiased; }
+#aurora-home-preview .ah-gpu-light-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: .72; contain: strict; }
+#aurora-home-preview .ah-gpu-light-field[hidden] { display: none !important; }
+#aurora-home-preview .ah-gpu-status { display: inline-flex; align-items: center; gap: 5px; color: #c9c5b8; font-size: 9px; white-space: nowrap; margin-left: auto; }
+#aurora-home-preview .ah-gpu-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #e8ca83; box-shadow: 0 0 7px #e8ca8355; }
+/* Fixed highlights and contact shadows add depth without new blur layers or animation. */
+#aurora-home-preview.ap-enabled .ah-surface:not(.ap-console) { background: radial-gradient(ellipse at 0 0,#f5f5f716,transparent 58%),radial-gradient(ellipse at 100% 100%,#e8ca830b,transparent 62%),linear-gradient(142deg,#25272cc7,#0c0e12d1 64%,#17191fc9); border-color: #d7dbe242; border-top-color: #edf0f573; border-bottom-color: #969ca63b; backdrop-filter: blur(18px) saturate(.65); box-shadow: var(--aurora-panel-shadow); }
+#aurora-home-preview.ap-enabled .ah-surface:not(.ap-console):is(:hover,:focus-within) { border-color: #d4c59c70; border-top-color: #f1e9d393; box-shadow: var(--aurora-panel-shadow-raised); }
+#aurora-home-preview.ap-enabled .ap-console { background: radial-gradient(ellipse at 0 0,#e8ca8319,transparent 55%),linear-gradient(145deg,#28292ccd,#0e1014d9 66%,#1b1d22d1); border-color: #d7dbe245; border-top-color: #ece6d374; backdrop-filter: blur(22px) saturate(.65); box-shadow: var(--aurora-panel-shadow); }
+#aurora-home-preview.ap-enabled .ap-console:is(:hover,:focus-within) { border-color: #e8ca836b; box-shadow: var(--aurora-panel-shadow-raised); }
+/* Let the same atmosphere pass behind navigation without a separate strip.
+   Buttons keep their own reading surfaces, hover and keyboard focus states. */
+#aurora-home-preview .ah-topbar { background: transparent; backdrop-filter: none; border-bottom-color: transparent; box-shadow: none; text-shadow: 0 1px 8px #000a; }
+#aurora-home-preview .ah-folder-symbol { background-size: contain; image-rendering: auto; }
+#aurora-home-preview svg { shape-rendering: geometricPrecision; }
+#aurora-home-preview .ah-satellite,#aurora-home-preview.ah-dyson-on .ah-satellite { background: radial-gradient(ellipse at 0 0,#e6e8ed1b,transparent 70%),linear-gradient(145deg,#292c33c9,#11141bd6); border-color: #d8dce357; border-top-color: #edf0f583; backdrop-filter: blur(14px); box-shadow: inset 0 1px #ffffff25,0 5px 0 -3px #0009,0 10px 22px #0006,0 0 17px #e8ca830c; }
+#aurora-home-preview .ah-satellite:is(:hover,:focus-visible),#aurora-home-preview.ah-dyson-on .ah-satellite:is(:hover,:focus-visible) { background: radial-gradient(ellipse at 0 0,#e8ca8318,transparent 70%),linear-gradient(145deg,#2d2e32d6,#15171fe0); border-color: #e8ca8385; box-shadow: inset 0 1px #ffffff38,0 5px 0 -3px #0009,0 13px 25px #0007,0 0 20px #e8ca8315; }
+#aurora-home-preview .ah-satellite::after { content: ''; position: absolute; inset: 1px; pointer-events: none; border-radius: inherit; border-top: 1px solid #ffffff1a; }
+#aurora-home-preview .ap-speech { backdrop-filter: blur(20px) saturate(.65); background: radial-gradient(ellipse at 0 0,#e8ca8312,transparent 64%),linear-gradient(140deg,#2c2b29d4,#11141bdf); border-color: #d8c99e5c; box-shadow: inset 0 1px #ffffff25,0 5px 0 -3px #0008,0 13px 28px #0007,0 0 22px #e8ca830e; }
+#aurora-home-preview.ap-enabled :is(.ah-folder,.ah-sensor) { box-shadow: inset 0 1px #eef0f414,inset 0 -1px #0003,0 3px 7px #0002; }
+#aurora-home-preview.ap-enabled .ah-folder:hover { box-shadow: inset 0 1px #f6eddb27,0 4px 11px #0004,0 0 12px #e8ca8309; }
+#aurora-home-preview .ah-window { background: radial-gradient(ellipse at 100% 0,#e8ca8312,transparent 42%),linear-gradient(135deg,#222429f5,#0d0f13f7 68%); border-color: #e1e4eb4d; box-shadow: inset 0 1px #ffffff22,0 30px 100px #000a,0 0 0 1px #0009; backdrop-filter: blur(25px) saturate(.7); }
+#aurora-home-preview .ah-window-bar { background: linear-gradient(100deg,#33353b8c,#101215bd); border-color: #e2e4eb25; }
+#aurora-home-preview .ah-window-name { color: #e6e4df; }
+#aurora-home-preview .ah-window-content :is(.ah-panel-badge,.ah-secondary) { color: #e8ca83; border-color: #e8ca8338; background: #e8ca830a; }
+#aurora-home-preview .ah-window-content :is(input,textarea,select) { color-scheme: dark; }
+#aurora-home-preview .ah-toast { background: linear-gradient(140deg,#292a2cde,#12151de8); border-color: #d5c18d66; color: #eae8e1; backdrop-filter: blur(20px); box-shadow: inset 0 1px #ffffff25,0 10px 25px #0007,0 0 18px #e8ca8310; }
+@media (max-width: 1180px) { #aurora-home-preview .ah-gpu-status { font-size: 8px; margin-left: 8px; } }
+@media (max-width: 700px) { #aurora-home-preview .ah-gpu-status { display: none; } }
+@media (prefers-reduced-transparency: reduce) {
+  #aurora-home-preview.ap-enabled .ah-surface,#aurora-home-preview :is(.ap-console,.ah-window,.ap-speech,.ah-topbar,.ah-satellite,.ah-toast,.ap-state-chip) { background: #16181b !important; backdrop-filter: none !important; }
+}
+@media (min-width: 2800px) and (min-height: 1400px) {
+  #aurora-home-preview.ap-enabled { --orbit-column-width: calc((100vw - 170px) * .196347); --orbit-gap: 30px; }
+  #aurora-home-preview.ap-enabled .ah-topbar { min-height: 86px; padding-inline: 40px; gap: 34px; }
+  #aurora-home-preview .ah-brand { scale: 1.3; transform-origin: left center; margin-right: 34px; }
+  #aurora-home-preview .ah-navigation button { font-size: 18px; padding: 12px 20px; }
+  #aurora-home-preview .ah-search-trigger { min-height: 49px; padding: 10px 17px; font-size: 17px; }
+  #aurora-home-preview .ah-search-trigger svg { width: 22px; height: 22px; }
+  #aurora-home-preview .ah-search-trigger kbd { font-size: 13px; }
+  #aurora-home-preview.ap-enabled .ah-desktop { grid-template-columns: minmax(390px,.86fr) minmax(610px,1.42fr) minmax(460px,1.08fr) minmax(420px,1.02fr); grid-template-rows: 72px minmax(360px,1fr) minmax(350px,.95fr) 330px; gap: 30px; padding: 18px 40px 24px; }
+  #aurora-home-preview.ap-enabled h1 { font-size: clamp(38px,1.5vw,56px); }
+  #aurora-home-preview.ap-enabled .ah-welcome .ah-eyebrow { font-size: 14px; letter-spacing: 3.2px; margin-bottom: 7px; }
+  #aurora-home-preview .ah-welcome-actions { gap: 10px; }
+  #aurora-home-preview .ah-welcome-actions .ah-icon-button { width: 43px; height: 43px; }
+  #aurora-home-preview .ah-workspace-switch button { font-size: 17px; min-height: 46px; padding: 10px 18px; gap: 9px; }
+  #aurora-home-preview .ah-workspace-switch svg { width: 20px; height: 20px; }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-clock { height: min(100%,var(--orbit-column-width),740px); padding: 55px; border-width: 3px; }
+  #aurora-home-preview.ap-enabled .ah-time { font-size: clamp(72px,3vw,116px); letter-spacing: -4px; }
+  #aurora-home-preview.ap-enabled .ah-clock .ah-eyebrow { font-size: 19px; letter-spacing: 5px; }
+  #aurora-home-preview.ap-enabled .ah-clock .ah-date { font-size: 20px; margin-block: 12px 17px; }
+  #aurora-home-preview.ap-enabled .ah-clock .ah-period { font-size: 21px; }
+  #aurora-home-preview.ap-enabled .ah-clock .asc-status { max-width: 420px; gap: 10px; margin-top: 15px; }
+  #aurora-home-preview.ap-enabled .ah-clock .asc-chip { min-height: 42px; padding: 9px 13px; font-size: 15px; border-radius: 13px; }
+  #aurora-home-preview.ap-enabled .ah-clock .asc-icon { width: 20px; height: 20px; }
+  #aurora-home-preview.ap-enabled .ah-library { padding: 23px; border-radius: 18px 39px 39px; }
+  #aurora-home-preview.ap-enabled .ah-section-head { margin-bottom: 19px; }
+  #aurora-home-preview.ap-enabled .ah-section-head h2 { font-size: 22px; }
+  #aurora-home-preview.ap-enabled .ah-text-button { font-size: 16px; }
+  #aurora-home-preview.ap-enabled .ah-library > .ah-folders { grid-auto-rows: minmax(125px,auto); gap: 13px; }
+  #aurora-home-preview.ap-enabled .ah-library .ah-folder { min-height: 125px; padding: 17px 14px; gap: 12px; border-radius: 17px; }
+  #aurora-home-preview.ap-enabled .ah-library .ah-folder-symbol { width: 45px; height: 45px; }
+  #aurora-home-preview.ap-enabled .ah-library .ah-folder-label { font-size: 17px; line-height: 1.45; }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-calendar { padding: 29px; border-radius: 38px 17px 38px; }
+  #aurora-home-preview.ap-enabled .ah-weekdays { font-size: 17px; margin-bottom: 16px; }
+  #aurora-home-preview.ap-enabled .ah-calendar-days { gap: 10px; }
+  #aurora-home-preview.ap-enabled .ah-calendar-days button,#aurora-home-preview.ap-enabled .ah-calendar-days >span { height: clamp(58px,4.5vh,94px); font-size: 23px; }
+  #aurora-home-preview.ap-enabled .ah-calendar .ah-calendar-footer { padding-top: 20px; margin-top: 23px; font-size: 17px; }
+  #aurora-home-preview.ap-enabled .ah-calendar .ac-open { padding: 17px; margin-top: 23px; font-size: 19px; }
+  #aurora-home-preview.ap-enabled .ah-calendar .aco-widget-status { font-size: 15px; margin-top: 16px; }
+  #aurora-home-preview.ap-enabled .ah-calendar .ac-tasks-widget { padding-top: 25px; margin-top: 29px; }
+  #aurora-home-preview.ap-enabled .ah-calendar .ac-task-summary { font-size: 17px; margin-top: 17px; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-weather { padding: 28px 32px; border-radius: 38px 38px 17px 38px; }
+  #aurora-home-preview.ap-enabled .ah-weather .ah-section-head { margin-bottom: 25px; }
+  #aurora-home-preview.ap-enabled .ah-weather .ah-wm-art { width: 65px; height: 62px; }
+  #aurora-home-preview.ap-enabled .ah-weather-day strong { font-size: 25px; }
+  #aurora-home-preview.ap-enabled .ah-weather-day em { font-size: 18px; }
+  #aurora-home-preview.ap-enabled .ah-weather :is(.ah-small,.ah-sample) { font-size: 16px; }
+  #aurora-home-preview.ap-enabled .ah-live-weather-footer { height: 26px !important; margin-top: 15px !important; }
+  #aurora-home-preview.ap-enabled :is(.ah-live-weather-status,.ah-live-weather-source) { font-size: 15px !important; line-height: 24px !important; }
+  #aurora-home-preview.ap-enabled .ah-live-weather-refresh { font-size: 24px !important; line-height: 24px !important; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-focus { height: 330px; padding: 24px 30px; gap: 12px; }
+  #aurora-home-preview.ap-enabled .ah-focus .ah-section-head h2 { font-size: 18px; }
+  #aurora-home-preview.ap-enabled .ah-focus .ah-select { min-height: 36px; max-width: 108px; padding: 5px 8px; font-size: 16px; }
+  #aurora-home-preview.ap-enabled .ah-timer-ring { width: 125px; height: 125px; padding: 5px; }
+  #aurora-home-preview.ap-enabled .ah-timer-ring >div { width: 115px; height: 115px; }
+  #aurora-home-preview.ap-enabled .ah-timer { font-size: 37px; }
+  #aurora-home-preview.ap-enabled .ah-focus .ah-start { min-height: 45px; padding: 10px 20px; font-size: 17px; }
+  #aurora-home-preview.ap-enabled .ah-focus .ah-icon-button { width: 42px; height: 42px; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-sensors { padding: 24px; border-radius: 31px 31px 31px 15px; }
+  #aurora-home-preview.ap-enabled .ah-sensor { padding: 20px 11px; gap: 9px; border-radius: 20px; }
+  #aurora-home-preview.ap-enabled .ah-sensor >svg { width: 32px; height: 32px; }
+  #aurora-home-preview.ap-enabled .ah-sensor >span { font-size: 15px; }
+  #aurora-home-preview.ap-enabled .ah-sensor >strong { font-size: 18px; }
+  #aurora-home-preview.ap-enabled .ah-sensors :is(.ah-native-usage-label,.ah-native-usage-value) { font-size: 15px; }
+  #aurora-home-preview.ap-enabled.ah-dyson-on .ah-satellite { width: 108px; height: 108px; padding: 15px 9px; gap: 10px; font-size: 17px; border-radius: 24px; }
+  #aurora-home-preview.ap-enabled.ah-dyson-on .ah-satellite svg { width: 33px; height: 33px; }
+  #aurora-home-preview .ap-state-chip { min-height: 48px; padding: 10px 19px; gap: 13px; font-size: 18px; }
+  #aurora-home-preview .ap-state-dot { width: 9px; height: 9px; }
+  #aurora-home-preview .ap-presence::before { width: min(65%,580px); }
+  #aurora-home-preview .ap-speech { width: min(460px,calc(100% - 40px)); padding: 23px 25px; bottom: 90px; border-radius: 26px 26px 26px 9px; }
+  #aurora-home-preview .ap-speech-brand { font-size: 14px; margin-bottom: 11px; letter-spacing: 2.5px; }
+  #aurora-home-preview .ap-speech-message { font-size: 20px; line-height: 1.5; }
+  #aurora-home-preview .ap-speech-source { font-size: 14px; margin-top: 12px; }
+  #aurora-home-preview .ap-console { padding: 29px; gap: 24px; border-radius: 42px 42px 42px 14px; }
+  #aurora-home-preview .ap-console-head { padding-bottom: 23px; }
+  #aurora-home-preview .ap-console-head h2 { font-size: 28px; }
+  #aurora-home-preview .ap-connection { min-height: 37px; max-width: 210px; padding: 8px 12px; font-size: 14px; }
+  #aurora-home-preview .ap-capabilities { font-size: 16px; }
+  #aurora-home-preview .ap-open-chat { padding: 9px 14px; }
+  #aurora-home-preview .ap-feed { gap: 17px; min-height: 130px; padding-right: 7px; }
+  #aurora-home-preview .ap-entry { padding: 20px 22px; border-radius: 20px 20px 20px 7px; }
+  #aurora-home-preview .ap-entry-message { font-size: 21px; line-height: 1.5; }
+  #aurora-home-preview .ap-entry-source { margin-top: 12px; font-size: 14px; }
+  #aurora-home-preview .ap-compose { padding-top: 23px; gap: 15px; }
+  #aurora-home-preview .ap-compose-input { min-height: 135px; max-height: 210px; padding: 18px 20px; border-radius: 21px; font-size: 21px; line-height: 1.5; }
+  #aurora-home-preview .ap-compose-submit { min-height: 50px; padding: 12px 21px; font-size: 18px; border-radius: 14px; }
+  #aurora-home-preview .ap-compose-note { font-size: 16px; }
+  #aurora-home-preview.ap-enabled .ah-bottom { height: 100px; padding: 8px 40px 62px; }
+  #aurora-home-preview.ap-enabled .ah-statusbar { font-size: 15px; }
+  #aurora-home-preview.ap-enabled .ah-statusbar .ah-select { min-height: 35px; padding: 6px 10px; font-size: 14px; }
+  #aurora-home-preview .ah-gpu-status { font-size: 13px; }
+}

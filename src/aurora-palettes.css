@@ -1,0 +1,85 @@
+/* Palette controls use a stable reading plane. The gold desktop underneath
+   keeps its existing paints; other palettes replace surfaces, not geometry. */
+#aurora-home-preview .au-theme-selector { position: relative; flex: none; z-index: 120; margin-left: auto; font: 12px/1.4 "Segoe UI",sans-serif; color: var(--au-text); }
+#aurora-home-preview .au-theme-selector summary { display: flex; align-items: center; gap: 7px; min-height: 34px; padding: 6px 10px; list-style: none; cursor: pointer; border-radius: 10px; border: 1px solid var(--au-border); background: var(--au-surface); color: var(--au-text); white-space: nowrap; }
+#aurora-home-preview .au-theme-selector summary::-webkit-details-marker { display: none; }
+#aurora-home-preview .au-theme-caption { display: none; }
+#aurora-home-preview .au-theme-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--au-accent); box-shadow: 0 0 9px color-mix(in srgb,var(--au-accent) 30%,transparent); }
+#aurora-home-preview .au-theme-menu { position: absolute; right: 0; top: calc(100% + 8px); width: min(270px,calc(100vw - 28px)); padding: 14px; border: 1px solid var(--au-border); border-radius: 15px; background: var(--au-surface); color: var(--au-text); box-shadow: 0 12px 35px #0005; text-shadow: none; max-height: calc(100vh - 110px); overflow: auto; }
+#aurora-home-preview .au-theme-menu fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+#aurora-home-preview .au-theme-menu legend { padding: 0 0 8px; font-weight: 600; font-size: 13px; color: var(--au-text); }
+#aurora-home-preview .au-theme-option { display: flex; align-items: center; gap: 9px; padding: 9px 6px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; color: var(--au-text); }
+#aurora-home-preview .au-theme-option:hover,#aurora-home-preview .au-theme-option:has(input:checked) { background: var(--au-surface-raised); border-color: var(--au-border); }
+#aurora-home-preview .au-theme-option input { width: 15px; height: 15px; margin: 0; accent-color: var(--au-accent); }
+#aurora-home-preview .au-theme-option small { display: block; font-size: 10px; color: var(--au-muted); }
+#aurora-home-preview .au-theme-swatches { width: 36px; height: 27px; border-radius: 6px; border: 1px solid var(--au-border); flex: none; background: linear-gradient(130deg,var(--swatch-base) 0 40%,var(--swatch-accent) 40% 70%,var(--swatch-secondary) 70%); }
+#aurora-home-preview .au-theme-save { margin: 10px 2px 0; font-size: 10px; color: var(--au-muted); }
+#aurora-home-preview .au-theme-selector :is(summary,input):focus-visible { outline: 2px solid var(--au-accent); outline-offset: 3px; }
+@media (max-width: 1180px) { #aurora-home-preview .au-theme-current { display: none; } #aurora-home-preview .au-theme-caption { display: inline; } }
+@media (min-width: 2800px) { #aurora-home-preview .au-theme-selector { font-size: 17px; } #aurora-home-preview .au-theme-selector summary { min-height: 45px; padding: 9px 14px; } #aurora-home-preview .au-theme-menu { width: 310px; } #aurora-home-preview .au-theme-option { padding: 12px 8px; } #aurora-home-preview .au-theme-option small,#aurora-home-preview .au-theme-save { font-size: 13px; } }
+
+#aurora-home-preview[data-aurora-palette]:not([data-aurora-palette="gold"]) {
+  --ah-accent: var(--au-accent) !important; --ah-violet: var(--au-accent2) !important; --ah-sky: var(--au-info); --ah-gold: var(--au-accent); --ah-peach: var(--au-warning); --ah-rose: var(--au-danger);
+  --ah-text: var(--au-text); --ah-muted: var(--au-muted); --ah-panel: var(--au-surface); --ah-edge: var(--au-border);
+  --ap-gold: var(--au-accent); --ap-silver: var(--au-text); --ap-muted: var(--au-muted); --ap-edge: var(--au-border); --aurora-gold: var(--au-accent);
+  color: var(--au-text); background: var(--au-background); color-scheme: var(--au-mode);
+}
+/* Use an attribute scope so gold stays completely untouched, including its
+   hand-tuned transparent rims, saved accents and workspace atmosphere. */
+@scope (#aurora-home-preview[data-aurora-palette]:not([data-aurora-palette="gold"])) {
+  :scope#aurora-home-preview#aurora-home-preview .ah-atmosphere { background: radial-gradient(ellipse at 55% 27%,color-mix(in srgb,var(--au-accent) 13%,transparent),transparent 55%),radial-gradient(ellipse at 86% 78%,color-mix(in srgb,var(--au-accent2) 10%,transparent),transparent 48%),linear-gradient(135deg,var(--au-background),var(--au-surface)) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-grid { background-image: linear-gradient(color-mix(in srgb,var(--au-accent2) 8%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--au-accent2) 8%,transparent) 1px,transparent 1px) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-topbar { background: transparent !important; text-shadow: none !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-surface,.ah-satellite,.ap-speech,.ap-state-chip,.aas-bubble,.ah-dock,.ah-toast,.afq-menu) { color: var(--au-text) !important; background: var(--au-surface) !important; border-color: var(--au-border) !important; text-shadow: none !important; box-shadow: inset 0 1px color-mix(in srgb,var(--au-text) 10%,transparent),0 8px 24px #0002,0 0 22px -12px var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-surface::before { background: radial-gradient(ellipse at var(--aurora-sun-x) var(--aurora-sun-y),color-mix(in srgb,var(--au-accent) 5%,transparent),transparent 65%) !important; backdrop-filter: none !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-surface,.ah-satellite,.ap-speech):is(:hover,:focus-within) { border-color: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-window,.ac-window,.afx-shell,.afb-shell,.ap-console) { color: var(--au-text) !important; background: var(--au-surface) !important; border-color: var(--au-border) !important; text-shadow: none !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-window-bar,.ac-bar,.ac-note,.afx-sidebar,.afb-sidebar,.afx-tabs,.afx-toolbar,.afx-view-toggle,.afx-preview,.afx-details,.afx-inspector) { background: var(--au-surface-raised) !important; color: var(--au-text) !important; border-color: var(--au-border) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(h1,h2,h3,h4,strong,.ah-time,.ah-window-name,.ah-folder-label,.ah-date,.ah-period,.ah-wm-selection,.ah-draft-preview,.ah-navigation button,.ah-launchpad-button,.ah-window-content p,.ac-note,.afx-entry-name,.afx-location,.afx-button,.afx-tab,.afx-crumbs button,.afq-item,.afq-menu-button,.aas-message,.ap-speech-message) { color: var(--au-text) !important; text-shadow: none !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-small,.ah-muted,.ah-eyebrow,.ah-sample,.ah-control-note,.ah-weekdays,.ah-core-name,.ah-pointer-toggle,.ah-sensor>span,.ah-sensor-note,.ah-weather-day,.ah-statusbar,.ah-concept,.ac-weekdays,.ac-task-summary,.aco-widget-status,.aco-source,.afx-entry-meta,.afx-entry small,.afx-entry-size,.afx-entry-date,.afx-nav-heading,.afx-status,.afx-details-label,.afx-footer,.afb-status,.afb-details,.afb-entry-text small,.ap-speech-source,.ap-speech-brand,.ap-state-label,.afq-status,.afq-empty,.afq-group-title,.afq-item-metric,.ah-gpu-status,.ah-wm-demo-label,.ah-wm-demo-note,.ah-wm-range) { color: var(--au-muted) !important; text-shadow: none !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(input,textarea,select,.ah-field,.ah-select,.ah-command,.ah-search-trigger,.ah-appearance-item,.ac-task-panel,.afb-search,.afx-search,.afx-address) { color: var(--au-text) !important; background: var(--au-surface-raised) !important; border-color: var(--au-border) !important; color-scheme: var(--au-mode) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(input,textarea)::placeholder { color: var(--au-muted) !important; opacity: 1 !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(kbd,.ah-sample,.ah-panel-badge,.ah-secondary,.ah-suggestion,.ah-app-tile,.ah-folder,.ah-sensor,.asc-chip,.ac-task-row,.ac-open,.afx-entry,.afx-button,.afb-entry,.afx-filter,.afx-sort,.afx-tab-item,.ah-icon-button,.ah-dock-button,.ah-dock-restore,.aas-toggle,.afq-item,.ah-workspace-switch button) { color: var(--au-text) !important; background: var(--au-surface-raised) !important; border-color: var(--au-border) !important; text-shadow: none !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-secondary,.ah-app-tile,.ah-folder,.ah-icon-button,.ah-satellite,.ah-weather-day,.ah-dock-button,.ah-dock-restore,.ac-open,.afx-entry,.afx-button,.afx-location,.afb-entry,.afq-item,.ah-workspace-switch button):hover { background: var(--au-surface-raised) !important; border-color: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-text-button,.ah-satellite svg,.ah-section-head svg,.ah-sensor svg,.ah-panel-badge svg,.afx-entry[data-kind="folder"] svg,.afx-location svg,.afb-entry[data-kind="folder"] svg,.afx-crumbs button) { color: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-calendar-days button,:scope#aurora-home-preview#aurora-home-preview .ac-grid button { color: var(--au-text) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-calendar-days button:hover,:scope#aurora-home-preview#aurora-home-preview .ac-grid button:hover { background: var(--au-surface-raised) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-calendar-days button.ah-today { background: var(--au-surface-raised) !important; color: var(--au-accent) !important; box-shadow: inset 0 0 0 1px var(--au-accent); }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-primary,.ah-calendar-days button.ah-selected,.ac-grid button[aria-pressed="true"],.ah-notification-count) { background: var(--au-accent) !important; color: var(--au-accent-text) !important; text-shadow: none !important; border-color: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-primary :is(svg,strong,span) { color: var(--au-accent-text) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-workspace-switch button[aria-pressed="true"],.afx-entry[aria-selected="true"],.afx-button[aria-pressed="true"],.afx-location[aria-current="true"],.afx-tab-item:has([aria-selected="true"])) { background: var(--au-surface-raised) !important; color: var(--au-accent) !important; border-color: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(button,input,textarea,select,a,summary):focus-visible { outline: 2px solid var(--au-accent) !important; outline-offset: 3px !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-folder-symbol { background: linear-gradient(145deg,var(--au-text),var(--au-accent2)) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-folder-symbol::before { background: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-timer-ring { background: conic-gradient(var(--au-accent) var(--progress),var(--au-surface-raised) 0) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-timer-ring>div { background: var(--au-surface) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-calendar-footer,.ac-tasks-widget,.afx-footer,.afx-toolbar,.afx-controls,.ah-window-bar) { border-color: var(--au-border) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-art { --ah-wm-cloud: var(--au-muted) !important; --ah-wm-cloud-back: var(--au-border) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-stage { background: var(--au-surface-raised) !important; border-color: var(--au-border) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-sun { background: radial-gradient(circle at 30% 25%,#FFF5C2,#E9B94A 62%,#C58D28) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-rays { background: repeating-conic-gradient(#C58D28 0deg 6deg,transparent 6deg 45deg) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-drop { background: linear-gradient(transparent,var(--au-info)) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-bolt { color: var(--au-warning) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-flake { background: var(--au-text) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-wm-wind { border-color: var(--au-muted) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.aas-bubble,.aas-toggle)[data-kind="error"]::before,:scope#aurora-home-preview#aurora-home-preview .aas-toggle[data-kind="error"] .aas-dot { background: var(--au-danger) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .aas-bubble[data-kind="success"]::before,:scope#aurora-home-preview#aurora-home-preview .aas-toggle[data-kind="success"] .aas-dot { background: var(--au-success) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-live-weather-source { color: var(--au-info) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-live-weather-status,.ah-native-usage-label,.ah-native-usage-value,.ah-live-gpu-status) { color: var(--au-muted) !important; }
+  :scope#aurora-home-preview#aurora-home-preview [data-live-state="error"],:scope#aurora-home-preview#aurora-home-preview [data-state="error"] { color: var(--au-danger) !important; }
+  :scope#aurora-home-preview#aurora-home-preview [data-live-state="stale"],:scope#aurora-home-preview#aurora-home-preview [data-state="stale"] { color: var(--au-warning) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ap-speech::before,:scope#aurora-home-preview#aurora-home-preview .aas-bubble::after { background: var(--au-surface) !important; border-color: var(--au-border) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .afx-shell { --afx-text: var(--au-text); --afx-muted: var(--au-muted); --afx-gold: var(--au-accent); --afx-edge: var(--au-border); --afx-field: var(--au-surface-raised); }
+  :scope#aurora-home-preview#aurora-home-preview .afx-entry[aria-selected="true"]::after { background: var(--au-accent) !important; color: var(--au-accent-text) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.asc-chip svg,.asc-icon,.ah-live-weather-refresh) { color: var(--au-accent) !important; border-color: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-brand-mark::before { border-color: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-gpu-status::before { background: var(--au-accent) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.an-recovery button,.afq-icon-button,.ah-live-weather-empty,.ah-weather-empty,.ah-live-weather-note,.ah-nav-button,.ah-statusbar button) { color: var(--au-text) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .afq-icon-button { background: var(--au-surface-raised) !important; border-color: var(--au-border) !important; }
+  :scope#aurora-home-preview#aurora-home-preview :is(.ah-live-weather-source,.ah-live-weather-refresh,.asc-chip svg) { color: var(--au-info) !important; }
+  :scope#aurora-home-preview#aurora-home-preview .ah-calendar { scrollbar-color: var(--au-border) var(--au-surface); }
+  :scope#aurora-home-preview#aurora-home-preview .ah-forecast>span { color: var(--au-muted) !important; }
+  :scope#aurora-home-preview#aurora-home-preview ::-webkit-scrollbar-thumb { background-color: var(--au-border) !important; }
+  :scope#aurora-home-preview#aurora-home-preview ::-webkit-scrollbar-track { background-color: var(--au-surface) !important; }
+}
+@media (prefers-reduced-transparency: reduce) { #aurora-home-preview#aurora-home-preview#aurora-home-preview[data-aurora-palette]:not([data-aurora-palette="gold"]) :is(.ah-surface,.ah-satellite,.ah-topbar,.ap-speech,.ah-window) { background: var(--au-surface) !important; } }

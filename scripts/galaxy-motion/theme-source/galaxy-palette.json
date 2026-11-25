@@ -1,0 +1,15 @@
+{
+  "background": "#0d0e19",
+  "surface": "#1b1c2a",
+  "surfaceRaised": "#2e2e40",
+  "text": "#e9e5ef",
+  "muted": "#a9a7b8",
+  "border": "#44485d",
+  "accent": "#ddb094",
+  "accent2": "#777994",
+  "accentText": "#0d0e19",
+  "success": "#b8c9ad",
+  "warning": "#e5bb85",
+  "danger": "#e7a4ad",
+  "info": "#a3b9d8"
+}

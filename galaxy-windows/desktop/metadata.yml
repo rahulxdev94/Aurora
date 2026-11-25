@@ -1,0 +1,15 @@
+id: "@galaxy-atlas/desktop"
+metadata:
+  displayName: Galaxy Atlas
+  description: A galaxy desktop with interactive worlds, Windows Libraries, search and calendar.
+  appTargetVersion: [2, 8, 10]
+  tags: [desktop, animated, productivity]
+icon: PiAtomDuotone
+preset: Desktop
+instances: Single
+lazy: false
+forceHardwareAcceleration: true
+html: !include index.html
+css: !include index.css
+js: !include index.js
+settings: []

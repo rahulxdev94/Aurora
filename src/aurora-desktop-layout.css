@@ -1,0 +1,203 @@
+/* Live desktop: Library takes the former assistant column. Every grid area has content. */
+/* Registered values interpolate the measured atom light without a CSS animation loop. */
+@property --aurora-sun-x { syntax: "<length-percentage>"; inherits: true; initial-value: 0px; }
+@property --aurora-sun-y { syntax: "<length-percentage>"; inherits: true; initial-value: 0px; }
+@property --aurora-sun-strength { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --aurora-shadow-x { syntax: "<length>"; inherits: true; initial-value: 10px; }
+@property --aurora-shadow-y { syntax: "<length>"; inherits: true; initial-value: 16px; }
+@property --aurora-rim-top { syntax: "<number>"; inherits: true; initial-value: .62; }
+@property --aurora-rim-right { syntax: "<number>"; inherits: true; initial-value: .08; }
+@property --aurora-rim-bottom { syntax: "<number>"; inherits: true; initial-value: .03; }
+@property --aurora-rim-left { syntax: "<number>"; inherits: true; initial-value: .4; }
+#aurora-home-preview.adl-clean :is(.ah-focus,.ap-console,[data-command="start-focus"],[data-app="Focus"]) { display: none !important; }
+#aurora-home-preview.adl-clean .ah-desktop {
+  grid-template-columns: minmax(200px,.86fr) minmax(280px,1.42fr) minmax(250px,1.08fr) minmax(238px,1.02fr);
+  grid-template-rows: 44px minmax(180px,1fr) minmax(172px,.95fr) 170px;
+  grid-template-areas: "welcome welcome workspace workspace" "clock core library calendar" "sensors core library calendar" "weather weather weather weather";
+  gap: 14px; padding: 10px 22px 12px;
+}
+#aurora-home-preview.adl-clean .ah-main > .ah-library { grid-area: library; min-height: 0; height: auto; display: flex; flex-direction: column; padding: 17px; border-radius: 25px 10px 25px 25px; }
+#aurora-home-preview.adl-clean .ah-library > .ah-folders { flex: 1; min-height: 0; grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: minmax(64px,auto); overflow-x: hidden; overflow-y: auto; padding-right: 3px; gap: 8px; align-content: start; }
+#aurora-home-preview.adl-clean .ah-library .ah-folder { min-height: 64px; padding: 10px 8px; gap: 8px; }
+#aurora-home-preview.adl-clean .ah-library .ah-folder-label { font-size: 11px; }
+#aurora-home-preview.adl-clean .an-lower-grid > .ah-sensors { grid-area: sensors; width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; border-radius: 12px 25px 25px 25px; padding: 15px; }
+#aurora-home-preview.adl-clean .an-lower-grid > .ah-weather { grid-area: weather; min-height: 0; border-radius: 25px 25px 10px 25px; padding: 13px 22px; }
+#aurora-home-preview.adl-clean .ah-weather .ah-forecast { width: 100%; justify-content: space-between; gap: clamp(6px,2vw,35px); }
+#aurora-home-preview.adl-clean .ah-widget-rail > .ah-calendar { grid-area: calendar; min-height: 0; height: auto; }
+#aurora-home-preview.adl-clean .ah-widget-rail > .ah-clock { grid-area: clock; }
+
+/* The reading plane fades inside a raised rim. Content and focus stay solid. */
+#aurora-home-preview.adl-clean.ap-enabled .ah-surface:is(.ah-library,.ah-calendar,.ah-weather,.ah-sensors,.ah-clock,.ah-frequent),
+#aurora-home-preview.adl-clean.ap-enabled .ah-surface:is(.ah-library,.ah-calendar,.ah-weather,.ah-sensors,.ah-clock,.ah-frequent):is(:hover,:focus-within) {
+  --aurora-sun-pool: radial-gradient(ellipse max(520px,46vw) max(420px,43vh) at var(--aurora-sun-x) var(--aurora-sun-y),rgb(255 225 157 / calc(var(--aurora-sun-strength)*.23)),rgb(255 203 112 / calc(var(--aurora-sun-strength)*.15)) 30%,rgb(255 179 71 / calc(var(--aurora-sun-strength)*.055)) 56%,transparent 80%);
+  isolation: isolate;
+  background: transparent;
+  border-color: color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-top)*100%),#1c2230a3) calc(var(--aurora-sun-strength)*100%),#eee7d682) color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-right)*100%),#141b28ad) calc(var(--aurora-sun-strength)*100%),#202531ba) color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-bottom)*100%),#03060cc4) calc(var(--aurora-sun-strength)*100%),#03060cc4) color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-left)*100%),#28313e99) calc(var(--aurora-sun-strength)*100%),#d7dbe263) !important;
+  backdrop-filter: none;
+  box-shadow: inset calc(var(--aurora-shadow-x)*.08) calc(var(--aurora-shadow-y)*.07) 1px rgb(255 239 199 / calc(.12 + var(--aurora-sun-strength)*.22)),inset calc(var(--aurora-shadow-x)*-.08) calc(var(--aurora-shadow-y)*-.06) 1px #0007,calc(var(--aurora-shadow-x)*.1) calc(var(--aurora-shadow-y)*.125) 2px #0006,calc(var(--aurora-shadow-x)*.5) calc(var(--aurora-shadow-y)*.44) 0 -4px #04070cca,var(--aurora-shadow-x) var(--aurora-shadow-y) 24px -12px rgb(0 0 0 / calc(.34 + var(--aurora-sun-strength)*.25)),calc(var(--aurora-shadow-x)*2) calc(var(--aurora-shadow-y)*1.625) 42px -26px #0008,calc(var(--aurora-shadow-x)*-.18) calc(var(--aurora-shadow-y)*-.15) 24px -10px rgb(255 214 139 / calc(var(--aurora-sun-strength)*.18)),0 0 20px -9px color-mix(in srgb,var(--ah-accent,#d6b466) 20%,transparent);
+  text-shadow: 0 1px 3px #000a;
+  transition: transform .35s ease-out,--aurora-sun-x 120ms linear,--aurora-sun-y 120ms linear,--aurora-sun-strength 120ms linear,--aurora-shadow-x 120ms linear,--aurora-shadow-y 120ms linear,--aurora-rim-top 120ms linear,--aurora-rim-right 120ms linear,--aurora-rim-bottom 120ms linear,--aurora-rim-left 120ms linear;
+}
+#aurora-home-preview.adl-clean.ap-enabled .ah-surface:is(.ah-library,.ah-calendar,.ah-weather,.ah-sensors,.ah-clock,.ah-frequent)::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
+  background: var(--aurora-sun-pool),radial-gradient(ellipse at 8% 4%,#e2e6ee0a,transparent 62%),radial-gradient(ellipse at 92% 86%,color-mix(in srgb,var(--ah-accent,#d6b466) 5%,transparent),transparent 65%),linear-gradient(140deg,#1117224d,#090e1659 70%,#181d2745);
+  backdrop-filter: blur(6px) saturate(.88);
+  mask-image: linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent),linear-gradient(180deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);
+  mask-composite: intersect;
+}
+#aurora-home-preview.adl-clean.ap-enabled .ah-library::before {
+  background: var(--aurora-sun-pool),radial-gradient(ellipse at 10% 8%,#e0e6ee08,transparent 64%),linear-gradient(140deg,#1117223d,#090e164d 70%,#181d2738);
+}
+#aurora-home-preview.adl-clean.ap-enabled .ah-clock::before {
+  background: var(--aurora-sun-pool),radial-gradient(ellipse at 38% 30%,#c6ccd514,transparent 60%),radial-gradient(ellipse at center,#0a101954 34%,#1119233d 70%,transparent);
+  mask-image: radial-gradient(ellipse closest-side,#000 65%,transparent 100%);
+}
+#aurora-home-preview.adl-clean.ap-enabled .ah-clock::after { content: none; }
+#aurora-home-preview.adl-clean.ap-enabled :is(.ah-folder,.ah-sensor) {
+  background: radial-gradient(ellipse at 50% 40%,#0b121b24,transparent 92%);
+  border-color: #e5dfcf59 #1c222b80 #03070c99 #d1d7df3d;
+  box-shadow: inset 0 1px #fff2,inset -1px -1px #0004,1px 2px 2px #0004,4px 6px 11px -5px #0007,0 0 14px -9px color-mix(in srgb,var(--ah-accent,#d6b466) 18%,transparent);
+}
+#aurora-home-preview.adl-clean.ap-enabled :is(.ah-folder,.ah-sensor):is(:hover,:focus-visible) {
+  background: radial-gradient(ellipse at 50% 45%,color-mix(in srgb,var(--ah-accent,#d6b466) 12%,transparent),transparent 90%);
+  border-color: #f2e4be8a #554a3366 #090b10ba #ddca9659;
+  box-shadow: inset 0 1px #ffffff38,inset -1px -1px #0005,1px 2px 2px #0005,5px 8px 14px -6px #0008,0 0 20px -9px color-mix(in srgb,var(--ah-accent,#d6b466) 26%,transparent);
+}
+#aurora-home-preview.adl-clean.ap-enabled :is(.ah-satellite,.ap-speech,.ap-state-chip),
+#aurora-home-preview.adl-clean.ap-enabled :is(.ah-satellite,.ap-speech,.ap-state-chip):is(:hover,:focus-within,:focus-visible) {
+  background: radial-gradient(ellipse at 35% 28%,#dce1e90b,transparent 68%),radial-gradient(ellipse at center,#11192354 22%,#0a101a33 76%,transparent);
+  border-color: #eee4cb80 #242934a3 #02060dba #d6dbe35c;
+  backdrop-filter: blur(6px) saturate(.88);
+  box-shadow: inset 0 1px #ffffff38,inset 1px 0 #ffffff1a,inset -1px -1px #0006,1px 2px 2px #0006,4px 6px 0 -3px #03060ba6,8px 12px 22px -10px #0009,0 0 22px -10px color-mix(in srgb,var(--ah-accent,#d6b466) 22%,transparent);
+  text-shadow: 0 1px 3px #000b;
+}
+/* The engine supplies local geometry only to these atom companions, not their children. */
+#aurora-home-preview.adl-clean.ap-enabled :is(.ah-satellite,.ap-speech),
+#aurora-home-preview.adl-clean.ap-enabled :is(.ah-satellite,.ap-speech):is(:hover,:focus-within,:focus-visible) {
+  border-color: color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-top)*100%),#1c2230a3) calc(var(--aurora-sun-strength)*100%),#eee4cb80) color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-right)*100%),#141b28ad) calc(var(--aurora-sun-strength)*100%),#242934a3) color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-bottom)*100%),#03060cc4) calc(var(--aurora-sun-strength)*100%),#02060dba) color-mix(in srgb,color-mix(in srgb,#fff0c9 calc(var(--aurora-rim-left)*100%),#28313e99) calc(var(--aurora-sun-strength)*100%),#d6dbe35c);
+  box-shadow: inset calc(var(--aurora-shadow-x)*.075) calc(var(--aurora-shadow-y)*.0625) 1px rgb(255 239 199 / calc(.12 + var(--aurora-sun-strength)*.2)),inset calc(var(--aurora-shadow-x)*-.075) calc(var(--aurora-shadow-y)*-.0625) 1px #0006,calc(var(--aurora-shadow-x)*.1) calc(var(--aurora-shadow-y)*.125) 2px #0006,calc(var(--aurora-shadow-x)*.4) calc(var(--aurora-shadow-y)*.375) 0 -3px #03060ba6,calc(var(--aurora-shadow-x)*.8) calc(var(--aurora-shadow-y)*.75) 22px -10px #0009,0 0 22px -10px rgb(255 214 139 / calc(.08 + var(--aurora-sun-strength)*.16));
+  transition: --aurora-sun-strength 120ms linear,--aurora-shadow-x 120ms linear,--aurora-shadow-y 120ms linear,--aurora-rim-top 120ms linear,--aurora-rim-right 120ms linear,--aurora-rim-bottom 120ms linear,--aurora-rim-left 120ms linear;
+}
+#aurora-home-preview.adl-clean.ap-enabled .ah-satellite::after { content: none; }
+#aurora-home-preview.adl-clean.ap-enabled .ap-speech::before { background: #10172145; border-color: #f0e4c675; box-shadow: -2px -2px 3px -2px #ffffff26; }
+#aurora-home-preview.adl-clean.ap-enabled .ah-clock .asc-chip { background: #08101b38; border-color: #dfddce59 #20263385 #03060ca6 #cbd2dc3d; box-shadow: inset 0 1px #ffffff24,inset -1px -1px #0004,1px 2px 2px #0005,3px 5px 9px -5px #0008; }
+#aurora-home-preview.adl-clean.ap-enabled:is([data-motion="off"],[data-motion="reduced"],[data-paused="true"]) :is(.ah-surface,.ah-satellite,.ap-speech) { transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  #aurora-home-preview.adl-clean.ap-enabled :is(.ah-surface,.ah-satellite,.ap-speech) { transition: none !important; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  #aurora-home-preview.adl-clean.ap-enabled .ah-surface:is(.ah-library,.ah-calendar,.ah-weather,.ah-sensors,.ah-clock,.ah-frequent),
+  #aurora-home-preview.adl-clean.ap-enabled :is(.ah-satellite,.ap-speech,.ap-state-chip) { background: #161a21 !important; backdrop-filter: none !important; text-shadow: none; }
+  #aurora-home-preview.adl-clean.ap-enabled .ah-surface:is(.ah-library,.ah-calendar,.ah-weather,.ah-sensors,.ah-clock,.ah-frequent)::before { display: none; }
+  #aurora-home-preview.adl-clean.ap-enabled :is(.ah-folder,.ah-sensor),
+  #aurora-home-preview.adl-clean.ap-enabled .ah-clock .asc-chip { background: #202630 !important; }
+  #aurora-home-preview.adl-clean.ap-enabled .ap-speech::before { background: #161a21; }
+}
+
+@media (max-height:790px) and (min-width:1000px) {
+  #aurora-home-preview.adl-clean .ah-desktop { grid-template-rows: 36px minmax(176px,1fr) minmax(168px,.95fr) 138px; gap: 10px; padding-block: 7px 10px; }
+  #aurora-home-preview.adl-clean .ah-library { padding: 13px; }
+  #aurora-home-preview.adl-clean .ah-library > .ah-folders { grid-auto-rows: minmax(58px,auto); gap: 6px; }
+  #aurora-home-preview.adl-clean .ah-library .ah-folder { min-height: 58px; padding: 7px; }
+  #aurora-home-preview.adl-clean .an-lower-grid > .ah-sensors { padding: 11px; }
+  #aurora-home-preview.adl-clean .an-lower-grid > .ah-weather { padding: 10px 18px; }
+}
+@media (min-width:1000px) and (max-width:1180px) {
+  #aurora-home-preview.adl-clean .ah-desktop { grid-template-columns: 180px minmax(260px,1.42fr) minmax(240px,1.08fr) minmax(226px,1.02fr); padding-inline: 16px; gap: 9px; }
+  #aurora-home-preview.adl-clean .ah-main > .ah-library { padding: 11px; }
+  #aurora-home-preview.adl-clean .ah-library .ah-folder-label { font-size: 10px; }
+}
+@media (min-width:2800px) and (min-height:1400px) {
+  #aurora-home-preview.adl-clean .ah-desktop { grid-template-columns: minmax(390px,.86fr) minmax(610px,1.42fr) minmax(460px,1.08fr) minmax(420px,1.02fr); grid-template-rows: 72px minmax(360px,1fr) minmax(350px,.95fr) 300px; gap: 30px; padding: 18px 40px 24px; }
+  #aurora-home-preview.adl-clean .ah-main > .ah-library { padding: 29px; border-radius: 39px 17px 39px 39px; }
+  #aurora-home-preview.adl-clean .ah-library > .ah-folders { grid-auto-rows: minmax(125px,auto); gap: 15px; }
+  #aurora-home-preview.adl-clean .ah-library .ah-folder { min-height: 125px; padding: 20px 16px; gap: 13px; }
+  #aurora-home-preview.adl-clean .ah-library .ah-folder-label { font-size: 18px; }
+  #aurora-home-preview.adl-clean .an-lower-grid > .ah-sensors { padding: 28px; border-radius: 17px 39px 39px 39px; }
+  #aurora-home-preview.adl-clean .an-lower-grid > .ah-weather { padding: 24px 35px; border-radius: 39px 39px 17px 39px; }
+}
+@media (max-width:999px), (max-height:650px) {
+  #aurora-home-preview.adl-clean .ah-desktop { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: 44px 40px 330px 220px 200px 380px 166px; grid-template-areas: "welcome welcome" "workspace workspace" "core core" "clock library" "sensors library" "calendar calendar" "weather weather"; gap: 14px; padding: 12px 20px 24px; overflow-y: auto; overflow-x: hidden; align-content: start; }
+  #aurora-home-preview.adl-clean .ah-widget-rail > .ah-calendar { height: 380px; }
+  #aurora-home-preview.adl-clean .ah-widget-rail > .ah-clock { height: 220px; }
+  #aurora-home-preview.adl-clean .ah-main > .ah-library { padding: 14px; }
+}
+@media (max-width:540px) {
+  #aurora-home-preview.adl-clean .ah-desktop { grid-template-columns: minmax(0,1fr); grid-template-rows: 48px 38px 320px 226px 320px 200px 400px 188px; grid-template-areas: "welcome" "workspace" "core" "clock" "library" "sensors" "calendar" "weather"; padding-inline: 14px; }
+  #aurora-home-preview.adl-clean .ah-widget-rail > .ah-calendar { height: 400px; }
+  #aurora-home-preview.adl-clean .ah-library .ah-folder-label { font-size: 11px; }
+}
+
+/* Weather keeps a broad forecast; local usage occupies the neighbouring corner. */
+#aurora-home-preview.adl-clean.afq-enabled .ah-weather { grid-column: 1 / 4; grid-row: 4; }
+#aurora-home-preview.adl-clean.afq-enabled .ah-frequent { grid-column: 4; grid-row: 4; display: flex; flex-direction: column; gap: 6px; min-width: 0; min-height: 0; height: 100%; padding: 12px; border-radius: 25px 25px 10px 25px; overflow: visible; }
+#aurora-home-preview .ah-frequent [hidden] { display: none !important; }
+#aurora-home-preview .ah-frequent .afq-head { flex: none; min-width: 0; margin: 0; gap: 6px; }
+#aurora-home-preview .afq-head h2 { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#aurora-home-preview .afq-tools { display: flex; align-items: center; gap: 3px; margin-left: auto; flex: none; }
+#aurora-home-preview .afq-icon-button { display: grid; place-items: center; width: 23px; height: 23px; padding: 0; border: 1px solid #d8e0ec25; border-top-color: #eee8d448; border-bottom-color: #03070c85; border-radius: 7px; color: #ded6c2; background: #0a111b2b; box-shadow: inset 0 1px #ffffff08,1px 2px 4px #0003; font: 17px/1 "Segoe UI",sans-serif; cursor: pointer; }
+#aurora-home-preview .afq-icon-button:hover { border-color: color-mix(in srgb,var(--ah-accent,#d6b466) 55%,transparent); background: #d6b46618; }
+#aurora-home-preview .afq-icon-button:disabled { color: #9ba4b2; cursor: default; }
+#aurora-home-preview .ah-frequent button:focus-visible { outline: 2px solid var(--ah-accent,#d6b466); outline-offset: 2px; }
+#aurora-home-preview .afq-groups { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; flex: 1; min-height: 0; min-width: 0; }
+#aurora-home-preview .afq-group { display: flex; flex-direction: column; gap: 4px; min-width: 0; min-height: 0; }
+#aurora-home-preview .afq-group-title { margin: 0; color: #c2bdad; font-size: 9px; font-weight: 500; line-height: 1.3; letter-spacing: .6px; text-transform: uppercase; }
+#aurora-home-preview .afq-list { list-style: none; display: flex; flex-direction: column; gap: 3px; min-height: 0; margin: 0; padding: 1px 2px 3px; overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #c1a86c40 transparent; }
+#aurora-home-preview .afq-entry { min-width: 0; flex: none; margin: 0; padding: 0; }
+#aurora-home-preview .afq-item { display: grid; grid-template-columns: 18px minmax(0,1fr) auto; align-items: center; gap: 4px; width: 100%; min-width: 0; min-height: 24px; padding: 3px 4px; border: 1px solid #d9e2f016; border-top-color: #eee6d52e; border-bottom-color: #02070b70; border-radius: 7px; color: #eeece5; background: #08121a1a; box-shadow: inset 0 1px #ffffff06,1px 2px 5px #0002; font: 10px/1.25 "Segoe UI Variable",Inter,"Segoe UI",sans-serif; text-align: left; cursor: pointer; }
+#aurora-home-preview .afq-item:hover:not(:disabled) { border-color: color-mix(in srgb,var(--ah-accent,#d6b466) 42%,transparent); background: #d6b46617; }
+#aurora-home-preview .afq-item:disabled { opacity: 1; color: #b5bdc9; cursor: default; }
+#aurora-home-preview .afq-item-icon { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 6px; color: #e6d3a6; background: #d6b46613; box-shadow: inset 0 1px #f0ddae1a; font-size: 9px; font-weight: 600; }
+#aurora-home-preview .afq-item-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#aurora-home-preview .afq-item-metric { max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #c2beb2; font-size: 8px; font-variant-numeric: tabular-nums; }
+#aurora-home-preview .afq-empty { margin: 0; color: #b7bec8; font-size: 10px; line-height: 1.4; overflow-wrap: anywhere; }
+#aurora-home-preview .afq-status { flex: none; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 12px; margin: 0; color: #b4b9c1; font-size: 9px; line-height: 1.35; overflow-wrap: anywhere; }
+#aurora-home-preview .afq-menu { position: absolute; z-index: 10; top: 39px; right: 10px; display: flex; flex-direction: column; gap: 4px; width: min(235px,calc(100% - 20px)); padding: 8px; border: 1px solid #ddc99563; border-top-color: #f2e8cc8c; border-bottom-color: #03070cc9; border-radius: 11px 5px 11px 11px; background: #111923f5; box-shadow: inset 0 1px #ffffff1a,4px 8px 20px #0008; }
+#aurora-home-preview .afq-menu-button { min-height: 28px; padding: 6px 8px; border: 1px solid transparent; border-radius: 6px; color: #e8e4d9; background: transparent; font: 11px/1.35 "Segoe UI Variable",Inter,"Segoe UI",sans-serif; text-align: left; cursor: pointer; }
+#aurora-home-preview .afq-menu-button:hover:not(:disabled) { background: #e8ca8318; border-color: #e8ca8340; }
+#aurora-home-preview .afq-menu-button:disabled { color: #8f99a8; cursor: default; }
+#aurora-home-preview .afq-confirm p { margin: 3px 4px 8px; color: #d5d7dc; font-size: 11px; line-height: 1.4; }
+#aurora-home-preview .afq-confirm-actions { display: flex; justify-content: flex-end; gap: 4px; }
+#aurora-home-preview .afq-clear-button { color: #ecd6a6; border-color: #e8ca8352; background: #e8ca8312; }
+@media (max-height:790px) and (min-width:1000px) {
+  #aurora-home-preview.adl-clean.afq-enabled .ah-frequent { padding: 9px 10px; gap: 4px; }
+  #aurora-home-preview .afq-head h2 { font-size: 11px; }
+  #aurora-home-preview .afq-icon-button { width: 21px; height: 21px; font-size: 15px; }
+  #aurora-home-preview .afq-group { gap: 3px; }
+  #aurora-home-preview .afq-list { gap: 2px; padding-block: 0 1px; }
+  #aurora-home-preview .afq-item { min-height: 20px; padding: 1px 3px; font-size: 9px; }
+  #aurora-home-preview .afq-status { font-size: 8px; min-height: 11px; }
+}
+@media (min-width:2800px) and (min-height:1400px) {
+  #aurora-home-preview.adl-clean.afq-enabled .ah-frequent { padding: 24px; gap: 12px; border-radius: 39px 39px 17px 39px; }
+  #aurora-home-preview .afq-head h2 { font-size: 22px; }
+  #aurora-home-preview .afq-icon-button { width: 36px; height: 36px; font-size: 24px; border-radius: 10px; }
+  #aurora-home-preview .afq-tools { gap: 6px; }
+  #aurora-home-preview .afq-groups { gap: 18px; }
+  #aurora-home-preview .afq-group { gap: 8px; }
+  #aurora-home-preview .afq-group-title { font-size: 14px; }
+  #aurora-home-preview .afq-list { gap: 7px; padding: 2px 3px 6px; }
+  #aurora-home-preview .afq-item { grid-template-columns: 30px minmax(0,1fr) auto; gap: 8px; min-height: 42px; padding: 5px 8px; border-radius: 11px; font-size: 16px; }
+  #aurora-home-preview .afq-item-icon { width: 30px; height: 30px; border-radius: 9px; font-size: 14px; }
+  #aurora-home-preview .afq-item-metric { max-width: 100px; font-size: 12px; }
+  #aurora-home-preview .afq-empty { font-size: 16px; }
+  #aurora-home-preview .afq-status { font-size: 14px; min-height: 19px; }
+  #aurora-home-preview .afq-menu { top: 68px; right: 20px; width: min(360px,calc(100% - 40px)); padding: 12px; }
+  #aurora-home-preview .afq-menu-button { min-height: 42px; padding: 9px 12px; font-size: 17px; }
+  #aurora-home-preview .afq-confirm p { font-size: 17px; }
+}
+@media (max-width:999px), (max-height:650px) {
+  #aurora-home-preview.adl-clean.afq-enabled .ah-desktop { grid-auto-rows: 186px; }
+  #aurora-home-preview.adl-clean.afq-enabled .ah-weather { grid-column: 1 / -1; grid-row: 7; }
+  #aurora-home-preview.adl-clean.afq-enabled .ah-frequent { grid-column: 1 / -1; grid-row: 8; height: 186px; }
+}
+@media (max-width:540px) {
+  #aurora-home-preview.adl-clean.afq-enabled .ah-desktop { grid-auto-rows: 208px; }
+  #aurora-home-preview.adl-clean.afq-enabled .ah-weather { grid-row: 8; }
+  #aurora-home-preview.adl-clean.afq-enabled .ah-frequent { grid-row: 9; height: 208px; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  #aurora-home-preview .afq-menu { background: #111923; }
+  #aurora-home-preview :is(.afq-item,.afq-icon-button) { background: #202630; }
+}

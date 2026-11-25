@@ -1,0 +1,20 @@
+{
+  "@seelen/fancy-toolbar": "styles/fancy-toolbar.scss",
+  "@seelen/weg": "styles/weg.scss",
+  "@seelen/apps-menu": "styles/apps-menu.scss",
+  "@seelen/system-tray": "styles/tray-menu.scss",
+  "@seelen/user-menu": "styles/user-menu.scss",
+  "@seelen/notifications": "styles/notifications.scss",
+  "@seelen/network-popup": "styles/network-popup.scss",
+  "@seelen/calendar-popup": "styles/calendar-popup.scss",
+  "@seelen/bluetooth-popup": "styles/bluetooth-popup.scss",
+  "@seelen/media-popup": "styles/media-popup.scss",
+  "@seelen/power-menu": "styles/power-menu.scss",
+  "@seelen/context-menu": "styles/context-menu.scss",
+  "@seelen/flyouts": "styles/flyouts.scss",
+  "@seelen/keyboard-selector": "styles/keyboard-selector.scss",
+  "@seelen/quick-settings": "styles/quick-settings.scss",
+  "@seelen/tooltip": "styles/tooltip.scss",
+  "@seelen/workspaces-viewer": "styles/workspaces-viewer.scss",
+  "@seelen/task-switcher": "styles/task-switcher.scss"
+}

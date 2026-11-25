@@ -1,0 +1,14 @@
+{
+  "name": "galaxy-atlas-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@seelen-ui/lib": "2.8.4",
+    "esbuild": "0.28.2",
+    "lucide": "1.67.0"
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}

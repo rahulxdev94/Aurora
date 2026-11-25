@@ -1,0 +1,318 @@
+/* Aurora Presence. Real activity gives the desktop its rhythm; shape gives each
+   surface a purpose. The renderer and existing actions keep their own geometry. */
+#aurora-home-preview.ap-enabled {
+  --ap-gold: #e8ca83;
+  --ap-silver: #e5e7ec;
+  --ap-muted: #adb0b8;
+  --ap-edge: #d7d9de38;
+  --ap-energy: 0;
+  --orbit-column-width: calc((100vw - 86px) * .196347);
+}
+#aurora-home-preview.ap-enabled .ah-desktop {
+  grid-template-columns: minmax(200px,.86fr) minmax(280px,1.42fr) minmax(250px,1.08fr) minmax(238px,1.02fr);
+  grid-template-rows: 44px minmax(180px,1fr) minmax(172px,.95fr) 180px;
+  grid-template-areas: "welcome welcome workspace workspace" "clock core assistant calendar" "library core assistant calendar" "weather weather focus sensors";
+  gap: 14px;
+  padding: 10px 22px 12px;
+}
+#aurora-home-preview.ap-enabled .ah-surface:not(.ap-console) {
+  border-color: #bfc3ca3b;
+  border-top-color: #e9ebef61;
+  background: radial-gradient(ellipse at 4% 0,#f4f5f611,transparent 65%),linear-gradient(145deg,#242528f2,#0c0d10f2 62%,#191a1df5);
+}
+#aurora-home-preview.ap-enabled .ah-library { border-radius: 10px 26px 26px 26px; }
+#aurora-home-preview.ap-enabled .ah-widget-rail > .ah-calendar { border-radius: 28px 10px 28px 28px; padding: 16px; }
+#aurora-home-preview.ap-enabled .ah-calendar > .ah-section-head { margin-bottom: 12px; }
+#aurora-home-preview.ap-enabled .ah-calendar-days { gap: 4px; }
+#aurora-home-preview.ap-enabled .ah-calendar-days button,
+#aurora-home-preview.ap-enabled .ah-calendar-days > span { height: clamp(27px,3.4vh,38px); }
+#aurora-home-preview.ap-enabled .ah-calendar .ac-tasks-widget { margin-top: 12px; padding-top: 12px; }
+#aurora-home-preview.ap-enabled .ah-calendar .ac-open { margin-top: 8px; padding: 8px; }
+#aurora-home-preview.ap-enabled .ah-widget-rail > .ah-clock {
+  height: min(100%,var(--orbit-column-width),264px);
+  padding: 22px;
+}
+
+/* A panoramic forecast, a circular focus instrument, and a wide telemetry card. */
+#aurora-home-preview.ap-enabled .an-lower-grid > .ah-weather {
+  border-radius: 26px 26px 10px 26px;
+  padding: 15px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#aurora-home-preview.ap-enabled .ah-weather .ah-section-head { margin-bottom: 12px; }
+#aurora-home-preview.ap-enabled .ah-weather .ah-forecast { gap: clamp(4px,1vw,16px); }
+#aurora-home-preview.ap-enabled .ah-weather .ah-wm-art { height: 36px; width: 38px; }
+#aurora-home-preview.ap-enabled .ah-weather .ah-weather-day { gap: 3px; padding: 0 2px; }
+#aurora-home-preview.ap-enabled .ah-weather-day strong { font-size: 13px; }
+#aurora-home-preview.ap-enabled .ah-weather :is(.ah-small,.ah-sample) { font-size: 10px; }
+#aurora-home-preview.ap-enabled .an-lower-grid > .ah-focus {
+  height: min(100%,180px);
+  width: auto;
+  aspect-ratio: 1;
+  padding: 12px 15px;
+  gap: 5px;
+}
+#aurora-home-preview.ap-enabled .ah-focus > .ah-section-head { flex-direction: row; flex-wrap: nowrap; justify-content: center; gap: 5px; margin-bottom: 1px; }
+#aurora-home-preview.ap-enabled .ah-focus .ah-section-head h2 { font-size: 10px; white-space: nowrap; }
+#aurora-home-preview.ap-enabled .ah-focus .ah-section-head h2 svg { display: none; }
+#aurora-home-preview.ap-enabled .ah-focus .ah-select { min-height: 22px; max-width: 64px; padding: 2px 3px; font-size: 10px; }
+#aurora-home-preview.ap-enabled .ah-focus-body { gap: 6px; }
+#aurora-home-preview.ap-enabled .ah-timer-ring { height: 62px; width: 62px; padding: 3px; }
+#aurora-home-preview.ap-enabled .ah-timer-ring > div { height: 56px; width: 56px; }
+#aurora-home-preview.ap-enabled .ah-timer { font-size: 19px; }
+#aurora-home-preview.ap-enabled .ah-focus .ah-timer-label { display: none; }
+#aurora-home-preview.ap-enabled .ah-focus-actions { gap: 5px; }
+#aurora-home-preview.ap-enabled .ah-focus .ah-start { padding: 5px 10px; min-height: 28px; }
+#aurora-home-preview.ap-enabled .an-lower-grid > .ah-sensors {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  padding: 14px;
+  border-radius: 22px 22px 22px 9px;
+}
+#aurora-home-preview.ap-enabled .ah-sensors .ah-section-head { justify-content: space-between; margin-bottom: 10px; }
+#aurora-home-preview.ap-enabled .ah-sensor { padding: 9px 5px; gap: 3px; border-radius: 12px; }
+#aurora-home-preview.ap-enabled .ah-sensor > svg { width: 18px; height: 18px; }
+#aurora-home-preview.ap-enabled .ah-sensor > strong { font-size: 11px; }
+#aurora-home-preview.ap-enabled .ah-sensors .ah-native-usage-line { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 3px; }
+#aurora-home-preview.ap-enabled .ah-sensors .ah-native-usage-label { font-size: 9px; }
+
+/* The AI has a readable state and a quiet, audio-responsive halo. */
+#aurora-home-preview.ap-enabled .aas-bubble,
+#aurora-home-preview.ap-enabled .aas-toggle { display: none !important; }
+#aurora-home-preview .ap-presence { position: absolute; inset: 0; z-index: 5; pointer-events: none; transform-style: flat; }
+#aurora-home-preview .ap-capabilities { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--ap-muted); font-size: 10px; }
+#aurora-home-preview .ap-open-chat { color: var(--ap-gold); background: #ffffff08; border: 1px solid var(--ap-edge); border-radius: 100px; padding: 5px 9px; font: inherit; cursor: pointer; }
+#aurora-home-preview .ap-open-chat:hover { background: #e8ca831c; border-color: #e8ca8366; }
+#aurora-home-preview .ap-open-chat:focus-visible { outline: 2px solid var(--ap-gold); outline-offset: 3px; }
+#aurora-home-preview .ap-presence::before {
+  content: "";
+  position: absolute;
+  width: min(61%,270px);
+  aspect-ratio: 1;
+  left: 50%;
+  top: calc(50% - 22px);
+  translate: -50% -50%;
+  border: 1px solid #e8ca8326;
+  border-radius: 50%;
+  background: radial-gradient(circle,transparent 60%,#e8ca8307 70%,transparent 72%);
+  box-shadow: 0 0 calc(12px + var(--ap-energy) * 30px) #e8ca8312,inset 0 0 24px #e8ca8305;
+  opacity: .7;
+  scale: calc(1 + var(--ap-energy) * .12);
+  transition: scale 140ms ease-out,box-shadow 140ms ease-out,border-color .3s,opacity .3s;
+}
+#aurora-home-preview .ap-state-chip {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  max-width: calc(100% - 20px);
+  padding: 6px 12px;
+  border: 1px solid #d5d7de48;
+  border-radius: 100px;
+  color: #e3e5e9;
+  background: linear-gradient(145deg,#292b30ed,#0c0e12ed);
+  box-shadow: inset 0 1px #ffffff16,0 6px 20px #0005;
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+#aurora-home-preview .ap-state-dot { width: 6px; height: 6px; flex: none; border-radius: 50%; background: #c5c8cf; box-shadow: 0 0 9px #e5e7ec38; }
+#aurora-home-preview .ap-state-label { overflow: hidden; text-overflow: ellipsis; }
+#aurora-home-preview .ap-waveform { position: absolute; top: 44px; left: 50%; translate: -50% 0; display: flex; align-items: center; justify-content: center; height: 24px; gap: 4px; opacity: .28; }
+#aurora-home-preview .ap-waveform > i { display: block; width: 3px; height: 4px; border-radius: 4px; background: #e8ca83; transform-origin: center; transition: height 100ms ease-out,opacity .2s; }
+#aurora-home-preview .ap-waveform > i:nth-child(2),
+#aurora-home-preview .ap-waveform > i:nth-child(4) { height: 7px; }
+#aurora-home-preview .ap-waveform > i:nth-child(3) { height: 10px; }
+#aurora-home-preview[data-ai-state="speaking"] .ap-waveform,
+#aurora-home-preview[data-ai-state="audio"] .ap-waveform { opacity: 1; }
+#aurora-home-preview[data-ai-state="speaking"] .ap-waveform > i,
+#aurora-home-preview[data-ai-state="audio"] .ap-waveform > i { height: calc(4px + var(--ap-energy) * 12px); }
+#aurora-home-preview[data-ai-state="speaking"] .ap-waveform > i:nth-child(2),
+#aurora-home-preview[data-ai-state="speaking"] .ap-waveform > i:nth-child(4),
+#aurora-home-preview[data-ai-state="audio"] .ap-waveform > i:nth-child(2),
+#aurora-home-preview[data-ai-state="audio"] .ap-waveform > i:nth-child(4) { height: calc(5px + var(--ap-energy) * 18px); }
+#aurora-home-preview[data-ai-state="speaking"] .ap-waveform > i:nth-child(3),
+#aurora-home-preview[data-ai-state="audio"] .ap-waveform > i:nth-child(3) { height: calc(7px + var(--ap-energy) * 22px); }
+#aurora-home-preview[data-ai-state="working"] .ap-presence::before { border-style: dashed; border-color: #e8ca8370; animation: ap-working-orbit 18s linear infinite; }
+#aurora-home-preview[data-ai-state="working"] .ap-state-dot { background: #e8ca83; animation: ap-working-dot 1.9s ease-in-out infinite; }
+#aurora-home-preview[data-ai-state="listening"] .ap-state-dot { background: #f0dfaf; box-shadow: 0 0 12px #e8ca8380; }
+#aurora-home-preview[data-ai-state="speaking"] .ap-state-dot,
+#aurora-home-preview[data-ai-state="audio"] .ap-state-dot { background: #e8ca83; box-shadow: 0 0 calc(6px + var(--ap-energy) * 12px) #e8ca8390; }
+#aurora-home-preview[data-ai-state="error"] .ap-state-dot { background: #e2af8f; box-shadow: 0 0 8px #e2af8f50; }
+#aurora-home-preview[data-ai-state="error"] .ap-state-chip { border-color: #e2af8f70; }
+#aurora-home-preview .ap-speech {
+  position: absolute;
+  left: 50%;
+  bottom: 45px;
+  translate: -50% 0;
+  width: min(244px,calc(100% - 32px));
+  padding: 11px 14px 12px;
+  border: 1px solid #e8ca835e;
+  border-radius: 19px 19px 19px 5px;
+  color: #eeece6;
+  background: radial-gradient(ellipse at 0 0,#e8ca8315,transparent 70%),linear-gradient(130deg,#242320f7,#101112f7);
+  box-shadow: inset 0 1px #ffffff16,0 10px 30px #0006;
+}
+#aurora-home-preview .ap-speech[hidden] { display: none !important; }
+#aurora-home-preview .ap-speech::before { content: ""; position: absolute; top: -7px; left: 50%; width: 12px; height: 12px; rotate: 45deg; background: #252420; border-left: 1px solid #e8ca835e; border-top: 1px solid #e8ca835e; }
+#aurora-home-preview .ap-speech-brand { display: block; margin-bottom: 5px; color: #e8ca83; font-size: 9px; font-weight: 600; line-height: 1.2; letter-spacing: 1.6px; text-transform: uppercase; }
+#aurora-home-preview .ap-speech-message { margin: 0; padding: 0; font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+#aurora-home-preview .ap-speech-source { display: block; margin-top: 6px; color: #b3b5bc; font-size: 9px; line-height: 1.3; }
+
+/* A dedicated conversation column remains useful while the atom is at rest. */
+#aurora-home-preview .ap-console {
+  grid-area: assistant;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 17px;
+  overflow: hidden;
+  border: 1px solid #d5c18d59;
+  border-top-color: #f3deaa80;
+  border-radius: 28px 28px 28px 9px;
+  background: radial-gradient(ellipse at 0 0,#d6b46613,transparent 65%),linear-gradient(150deg,#252526f7,#0b0d10f7 62%,#191a1cf7);
+  box-shadow: inset 0 1px #ffffff18,inset 0 -1px #000,0 16px 32px #0006;
+  transform-style: flat;
+}
+#aurora-home-preview .ap-console-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #e8ca832b; }
+#aurora-home-preview .ap-console-head h2 { margin: 0; color: #f2eee3; font-size: 14px; line-height: 1.4; font-weight: 600; white-space: nowrap; }
+#aurora-home-preview .ap-connection { display: inline-flex; align-items: center; justify-content: center; max-width: 130px; min-height: 24px; padding: 4px 7px; border: 1px solid #cdd0d32b; border-radius: 9px; color: #c3c5ca; background: #0003; font-size: 9px; line-height: 1.25; text-align: center; }
+#aurora-home-preview .ap-empty { margin: 0; padding: 12px; border: 1px dashed #d6d9df30; border-radius: 13px; color: #b7bac2; background: #0002; font-size: 12px; line-height: 1.5; }
+#aurora-home-preview .ap-empty[hidden] { display: none !important; }
+#aurora-home-preview .ap-feed { flex: 1; min-height: 66px; margin: 0; padding: 0 3px 0 0; display: flex; flex-direction: column; gap: 9px; list-style: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; scrollbar-color: #b6a16a66 transparent; }
+#aurora-home-preview .ap-entry { flex: none; position: relative; padding: 10px 11px; border: 1px solid #d6d9df27; border-radius: 13px 13px 13px 4px; background: linear-gradient(140deg,#ffffff09,#0003); }
+#aurora-home-preview .ap-entry:first-child { border-color: #e8ca8344; background: linear-gradient(140deg,#e8ca830d,#0003); }
+#aurora-home-preview .ap-entry-message { margin: 0; color: #e4e4e4; font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; }
+#aurora-home-preview .ap-entry-source { display: block; margin-top: 6px; color: #a9adb6; font-size: 9px; line-height: 1.35; }
+#aurora-home-preview .ap-compose { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; margin: 0; padding-top: 12px; border-top: 1px solid #e8ca832b; }
+#aurora-home-preview .ap-compose-input { grid-column: 1 / -1; display: block; resize: vertical; width: 100%; min-height: 65px; max-height: 106px; margin: 0; padding: 11px 12px; border: 1px solid #d1d5dc3b; border-radius: 13px; color: #f0eee8; background: #080a0dd9; box-shadow: inset 0 2px 7px #0004; font: 12px/1.45 Inter,"Segoe UI",sans-serif; outline: none; }
+#aurora-home-preview .ap-compose-input::placeholder { color: #a8abb2; opacity: 1; }
+#aurora-home-preview .ap-compose-input:focus { border-color: #e8ca83b3; box-shadow: 0 0 0 2px #e8ca8316,inset 0 2px 7px #0004; }
+#aurora-home-preview .ap-compose-submit { grid-column: 2; min-height: 32px; margin: 0; padding: 7px 12px; border: 1px solid #f6e3ad8c; border-radius: 10px; color: #201b10; background: linear-gradient(140deg,#f6e3ad,#c6a15b); box-shadow: inset 0 1px #fff7,0 3px 8px #0004; font: 600 11px/1.3 Inter,"Segoe UI",sans-serif; cursor: pointer; }
+#aurora-home-preview .ap-compose-submit:hover { filter: brightness(1.08); }
+#aurora-home-preview .ap-compose-submit:disabled { cursor: default; opacity: .45; filter: none; }
+#aurora-home-preview .ap-compose-submit:focus-visible { outline: 2px solid #f7e8c1; outline-offset: 3px; }
+#aurora-home-preview .ap-compose-note { margin: 0; color: #aeb0b7; font-size: 10px; line-height: 1.4; }
+
+@keyframes ap-working-orbit { to { rotate: 360deg; } }
+@keyframes ap-working-dot { 50% { opacity: .4; } }
+
+@media (min-width: 1000px) and (max-width: 1400px) {
+  #aurora-home-preview.ap-enabled.ah-dyson-on .ah-satellite-plan { left: 8px; top: 64px; }
+  #aurora-home-preview.ap-enabled.ah-dyson-on .ah-satellite-create { right: 8px; top: 64px; }
+  #aurora-home-preview.ap-enabled.ah-dyson-on .ah-satellite-explore { right: 8px; top: 145px; bottom: auto; }
+  #aurora-home-preview .ap-speech { width: min(220px,calc(100% - 26px)); padding: 10px 12px; }
+  #aurora-home-preview .ap-speech-message { font-size: 11px; }
+  #aurora-home-preview .ap-console { padding: 14px; gap: 10px; }
+  #aurora-home-preview .ap-console-head { flex-wrap: wrap; gap: 7px; padding-bottom: 10px; }
+  #aurora-home-preview .ap-connection { max-width: 100%; min-height: 20px; }
+}
+@media (max-height: 790px) and (min-width: 1000px) {
+  #aurora-home-preview.ap-enabled .ah-desktop { grid-template-rows: 36px minmax(176px,1fr) minmax(168px,.95fr) 152px; gap: 10px; padding-block: 7px 10px; }
+  #aurora-home-preview.ap-enabled { --orbit-column-width: calc((100vw - 74px) * .196347); }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-clock { padding: 17px; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-focus { height: 152px; padding: 10px 12px; gap: 4px; }
+  #aurora-home-preview.ap-enabled .ah-focus > .ah-section-head { gap: 4px; }
+  #aurora-home-preview.ap-enabled .ah-focus .ah-section-head h2 { font-size: 9px; }
+  #aurora-home-preview.ap-enabled .ah-focus .ah-select { max-width: 54px; font-size: 9px; min-height: 20px; }
+  #aurora-home-preview.ap-enabled .ah-focus-body { gap: 5px; }
+  #aurora-home-preview.ap-enabled .ah-timer-ring { width: 56px; height: 56px; }
+  #aurora-home-preview.ap-enabled .ah-timer-ring > div { width: 50px; height: 50px; }
+  #aurora-home-preview.ap-enabled .ah-timer { font-size: 17px; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-sensors { padding: 10px; }
+  #aurora-home-preview.ap-enabled .ah-sensors .ah-section-head { margin-bottom: 6px; }
+  #aurora-home-preview.ap-enabled .ah-sensor { padding: 6px 4px; gap: 2px; }
+  #aurora-home-preview.ap-enabled .ah-sensor > svg { width: 16px; height: 16px; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-weather { padding: 11px 15px; }
+  #aurora-home-preview.ap-enabled .ah-weather .ah-section-head { margin-bottom: 7px; }
+  #aurora-home-preview.ap-enabled .ah-weather .ah-wm-art { height: 28px; width: 31px; }
+  #aurora-home-preview .ap-console { gap: 8px; padding: 13px; }
+  #aurora-home-preview .ap-console-head { padding-bottom: 8px; }
+  #aurora-home-preview .ap-feed { gap: 7px; }
+  #aurora-home-preview .ap-entry { padding: 8px 9px; }
+  #aurora-home-preview .ap-entry-message { font-size: 11px; }
+  #aurora-home-preview .ap-compose { padding-top: 9px; gap: 7px; }
+  #aurora-home-preview .ap-compose-input { min-height: 54px; padding: 8px 10px; }
+  #aurora-home-preview .ap-compose-submit { min-height: 29px; padding-block: 5px; }
+}
+@media (min-width: 1000px) and (max-width: 1180px) {
+  #aurora-home-preview.ap-enabled .ah-desktop { grid-template-columns: 180px minmax(260px,1.42fr) minmax(240px,1.08fr) minmax(226px,1.02fr); padding-inline: 16px; gap: 9px; }
+  #aurora-home-preview.ap-enabled { --orbit-column-width: 180px; }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-clock { padding: 16px; }
+  #aurora-home-preview.ap-enabled .ah-time { font-size: 32px; }
+  #aurora-home-preview.ap-enabled .ah-clock .asc-status { max-width: 144px; }
+  #aurora-home-preview.ap-enabled .ah-clock .asc-chip { font-size: 8px; }
+  #aurora-home-preview.ap-enabled .ah-calendar { padding: 12px; }
+  #aurora-home-preview .ap-state-chip { font-size: 10px; padding-inline: 10px; }
+  #aurora-home-preview .ap-console-head h2 { font-size: 13px; }
+}
+@media (min-aspect-ratio: 21/9) and (min-width: 1800px) {
+  #aurora-home-preview.ap-enabled { --orbit-column-width: calc((96vw - 60px) * .196347); }
+  #aurora-home-preview.ap-enabled .ah-desktop { grid-template-columns: minmax(250px,.86fr) minmax(380px,1.42fr) minmax(310px,1.08fr) minmax(300px,1.02fr); grid-template-rows: 52px minmax(230px,1fr) minmax(220px,.95fr) 204px; padding-inline: 2vw; gap: 20px; }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-clock { height: min(100%,var(--orbit-column-width),300px); }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-focus { height: 204px; padding: 16px 19px; }
+  #aurora-home-preview.ap-enabled .ah-timer-ring { width: 76px; height: 76px; }
+  #aurora-home-preview.ap-enabled .ah-timer-ring > div { width: 70px; height: 70px; }
+  #aurora-home-preview.ap-enabled .ah-timer { font-size: 23px; }
+  #aurora-home-preview.ap-enabled .ah-focus .ah-section-head h2 { font-size: 11px; }
+  #aurora-home-preview.ap-enabled .ah-sensors .ah-sensor { padding-block: 14px; }
+  #aurora-home-preview .ap-console { padding: 21px; gap: 15px; }
+  #aurora-home-preview .ap-console-head h2 { font-size: 17px; }
+  #aurora-home-preview .ap-entry-message { font-size: 13px; }
+  #aurora-home-preview .ap-entry { padding: 13px 14px; }
+  #aurora-home-preview .ap-state-chip { min-height: 34px; font-size: 12px; }
+  #aurora-home-preview .ap-speech { width: 270px; padding: 14px 16px; bottom: 50px; }
+  #aurora-home-preview .ap-speech-message { font-size: 13px; }
+}
+/* Smaller windows preserve every surface in a deliberate scrolling sequence. */
+@media (max-width: 999px), (max-height: 650px) {
+  #aurora-home-preview.ap-enabled .ah-desktop { grid-template-columns: minmax(0,1fr) minmax(0,1fr); grid-template-rows: 44px 40px 360px 380px 230px 230px 330px 166px; grid-template-areas: "welcome welcome" "workspace workspace" "core core" "assistant assistant" "clock focus" "library sensors" "calendar calendar" "weather weather"; gap: 14px; padding: 12px 20px 24px; overflow-y: auto; overflow-x: hidden; align-content: start; }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-clock { height: 220px; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-focus { height: 220px; padding: 19px; }
+  #aurora-home-preview.ap-enabled .an-lower-grid > .ah-sensors { height: 100%; }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-calendar { height: 330px; }
+  #aurora-home-preview.ap-enabled .ah-satellite-explore { bottom: auto; top: 130px; }
+  #aurora-home-preview .ap-console { padding: 17px; }
+  #aurora-home-preview .ap-console-head { flex-wrap: nowrap; }
+  #aurora-home-preview .ap-presence::before { width: 220px; }
+  #aurora-home-preview .ap-compose-input { max-height: 80px; }
+}
+@media (max-width: 540px) {
+  #aurora-home-preview.ap-enabled .ah-desktop { grid-template-columns: minmax(0,1fr); grid-template-rows: 48px 38px 360px 390px 226px 226px 230px 190px 400px 188px; grid-template-areas: "welcome" "workspace" "core" "assistant" "clock" "focus" "library" "sensors" "calendar" "weather"; padding-inline: 14px; }
+  #aurora-home-preview.ap-enabled .ah-widget-rail > .ah-calendar { height: 400px; }
+  #aurora-home-preview.ap-enabled .ah-satellite-plan { top: 65px; }
+  #aurora-home-preview.ap-enabled .ah-satellite-create { top: 65px; }
+  #aurora-home-preview.ap-enabled .ah-satellite-explore { top: 130px; }
+  #aurora-home-preview .ap-speech { bottom: 44px; width: min(230px,calc(100% - 24px)); }
+  #aurora-home-preview .ap-compose-input { font-size: 16px; }
+  #aurora-home-preview .ap-console-head h2 { font-size: 15px; }
+  #aurora-home-preview.ap-enabled .ah-weather .ah-section-head { margin-bottom: 5px; }
+  #aurora-home-preview.ap-enabled .ah-weather .ah-wm-art { height: 27px; width: 29px; }
+}
+
+#aurora-home-preview[data-ai-motion="reduced"] .ap-presence::before,
+#aurora-home-preview[data-ai-motion="off"] .ap-presence::before,
+#aurora-home-preview[data-ai-motion="reduced"] .ap-state-dot,
+#aurora-home-preview[data-ai-motion="off"] .ap-state-dot,
+#aurora-home-preview[data-motion="reduced"] .ap-presence::before,
+#aurora-home-preview[data-motion="off"] .ap-presence::before,
+#aurora-home-preview[data-motion="reduced"] .ap-state-dot,
+#aurora-home-preview[data-motion="off"] .ap-state-dot { animation: none !important; transition: none !important; scale: 1; }
+#aurora-home-preview[data-ai-motion="reduced"] .ap-waveform > i,
+#aurora-home-preview[data-ai-motion="off"] .ap-waveform > i,
+#aurora-home-preview[data-motion="reduced"] .ap-waveform > i,
+#aurora-home-preview[data-motion="off"] .ap-waveform > i { height: 5px !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  #aurora-home-preview .ap-presence::before,
+  #aurora-home-preview .ap-state-dot { animation: none !important; transition: none !important; scale: 1; }
+  #aurora-home-preview .ap-waveform > i { height: 5px !important; transition: none !important; }
+}

@@ -1,0 +1,75 @@
+import assert from 'node:assert/strict';
+import {fileGroup,visibleExplorerEntries,buildOrganisationPlan,createExplorerModel,operationReviewText,bindExplorerMouseNavigation} from '../src/aurora-explorer.mjs';
+import * as intelligence from '../src/aurora-file-intelligence.mjs';
+assert.equal(operationReviewText({kind:'mkdir',path:'C:/Work',name:'New folder'}),'Create folder · C:/Work/New folder');
+assert.equal(operationReviewText({kind:'rename',path:'C:/Work/old.txt',name:'new.txt'}),'Rename · C:/Work/old.txt → C:/Work/new.txt');
+assert.equal(operationReviewText({kind:'recycle',path:'C:/Work/file.txt'}),'Move to Aurora Trash · C:/Work/file.txt');
+const entries=[{name:'Pictures',path:'C:/Work/Pictures',kind:'folder',size:null},{name:'report.txt',path:'C:/Work/report.txt',kind:'file',size:13,modifiedAt:'2026-01-01T00:00:00Z'},{name:'photo.png',path:'C:/Work/photo.png',kind:'file',size:140000000,modifiedAt:'2026-02-01T00:00:00Z'},{name:'<img onerror=bad>.txt',path:'C:/Work/odd.txt',kind:'file',size:20}];
+assert.equal(fileGroup(entries[2]),'Images');
+assert.deepEqual(visibleExplorerEntries(entries,{filter:'images'}).map(item=>item.name),['photo.png']);
+assert.deepEqual(visibleExplorerEntries(entries,{filter:'large'}).map(item=>item.name),['photo.png']);
+assert.equal(visibleExplorerEntries(entries,{sort:'size',direction:'desc'})[0].kind,'folder','Folders remain separate from reverse file sorting');
+const plan=buildOrganisationPlan(entries,'C:/Work',entries);
+assert.deepEqual(plan.filter(item=>item.kind==='mkdir').map(item=>item.name),['Documents','Images']);
+assert.ok(plan.every(item=>item.kind==='mkdir'||item.destination.startsWith('C:/Work/')));
+assert.equal(plan.filter(item=>item.kind==='move').length,2,'Invalid destination names are never included in a file plan');
+let resolveA,resolveB,resolvePreview,previewSignal,calls=[],operations=[];
+const service={list(path){calls.push(path);if(path==='C:/A')return new Promise(resolve=>resolveA=resolve);if(path==='C:/B')return new Promise(resolve=>resolveB=resolve);return Promise.resolve({path,entries,writable:true,capabilities:{},parent:'C:/'});},search:async()=>({entries:[entries[2]],truncated:false,scanned:4}),preview:(path,{signal})=>{previewSignal=signal;return new Promise(resolve=>resolvePreview=resolve);},operation:async operation=>operations.push(operation)};
+const model=createExplorerModel(service);model.newTab('C:/A');const loadingB=model.navigate('C:/B');resolveB({entries:[entries[1]],writable:true});await loadingB;resolveA({entries:[entries[2]],writable:true});await Promise.resolve();assert.equal(model.active().path,'C:/B');assert.equal(model.active().entries[0].name,'report.txt','Late folder data must not overwrite the newer location');
+await model.navigate('C:/Work');model.select(entries[1].path);const preview=model.showPreview();model.select(entries[2].path);assert.equal(previewSignal.aborted,true,'Selecting another file cancels the old preview read');resolvePreview({kind:'text',text:'private old selection'});await preview;assert.equal(model.state.preview,null,'A late preview must not leak into another selection');
+await assert.rejects(()=>model.runOperations([{kind:'rename',path:entries[1].path,name:'renamed.txt'}]),/explicit confirmation/);assert.equal(operations.length,0);
+await model.runOperations([{kind:'rename',path:entries[1].path,name:'renamed.txt'}],{confirmed:true});assert.equal(operations.length,1);
+await model.search('photo');assert.equal(model.visible()[0].name,'photo.png');assert.equal(model.active().searching,true);
+model.select(null,{all:true});assert.equal(model.selected().length,1);model.dispose();assert.equal(model.state.tabs.length,0);
+let trashItems=[{id:'recoverable',name:'report.txt',originalPath:'C:/Work/report.txt',trashedAt:'2026-01-01T00:00:00Z',kind:'file',size:13}],restoreCalls=[];
+const trashModel=createExplorerModel({list:async path=>({path,entries:[],writable:true}),trash:async()=>({entries:trashItems,capabilities:{restore:true}}),operation:async operation=>{restoreCalls.push(operation);trashItems=[];}});
+trashModel.newTab('C:/Work');await Promise.resolve();await trashModel.trash();assert.equal(trashModel.active().special,'trash');trashModel.select('aurora-trash:recoverable');assert.equal(trashModel.selected()[0].originalPath,'C:/Work/report.txt');await trashModel.runOperations([{kind:'restore',id:'recoverable'}],{confirmed:true});assert.equal(restoreCalls[0].id,'recoverable');assert.equal(trashModel.active().entries.length,0);trashModel.dispose();
+let uncertainCalls=0;const uncertain=createExplorerModel({list:async path=>({path,entries:[],writable:true}),operation:async()=>{uncertainCalls++;throw Object.assign(new Error('Connection ended'),{code:'OPERATION_UNCERTAIN'});}});uncertain.newTab('C:/Work');await Promise.resolve();assert.equal(await uncertain.runOperations([{kind:'copy',path:'C:/Work/a',destination:'C:/Work/b'},{kind:'copy',path:'C:/Work/c',destination:'C:/Work/d'}],{confirmed:true}),false);assert.equal(uncertainCalls,1,'An uncertain operation must stop the remaining plan without retry');assert.match(uncertain.state.feedback,/inspect the result before trying again/);uncertain.dispose();
+const cancelledReads=[];
+function waitingRead(tag,signal){const entry={tag,signal};cancelledReads.push(entry);return new Promise((resolve,reject)=>{entry.resolve=resolve;signal.addEventListener('abort',()=>reject(Object.assign(new Error('Cancelled'),{name:'AbortError'})),{once:true});});}
+const cancellable=createExplorerModel({list:(path,{signal})=>['C:/Start','C:/Next'].includes(path)?Promise.resolve({path,entries:[],writable:true}):waitingRead(path,signal),search:(path,query,{signal})=>waitingRead(query,signal)});
+cancellable.newTab('C:/Start');await Promise.resolve();const searching=cancellable.search('slow search');const searchRead=cancelledReads.at(-1);await cancellable.navigate('C:/Next');assert.equal(searchRead.signal.aborted,true,'Navigating cancels the prior recursive search');await searching;assert.equal(cancellable.active().error,'','Cancelled reads are not presented as errors');
+cancellable.newTab('C:/Closing');const closingTab=cancellable.active().id,closingRead=cancelledReads.at(-1);assert.equal(cancellable.closeTab(closingTab),true);assert.equal(closingRead.signal.aborted,true,'Closing a tab cancels its folder read');
+cancellable.newTab('C:/Disposed');const disposedRead=cancelledReads.at(-1);cancellable.dispose();assert.equal(disposedRead.signal.aborted,true,'Disposal cancels remaining reads');await Promise.resolve();await Promise.resolve();
+const mouseListeners=new Map(),mouseTarget={addEventListener(type,fn){mouseListeners.set(type,fn);},removeEventListener(type,fn){if(mouseListeners.get(type)===fn)mouseListeners.delete(type);}},mouseReads=[];let filesActive=true,pointerInside=true,dialogOpen=false;
+const mouseModel=createExplorerModel({list:async path=>{mouseReads.push(path);return{path,entries:[],writable:true};}});mouseModel.newTab('C:/First');await Promise.resolve();await mouseModel.navigate('C:/Second');await mouseModel.navigate('C:/Third');
+const stopMouse=bindExplorerMouseNavigation({target:mouseTarget,model:mouseModel,isActive:()=>filesActive,isInside:()=>pointerInside,canNavigate:()=>!dialogOpen});
+function mouseEvent(type,button){const event={button,prevented:false,preventDefault(){this.prevented=true;},stopPropagation(){}};mouseListeners.get(type)?.(event);return event;}
+assert.equal(mouseEvent('mousedown',3).prevented,true);await Promise.resolve();assert.equal(mouseModel.active().path,'C:/Second','Mouse Back uses folder history');mouseEvent('mouseup',3);mouseEvent('auxclick',3);assert.equal(mouseModel.active().path,'C:/Second','Release and auxclick must not navigate twice');mouseEvent('mousedown',4);await Promise.resolve();assert.equal(mouseModel.active().path,'C:/Third','Mouse Forward restores the next folder');const atBoundary=mouseReads.length;mouseEvent('mousedown',4);await Promise.resolve();assert.equal(mouseReads.length,atBoundary,'Forward boundary causes no new file read');
+filesActive=false;assert.equal(mouseEvent('mousedown',3).prevented,false);filesActive=true;pointerInside=false;assert.equal(mouseEvent('mousedown',3).prevented,false);pointerInside=true;dialogOpen=true;assert.equal(mouseEvent('mousedown',3).prevented,true);assert.equal(mouseModel.active().path,'C:/Third','A file confirmation blocks history navigation and browser navigation');dialogOpen=false;
+mouseModel.update({categoryFilter:'career'});mouseEvent('mousedown',3);await Promise.resolve();assert.equal(mouseModel.state.categoryFilter,'all','History navigation clears a category that belongs to another folder');mouseEvent('mousedown',3);await Promise.resolve();assert.equal(mouseModel.active().path,'C:/First');const atBackBoundary=mouseReads.length;mouseEvent('mousedown',3);await Promise.resolve();assert.equal(mouseReads.length,atBackBoundary,'Back boundary causes no new file read');
+for(const button of [0,1,2])assert.equal(mouseEvent('mousedown',button).prevented,false,'Primary, middle and right buttons keep their native behaviour');assert.ok(!mouseListeners.has('wheel'),'MagSpeed and horizontal wheel scrolling are not intercepted');stopMouse();stopMouse();assert.equal(mouseListeners.size,0,'Disposal removes every side-button handler');mouseModel.dispose();
+
+async function settledUntil(predicate){for(let attempt=0;attempt<250;attempt++){if(predicate())return;await Promise.resolve();}assert.fail('The fixture did not settle');}
+const smartEntries=[
+  {name:'notes.txt',path:'C:/Smart/notes.txt',kind:'file',size:100},
+  {name:'photo.png',path:'C:/Smart/photo.png',kind:'file',size:200},
+  {name:'Passport copies',path:'C:/Smart/Passport copies',kind:'folder',size:null},
+  {name:'passwords.txt',path:'C:/Smart/passwords.txt',kind:'file',size:40}
+];
+const smartReads=[];let resolveSmartText,smartWrites=0;
+const smartModel=createExplorerModel({list:async path=>({path,entries:smartEntries,writable:true}),preview:(path,options)=>{smartReads.push({path,...options});return new Promise(resolve=>resolveSmartText=resolve);},operation:async()=>smartWrites++},()=>{},intelligence);
+smartModel.newTab('C:/Smart');await settledUntil(()=>smartReads.length===1);
+assert.equal(smartReads[0].path,'C:/Smart/notes.txt','Only supported, non-sensitive text is inspected automatically');
+assert.equal(smartReads[0].textLimit,16384,'Automatic classification requests only the bounded text prefix');
+assert.equal(smartModel.active().classifications.get(intelligence.intelligenceKey(smartEntries[0])).source,'format','Names and file types are categorised before content reads finish');
+resolveSmartText({kind:'text',text:'Curriculum vitae. Professional experience. Employment and recruitment.'});await settledUntil(()=>smartModel.active().analysis.loading===false);
+const career=smartModel.active().classifications.get(intelligence.intelligenceKey(smartEntries[0]));
+assert.equal(career.category,'career');assert.equal(career.source,'content');assert.match(career.reason,/Text contains/);assert.equal(career.confidence,'strong');
+assert.equal(smartModel.active().classifications.get(intelligence.intelligenceKey(smartEntries[2])).category,'identity','Folder names are classified without scanning their contents');
+assert.equal(smartModel.active().classifications.get(intelligence.intelligenceKey(smartEntries[3])).category,'private');
+smartModel.update({view:'categories'});assert.deepEqual(smartModel.visible().map(entry=>entry.name),['notes.txt','Passport copies','photo.png','passwords.txt'],'Smart category view groups items in the category order');smartModel.update({categoryFilter:'career'});assert.deepEqual(smartModel.visible().map(entry=>entry.path),['C:/Smart/notes.txt']);
+assert.deepEqual(smartModel.active().entries.map(entry=>entry.path),smartEntries.map(entry=>entry.path),'Category filters are virtual and keep physical paths intact');assert.equal(smartWrites,0,'Automatic categories never make file changes');assert.equal(smartModel.state.preview,null,'Background category reads do not open or retain the preview');smartModel.dispose();
+
+const manyText=Array.from({length:47},(_,index)=>({name:'note '+index+'.txt',path:'C:/Budget/note '+index+'.txt',kind:'file',size:30})),budgetReads=[];
+const budgetModel=createExplorerModel({list:async path=>({path,entries:manyText}),preview:async(path,options)=>{budgetReads.push({path,...options});return{kind:'text',text:'Ordinary meeting notes.'};}},()=>{},intelligence);
+budgetModel.newTab('C:/Budget');await settledUntil(()=>budgetModel.active().analysis?.loading===false);
+assert.equal(budgetReads.length,40,'One folder analysis stops at the automatic text-file budget');assert.equal(budgetModel.active().analysis.eligible,47);assert.equal(budgetModel.active().analysis.limited,true);assert.ok(budgetReads.every(read=>read.textLimit===16384&&read.signal instanceof AbortSignal));assert.equal(budgetModel.active().classifications.size,47,'Items beyond the text budget still have name or format categories');budgetModel.dispose();
+
+const delayedCategoryReads=[];let categoryChanges=0;
+const cancellationModel=createExplorerModel({list:async path=>({path,entries:path==='C:/New'?[{name:'resume.pdf',path:'C:/New/resume.pdf',kind:'file',size:80}]:[{name:'notes.txt',path:path+'/notes.txt',kind:'file',size:50}]}),preview:(path,options)=>new Promise(resolve=>delayedCategoryReads.push({path,...options,resolve}))},()=>categoryChanges++,intelligence);
+cancellationModel.newTab('C:/Old');await settledUntil(()=>delayedCategoryReads.length===1);const oldCategoryRead=delayedCategoryReads[0];
+await cancellationModel.navigate('C:/New');assert.equal(oldCategoryRead.signal.aborted,true,'New folder navigation cancels obsolete automatic text analysis');await settledUntil(()=>cancellationModel.active().analysis.loading===false);oldCategoryRead.resolve({kind:'text',text:'Invoice. Amount due. Bank statement.'});for(let i=0;i<12;i++)await Promise.resolve();
+assert.deepEqual([...cancellationModel.active().classifications.keys()],['c:/new/resume.pdf'],'Late category content cannot overwrite the newer folder');assert.equal(cancellationModel.active().error,'');assert.equal(cancellationModel.active().analysis.errors,0,'Cancelled analysis is not presented as a file error');
+await cancellationModel.navigate('C:/Dispose');await settledUntil(()=>delayedCategoryReads.length===2);const lastCategoryRead=delayedCategoryReads[1];cancellationModel.dispose();const changesAtDisposal=categoryChanges;assert.equal(lastCategoryRead.signal.aborted,true,'Disposal cancels pending automatic text analysis');lastCategoryRead.resolve({kind:'text',text:'Invoice. Amount due.'});for(let i=0;i<12;i++)await Promise.resolve();assert.equal(categoryChanges,changesAtDisposal,'Disposed category workers cannot rerender the explorer');
+console.log('Aurora Explorer: metadata filters, confirmed file actions, navigation and preview cancellation, scoped mouse history and bounded virtual content categories passed. No user files were read or changed.');

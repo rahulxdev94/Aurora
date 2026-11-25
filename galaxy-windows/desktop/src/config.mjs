@@ -1,0 +1,3 @@
+/* Build-time local configuration. No credentials belong in this object. */
+export const CHATGPT_APP = 'shell:AppsFolder\\OpenAI.ChatGPT-Desktop_2p2nqsd0c76g0!ChatGPT';
+export const config=typeof __AURORA_BUILD_CONFIG__==='undefined'?{"timezone": "Australia/Sydney", "clockLabel": "Sydney", "chatgptUrl": "https://chatgpt.com/", "roots": {}, "launchers":{"scarlettUrl":"","anchorUrl":"","voiceLauncher":"","voiceHotkeyConfigured":false}, "weather": {"enabled": false, "city": "Sydney", "latitude": -33.8688, "longitude": 151.2093}, "calendar": {"enabled": false}, "audio": {"enabled": false}}:__AURORA_BUILD_CONFIG__;

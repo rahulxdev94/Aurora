@@ -1,0 +1,54 @@
+/* Galaxy Atlas dock. Native app order, hit areas and hover wave remain native. */
+#root .taskbar {
+  --ag-dock-ink: #0d0e19;
+  --ag-dock-arm: #777994;
+  --ag-dock-core: #f3d9c0;
+  border-radius: 28px 28px 18px 18px !important;
+  border: 1px solid !important;
+  border-color: #f3d9c071 #77799459 #44485d70 #9e7d8366 !important;
+  background:
+    radial-gradient(ellipse 36% 180% at 58% 150%,#f3d9c025 0%,#9e7d8324 30%,transparent 69%),
+    radial-gradient(ellipse 55% 200% at 34% -115%,#77799442 0%,transparent 72%),
+    radial-gradient(circle at 12% 27%,#f9ebd78c 0 .65px,transparent 1.05px),
+    radial-gradient(circle at 39% 81%,#b8bbd77a 0 .65px,transparent 1.05px),
+    radial-gradient(circle at 77% 21%,#f3d9c075 0 .7px,transparent 1.1px),
+    radial-gradient(circle at 92% 69%,#9eafdd85 0 .55px,transparent .95px),
+    linear-gradient(160deg,#353546e8,#0d0e19ee 52%,#242533ed) !important;
+  background-size: 100% 100% !important;
+  box-shadow: inset 0 1px 0 #f9ebd74a,inset 1px 0 0 #e9e5ef0d,
+    inset 0 -2px 0 #05070fbd,0 4px 0 -2px #03040cdb,0 10px 25px -9px #000b !important;
+  backdrop-filter: blur(14px) saturate(.78) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(.78) !important;
+  animation: none !important;
+}
+#root .taskbar .weg-item:not(.media-session-container) {
+  border-radius: 14px !important;
+  border-color: #77799421 !important;
+  background: radial-gradient(ellipse at 35% 0%,#e9e5ef0e,transparent 72%) !important;
+  box-shadow: inset 0 1px #e9e5ef09,inset 0 -1px #04061121 !important;
+}
+#root .taskbar .weg-item:not(.media-session-container)::before {
+  border-color: #9e7d8361 !important;
+  opacity: .16;
+}
+#root .taskbar .weg-item:not(.media-session-container):hover {
+  border-color: #ddb09480 !important;
+  background: radial-gradient(ellipse at 40% 0%,#f3d9c024,transparent 78%),linear-gradient(145deg,#77799430,#0d0e193d) !important;
+  box-shadow: inset 0 1px #f9ebd74d,inset 0 -1px #03040c66,0 3px 9px #0004 !important;
+}
+#root .taskbar .weg-item-overlay:has(> .weg-item-open-sign-focused) > .weg-item {
+  border-color: #ddb094b3 !important;
+  background: radial-gradient(ellipse at 35% 0%,#ddb09429,transparent 75%),linear-gradient(150deg,#7779943b,#0d0e195c) !important;
+  box-shadow: inset 0 1px #f9ebd759,inset 0 -1px #05070f73 !important;
+}
+#root .taskbar .weg-item-open-sign-focused {
+  background: linear-gradient(90deg,#ddb094,#f9ebd7,#ddb094) !important;
+  box-shadow: 0 0 5px #ddb09440 !important;
+}
+#root .taskbar .weg-item:focus-visible,
+#root .taskbar .weg-item :focus-visible {
+  outline-color: #f3d9c0 !important;
+}
+#root .taskbar .weg-separator.visible { opacity: .35 !important; }
+/* The native companion draws a finite travelling glint on this same rim.
+   There is no idle light sweep, added element or pointer interception here. */

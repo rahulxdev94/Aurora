@@ -9,4 +9,13 @@ Aurora Desktop is a custom Seelen UI desktop widget and theme overlay. It is not
 - **esbuild 0.28.2**, by its contributors, is MIT licensed and is a build-time dependency. Licence: `licenses/esbuild-MIT.txt`. Source: https://github.com/evanw/esbuild .
 - **Open-Meteo** supplies optional weather data under CC BY 4.0. The widget links to Open-Meteo wherever forecast data are displayed. Data are reduced to daily ranges, weather categories and forecast labels. Licence and attribution: https://open-meteo.com/en/licence and https://creativecommons.org/licenses/by/4.0/ . API use is also subject to the provider's service terms. No weather payload is distributed with this project.
 
+## Colour palette references
+
+Solar Gold retains Aurora's existing finish. The additional palettes adapt selected colour values from the projects below, with adjustments for contrast and Aurora's layered surfaces. Shared status colours also draw on these references. These are Aurora adaptations, not official theme ports or endorsements. No upstream theme implementation or complete palette file is included.
+
+- **Arctic Blue** draws on [Nord's colour system](https://www.nordtheme.com/docs/colors-and-palettes/) by Sven Greb and contributors. [Upstream source](https://github.com/nordtheme/nord). The upstream MIT notice is retained in [licenses/nord-MIT.txt](licenses/nord-MIT.txt), from the official [licence file](https://github.com/nordtheme/nord/blob/develop/license).
+- **Violet Night** draws on the [Dracula palette](https://github.com/dracula/dracula-theme#color-palette) by Dracula Theme and contributors. The upstream MIT notice is retained in [licenses/dracula-MIT.txt](licenses/dracula-MIT.txt), from the official [licence file](https://github.com/dracula/dracula-theme/blob/main/LICENSE).
+- **Evergreen** draws on [Everforest's palette](https://github.com/sainnhe/everforest/blob/master/palette.md) by sainnhe and contributors. The upstream MIT notice is retained in [licenses/everforest-MIT.txt](licenses/everforest-MIT.txt), from the official [licence file](https://github.com/sainnhe/everforest/blob/master/LICENSE).
+- **Porcelain** draws on Catppuccin Latte, with some shared status colours from the [Catppuccin palettes](https://github.com/catppuccin/palette). The upstream MIT notice is retained in [licenses/catppuccin-MIT.txt](licenses/catppuccin-MIT.txt), from the official [licence file](https://github.com/catppuccin/palette/blob/main/LICENSE).
+
 The atom, particle field, pointer companion, panel motion and weather artwork are rendered in code. This repository contains no galaxy photography, Android artwork, external fonts, personal icons, screenshots or phone prototype assets.

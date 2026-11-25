@@ -3,6 +3,12 @@
   "clockLabel": "Sydney",
   "chatgptUrl": "https://chatgpt.com/",
   "roots": {},
+  "launchers": {
+    "scarlettUrl": "",
+    "anchorUrl": "",
+    "voiceLauncher": "",
+    "voiceHotkeyConfigured": false
+  },
   "weather": {
     "enabled": false,
     "city": "Sydney",

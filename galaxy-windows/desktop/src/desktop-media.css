@@ -1,0 +1,24 @@
+.atlas-media-wrap{max-width:1040px;margin:auto;color:#efeaf3;font-family:inherit}
+.atlas-media-wrap h2{margin:0 0 12px;font-size:clamp(23px,3vw,37px);line-height:1.1;letter-spacing:-.045em;color:#fff4df}
+.atlas-media-grid{display:grid;grid-template-columns:minmax(180px,.82fr) minmax(200px,1fr) minmax(220px,1.08fr);gap:12px;align-items:start}
+.atlas-media-grid .atlas-desk-card{position:relative;overflow:hidden}
+.atlas-media-player{--record:#d5ab73;--rim:#ac819c;isolation:isolate}
+.atlas-media-player[data-palette=ember]{--record:#ecaa6e;--rim:#e89786}
+.atlas-media-player[data-palette=tidal]{--record:#87c7cd;--rim:#779cea}
+.atlas-media-grid .atlas-media-player{border-color:color-mix(in srgb,var(--rim) 60%,#282938);background:radial-gradient(ellipse at 12% 12%,color-mix(in srgb,var(--rim) 27%,#24232e),transparent 80%),#212331}
+.atlas-vinyl{width:clamp(78px,9vw,128px);aspect-ratio:1;margin:12px auto 18px;border-radius:100%;border:1px solid var(--rim);box-shadow:0 12px 18px #09091266,inset 0 0 16px #02030b;background:radial-gradient(circle,#29242e 2%,var(--record) 3% 14%,transparent 15%),repeating-radial-gradient(circle,transparent 20%,#1515209c 21% 22%,transparent 23%),conic-gradient(from 40deg,#181925,var(--rim),#252432 24%,#292835 54%,var(--record),#181925 80%)}
+.atlas-song{display:block;overflow-wrap:anywhere;font-size:18px;line-height:1.15}
+.atlas-media-palettes,.atlas-channel-list{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0}
+.atlas-media-palettes .atlas-action{min-height:28px;font-size:11px;padding:5px 8px}
+.atlas-media-wrap [aria-pressed=true]{border-color:#e1bb91;color:#ffe3ba}
+.atlas-media-wrap button:disabled{opacity:.45;cursor:default}
+.atlas-media-manage{margin:12px 0;font-size:13px}.atlas-media-manage summary{cursor:pointer;color:#efcfaa}
+.atlas-media-manage .atlas-link-form{margin-bottom:5px}.atlas-media-manage input{min-width:0}
+.atlas-media-list,.atlas-media-ranks{max-height:clamp(130px,30vh,290px);overflow:auto;overscroll-behavior-y:contain;scrollbar-width:thin}
+.atlas-media-list .atlas-action{display:block;width:100%;text-align:left;margin:0 0 4px}
+.atlas-media-list small{display:block;color:#c8bbc7;font-weight:normal;margin-top:4px}
+.atlas-media-ranks{padding:0 0 0 27px;font-size:13px;line-height:1.4}
+.atlas-media-ranks li{padding:4px 0 4px 3px;border-bottom:1px solid #bfb1c01a}
+.atlas-media-ranks li::marker{color:#ddbd97;font-variant-numeric:tabular-nums}
+@media(max-width:800px){.atlas-media-grid{grid-template-columns:1fr 1fr}.atlas-media-player{grid-column:1/-1}.atlas-vinyl{float:right;margin:0 0 10px 12px}}
+@media(max-width:530px){.atlas-media-grid{grid-template-columns:1fr}}

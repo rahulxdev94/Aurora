@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {validateCompanionLaunchers} from '../src/aurora-companion-launchers.mjs';
 
 export async function loadConfig(project,env=process.env){
   const defaults=JSON.parse(await fs.readFile(path.join(project,'config.example.json'),'utf8'));
@@ -7,8 +8,8 @@ export async function loadConfig(project,env=process.env){
   try{local=JSON.parse(await fs.readFile(path.join(project,'config.local.json'),'utf8'));}
   catch(error){if(error.code!=='ENOENT')throw error;}
   for(const key of Object.keys(local))if(!Object.hasOwn(defaults,key))throw new Error('Unknown local configuration field: '+key);
-  for(const group of ['weather','calendar','audio'])for(const key of Object.keys(local[group]||{}))if(!Object.hasOwn(defaults[group],key))throw new Error('Unknown '+group+' configuration field: '+key);
-  const config={...defaults,...local,weather:{...defaults.weather,...local.weather},calendar:{...defaults.calendar,...local.calendar},audio:{...defaults.audio,...local.audio}};
+  for(const group of ['weather','calendar','audio','launchers'])for(const key of Object.keys(local[group]||{}))if(!Object.hasOwn(defaults[group],key))throw new Error('Unknown '+group+' configuration field: '+key);
+  const config={...defaults,...local,weather:{...defaults.weather,...local.weather},calendar:{...defaults.calendar,...local.calendar},audio:{...defaults.audio,...local.audio},launchers:validateCompanionLaunchers(Object.hasOwn(local,'launchers')?local.launchers:defaults.launchers)};
   new Intl.DateTimeFormat('en-AU',{timeZone:config.timezone});
   for(const key of ['clockLabel','chatgptUrl'])if(typeof config[key]!=='string'||!config[key].trim())throw new Error('Invalid '+key);
   const chat=new URL(config.chatgptUrl);

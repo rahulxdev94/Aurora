@@ -1,0 +1,14 @@
+Aurora Glass source provenance
+
+Source: https://github.com/burgess1202/aurora-glass-seelen-ui
+Commit: ff564477a268dd8a20c0eebf41ad53f99a9bab0e
+Commit URL: https://github.com/burgess1202/aurora-glass-seelen-ui/tree/ff564477a268dd8a20c0eebf41ad53f99a9bab0e
+Copied on: 3 November 2026 (Australia/Sydney)
+Licence: GNU Affero General Public License version 3.0 (see LICENSE)
+
+All 36 tracked upstream files were copied unchanged from this commit.
+Each copied file was verified against the checkout using SHA-256.
+The .git history was omitted. This provenance file is the only added file.
+LICENSE, NOTICE.md and CREDITS.md are retained in full.
+
+This is the actual upstream source, not an independently recreated visual approximation.

@@ -16,9 +16,9 @@
         <div class="ah-core-grid" aria-hidden="true"></div>
         <div class="ah-scene" aria-hidden="true"><div class="ah-orbit ah-orbit-a ah-animated"></div><div class="ah-orbit ah-orbit-b ah-animated"></div><div class="ah-orbit ah-orbit-c ah-animated"></div><div class="ah-orbit ah-orbit-d ah-animated"></div><div class="ah-core-shadow ah-animated"></div></div>
         <button type="button" class="ah-companion cursor-interaction" data-action="chat" aria-label="Open ChatGPT draft"><span class="ah-companion-shell ah-animated"><span class="ah-companion-sheen ah-animated"></span><span class="ah-face"><span class="ah-eye"></span><span class="ah-eye"></span><span class="ah-smile"></span></span></span></button>
-        <button type="button" class="ah-satellite ah-satellite-plan cursor-interaction" data-prompt="Help me plan my week."><i data-lucide="route" aria-hidden="true"></i>Plan</button>
-        <button type="button" class="ah-satellite ah-satellite-create cursor-interaction" data-prompt="Help me develop a creative idea."><i data-lucide="sparkles" aria-hidden="true"></i>Create</button>
-        <button type="button" class="ah-satellite ah-satellite-explore cursor-interaction" data-prompt="Help me explore something new."><i data-lucide="compass" aria-hidden="true"></i>Explore</button>
+        <button type="button" class="ah-satellite ah-satellite-plan cursor-interaction" data-aurora-companion="scarlett"><i data-lucide="bot" aria-hidden="true"></i>Scarlett</button>
+        <button type="button" class="ah-satellite ah-satellite-create cursor-interaction" data-aurora-companion="voice"><i data-lucide="audio-lines" aria-hidden="true"></i>ChatGPT Voice</button>
+        <button type="button" class="ah-satellite ah-satellite-explore cursor-interaction" data-aurora-companion="anchor" title="Open Anchor reminders"><i data-lucide="anchor" aria-hidden="true"></i>Anchor</button>
         <div class="ah-core-caption"><span class="ah-core-name">YOUR AI COMPANION</span><button type="button" class="ah-chat-launch cursor-interaction" data-action="chat">Open ChatGPT <i data-lucide="arrow-up-right" aria-hidden="true"></i></button><span class="ah-small ah-muted">A place to start your next idea</span></div>
       </section>
 
@@ -64,7 +64,7 @@
 </div>
 
 <style>
-#aurora-home-preview{--ah-accent:#82e8f9;--ah-violet:#b19bff;--ah-text:#edf4ff;--ah-muted:#a8b7cf;--ah-panel:#111c30;--ah-edge:#29425c;--ah-depth:1;--ah-energy:1;position:relative;isolation:isolate;width:100%;min-width:0;overflow:hidden;border-radius:20px;background:#080f20;color:var(--ah-text);font-family:Inter,"Segoe UI",sans-serif;font-size:14px;line-height:1.45;box-shadow:0 18px 70px #00000035;color-scheme:dark}
+#aurora-home-preview{--ah-accent:#55E5CF;--ah-violet:#b19bff;--ah-text:#edf4ff;--ah-muted:#a8b7cf;--ah-panel:#111c30;--ah-edge:#29425c;--ah-depth:1;--ah-energy:1;position:relative;isolation:isolate;width:100%;min-width:0;overflow:hidden;border-radius:20px;background:#080f20;color:var(--ah-text);font-family:Inter,"Segoe UI",sans-serif;font-size:14px;line-height:1.45;box-shadow:0 18px 70px #00000035;color-scheme:dark}
 #aurora-home-preview *{box-sizing:border-box}
 #aurora-home-preview [hidden]{display:none!important}
 #aurora-home-preview button,#aurora-home-preview input,#aurora-home-preview select,#aurora-home-preview textarea{font:inherit}
@@ -335,12 +335,12 @@
     return {year:value('year'),month:value('month')-1,day:value('day')};
   };
   const today = sydney();
-  const state = {motion:reduced.matches?'reduced':'full',pointer:true,month:today.month,year:today.year,selected:today.day,selectedMonth:today.month,selectedYear:today.year,minutes:25,remaining:1500,deadline:null,phase:'ready',panel:null,minimised:null,accent:'#82e8f9',depth:1,workspace:'work',illumination:1,sound:false,notices:[]};
+  const state = {motion:reduced.matches?'reduced':'full',pointer:true,month:today.month,year:today.year,selected:today.day,selectedMonth:today.month,selectedYear:today.year,minutes:25,remaining:1500,deadline:null,phase:'ready',panel:null,minimised:null,accent:'#D6B466',depth:1,workspace:'work',illumination:1,sound:false,notices:[]};
   const folders = [
     {name:'Work',short:'Work & Career',colour:'#619fdf',icon:'briefcase-business',items:['Résumés','Applications','Qualifications','Employment records']},
-    {name:'Personal',short:'Identity & Immigration',colour:'#a189d7',icon:'badge-check',items:['Identity documents','Visa paperwork','ACS evidence']},
+    {name:'Personal',short:'Personal',colour:'#a189d7',icon:'badge-check',items:['Documents','Records','References']},
     {name:'Finance',short:'Money & Home',colour:'#7bbda6',icon:'house',items:['Banking','Rent and home','Tax and super']},
-    {name:'Projects',short:'Projects',colour:'#6cbac6',icon:'layers-3',items:['Icebreaker','Source archives','Development notes']},
+    {name:'Projects',short:'Projects',colour:'#6cbac6',icon:'layers-3',items:['Example project','Source archives','Development notes']},
     {name:'Media',short:'Photos & Videos',colour:'#cb91bc',icon:'images',items:['Photos','Screenshots','Recordings']},
     {name:'Documents',short:'Documents & Notes',colour:'#d4a578',icon:'notebook-pen',items:['Documents','Notes','Technical logs']},
     {name:'Apps',short:'Apps',colour:'#8da6c3',icon:'app-window',items:['Applications','Games','Shortcuts']},
@@ -379,7 +379,7 @@
     if (typeof saved.pointer === 'boolean') state.pointer = saved.pointer;
     if (['work','create','relax'].includes(saved.workspace)) state.workspace=saved.workspace;
     if (typeof saved.illumination==='number'&&saved.illumination>=.6&&saved.illumination<=1.4) state.illumination=saved.illumination;
-    if (/^#[0-9a-f]{6}$/i.test(saved.accent || '')) state.accent = saved.accent;
+    if (/^#[0-9a-f]{6}$/i.test(saved.accent || '')) state.accent = ({'#82e8f9':'#D6B466','#b9a1ff':'#D8DCE3','#aadbc5':'#E4CE9B','#55e5cf':'#D6B466','#ffd166':'#D6B466','#f5a5d2':'#D8DCE3','#6acfff':'#E4CE9B'}[saved.accent.toLowerCase()] || saved.accent);
     if (Number.isInteger(saved.month) && saved.month>=0 && saved.month<12 && Number.isInteger(saved.year) && saved.year>1900 && saved.year<2200) {state.month=saved.month;state.year=saved.year;}
   };
   readSaved(window.openai?.widgetState);
@@ -416,7 +416,7 @@
   }
   function setWorkspace(workspace) {
     if(!['work','create','relax'].includes(workspace))return;
-    state.workspace=workspace;state.accent={work:'#82e8f9',create:'#b9a1ff',relax:'#aadbc5'}[workspace];
+    state.workspace=workspace;state.accent={work:'#D6B466',create:'#D8DCE3',relax:'#E4CE9B'}[workspace];
     renderAppearance();save();addNotice(`${workspace[0].toUpperCase()+workspace.slice(1)} workspace selected`);
     toast({work:'Work space: your library and focus timer.',create:'Create space: your AI companion takes centre stage.',relax:'Relax space: a softer scene and your weekly outlook.'}[workspace]);
   }
@@ -512,7 +512,7 @@
       const app=apps.find(a=>a.name===extra.name)||{icon:'app-window',name:extra.name};
       content.innerHTML=`<div class="ah-category-symbol">${icon(app.icon)}</div><h3>${escape(app.name)}</h3><span class="ah-panel-badge">Preview shortcut</span><p>This is where ${escape(app.name)} would open from your desktop. This concept stays on this page.</p><div class="ah-panel-actions"><button type="button" class="ah-primary cursor-interaction" data-action="launcher">${icon('grid-2x2')}Back to Launchpad</button></div>`;
     }else if(kind==='appearance'){
-      content.innerHTML=`<span class="ah-panel-badge">${icon('sliders-horizontal')}Personalise this concept</span><h3>A space that feels like you.</h3><div class="ah-appearance-grid"><label class="ah-appearance-item">Motion<select class="ah-select" data-panel-motion><option value="full">Full orbit</option><option value="reduced">Reduced motion</option><option value="off">Motion off</option></select></label><div class="ah-appearance-item"><span>Accent light</span><div class="ah-colours">${[['#82e8f9','Glacier'],['#b9a1ff','Nebula'],['#aadbc5','Mint']].map(([value,label])=>`<button type="button" class="ah-colour cursor-interaction" style="--colour:${value}" data-colour="${value}" aria-label="${label} accent" aria-pressed="${state.accent===value}"></button>`).join('')}</div></div><div class="ah-appearance-item"><span>Pointer companion</span><button type="button" class="ah-secondary cursor-interaction" data-action="pointer" data-panel-pointer></button></div><div class="ah-appearance-item"><span>Workspace</span><button type="button" class="ah-secondary cursor-interaction" data-action="home">${icon('house')}Return home</button></div></div>`;
+      content.innerHTML=`<span class="ah-panel-badge">${icon('sliders-horizontal')}Personalise this concept</span><h3>A space that feels like you.</h3><div class="ah-appearance-grid"><label class="ah-appearance-item">Motion<select class="ah-select" data-panel-motion><option value="full">Full orbit</option><option value="reduced">Reduced motion</option><option value="off">Motion off</option></select></label><div class="ah-appearance-item"><span>Accent light</span><div class="ah-colours">${[['#D6B466','Gold'],['#D8DCE3','Silver'],['#E4CE9B','Champagne']].map(([value,label])=>`<button type="button" class="ah-colour cursor-interaction" style="--colour:${value}" data-colour="${value}" aria-label="${label} accent" aria-pressed="${state.accent===value}"></button>`).join('')}</div></div><div class="ah-appearance-item"><span>Pointer companion</span><button type="button" class="ah-secondary cursor-interaction" data-action="pointer" data-panel-pointer></button></div><div class="ah-appearance-item"><span>Workspace</span><button type="button" class="ah-secondary cursor-interaction" data-action="home">${icon('house')}Return home</button></div></div>`;
       renderAppearance();
     }else if(kind==='quick-controls'){
       content.innerHTML=`<span class="ah-panel-badge">${icon('sliders-horizontal')}This preview only</span><h3>Set the atmosphere.</h3><div class="ah-appearance-grid"><div class="ah-appearance-item"><label class="ah-illumination-line" for="ah-scene-light"><span>Scene illumination</span><output class="ah-illumination-value" for="ah-scene-light">100%</output></label><input id="ah-scene-light" class="ah-illumination" data-illumination type="range" min="60" max="140" step="5" value="100"><span class="ah-control-note">Adjusts the scene, not your screen.</span></div><label class="ah-appearance-item">Motion<select class="ah-select" data-panel-motion><option value="full">Full orbit</option><option value="reduced">Reduced motion</option><option value="off">Motion off</option></select></label><div class="ah-appearance-item"><span>Interaction sounds</span><button type="button" class="ah-secondary cursor-interaction" data-action="sound" data-panel-sound aria-pressed="false">Sounds off</button><span class="ah-control-note">Soft tones on your clicks. Off by default.</span></div><div class="ah-appearance-item"><span>Pointer companion</span><button type="button" class="ah-secondary cursor-interaction" data-action="pointer" data-panel-pointer></button><span class="ah-control-note">Follows you inside this scene.</span></div></div>`;

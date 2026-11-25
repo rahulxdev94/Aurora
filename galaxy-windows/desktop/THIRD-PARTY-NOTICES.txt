@@ -1,0 +1,1 @@
+Bundled dependencies: @seelen-ui/lib 2.8.4 (AGPL-3.0-only); Lucide 1.67.0 (ISC); @tauri-apps/api and esbuild build tool as declared in work/aurora-home-build/package-lock.json. Original source and reproducible build are retained in the workspace. No package is published.

@@ -1,0 +1,58 @@
+import assert from 'node:assert/strict';
+import {parseGpuTelemetry,createGpuTelemetry} from '../scripts/gpu-telemetry.mjs';
+import {normaliseGpuPayload} from '../src/live-data/live-data.mjs';
+import {createFileServer} from '../scripts/file-service.mjs';
+import {createFileService} from '../src/aurora-file-service.mjs';
+
+const uuid='GPU-11111111-2222-3333-4444-555555555555';
+let time=1804230000000;
+const at=()=>new Date(time).toISOString();
+const csv=(temperature='61')=>`${uuid}, "NVIDIA test, adapter", ${temperature}, 12, 100, 6141\n`;
+const first=parseGpuTelemetry(csv(),uuid,at());
+assert.equal(first.name,'NVIDIA test, adapter');
+assert.equal(first.temperatureC,61);assert.equal(first.status,'ok');assert.equal(first.uuid,uuid);
+assert.equal(parseGpuTelemetry(csv('N/A'),uuid,at()).temperatureC,null);
+assert.equal(parseGpuTelemetry(csv('N/A'),uuid,at()).status,'unavailable');
+for(const value of ['','NaN','Infinity','999','-99'])assert.equal(parseGpuTelemetry(csv(value),uuid,at()).temperatureC,null);
+assert.equal(parseGpuTelemetry(csv('0'),uuid,at()).temperatureC,0);
+assert.throws(()=>parseGpuTelemetry(csv().replace(uuid,'GPU-aaaaaaaa-2222-3333-4444-555555555555'),uuid,at()));
+assert.throws(()=>parseGpuTelemetry(csv()+csv(),uuid,at()),'Multiple adapters never silently choose the first');
+assert.throws(()=>parseGpuTelemetry(csv().replace('adapter"','adapter'),uuid,at()));
+assert.throws(()=>createGpuTelemetry({enabled:true,uuid:'0'}));
+assert.throws(()=>createGpuTelemetry({enabled:'true',uuid}));
+
+let queries=0,fail=false;
+const reader=createGpuTelemetry({enabled:true,uuid},{now:()=>time,query:async selected=>{queries++;assert.equal(selected,uuid);await Promise.resolve();if(fail)throw new Error('Fixture timeout');return csv();}});
+const together=await Promise.all([reader.read(),reader.read(),reader.read()]);
+assert.equal(queries,1,'Concurrent reads share one fixed query');
+assert.equal(together[0].gpu.status,'ok');
+time+=4999;await reader.read();assert.equal(queries,1,'Repeated readers cannot increase the five-second query rate');
+time+=1;fail=true;const stale=await reader.read();
+assert.equal(queries,2);assert.equal(stale.gpu.status,'stale');assert.equal(stale.gpu.temperatureC,61);
+assert.equal(stale.gpu.updatedAt,together[0].gpu.updatedAt,'A failed query cannot refresh the last successful measurement timestamp');
+assert.notEqual(stale.updatedAt,stale.gpu.updatedAt);
+time+=5000;fail=false;const recovered=await reader.read();assert.equal(recovered.gpu.status,'ok');assert.equal(queries,3);
+const disabled=createGpuTelemetry({}, {query:()=>{throw new Error('Disabled reader must not invoke a driver');}});
+assert.equal((await disabled.read()).gpu.status,'unavailable');
+let throws=0;const unavailable=createGpuTelemetry({enabled:true,uuid},{now:()=>time,query:()=>{throws++;throw new Error('Synchronous failure fixture');}});
+assert.equal((await unavailable.read()).gpu.temperatureC,null);time+=5000;await unavailable.read();assert.equal(throws,2,'Synchronous errors do not leave a permanently cached pending promise');
+
+const payload={schemaVersion:1,gpu:first};
+assert.equal(normaliseGpuPayload(payload,Date.parse(first.updatedAt)).status,'ok');
+assert.equal(normaliseGpuPayload(payload,Date.parse(first.updatedAt)+21000).status,'stale');
+assert.equal(normaliseGpuPayload(payload,Date.parse(first.updatedAt)-6000).temperatureC,null,'Future readings cannot look current');
+assert.equal(normaliseGpuPayload({...payload,gpu:{...first,updatedAt:null}},time).temperatureC,null);
+assert.equal(normaliseGpuPayload({...payload,gpu:{...first,temperatureC:null,status:'unavailable'}},time).status,'unavailable');
+assert.equal(normaliseGpuPayload({...payload,gpu:{...first,status:'stale'}},Date.parse(first.updatedAt)).status,'stale');
+assert.throws(()=>normaliseGpuPayload({...payload,gpu:{...first,source:'other'}},time));
+
+const service=await createFileServer({token:'test-only-token-'.repeat(3),roots:[],writeRoots:[]});
+assert.equal((await service.dispatch('/health')).capabilities.gpuTemperature,false);
+assert.equal((await service.dispatch('/gpu-temperature')).gpu.status,'unavailable');
+for(const input of [{uuid},{executable:'other'},{query:'anything'},[],null])await assert.rejects(service.dispatch('/gpu-temperature',input),error=>error.code==='GPU_QUERY');
+let call;
+const client=createFileService({token:'test-only-token-'.repeat(3),fetchImpl:async(url,options)=>{call={url,options};return{ok:true,json:async()=>({ok:true,data:payload})};}});
+assert.deepEqual(await client.gpuTemperature(),payload);
+assert.equal(call.url,'http://127.0.0.1:18765/gpu-temperature');
+assert.equal(call.options.method,'POST');assert.equal(call.options.body,'{}');assert.equal(call.options.credentials,'omit');
+console.log('GPU telemetry: exact adapter binding, bounded/coalesced reads, failure recovery, stale timestamps, null unsupported values and fixed authenticated client contract passed. No driver command or listener started.');

@@ -1,0 +1,396 @@
+/* Galaxy Atlas. Functions live on celestial bodies, not in a dashboard. */
+#aurora-home-preview#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active {
+  --prism-accent: #f1cfac; --prism-secondary: #bba5f0; --prism-text: #f2edf7; --prism-muted: #b8acc9;
+  --prism-base: #030207; --prism-field: #110b1c; --prism-panel: #110b1ce0;
+}
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap {
+  position: absolute; inset: 0; z-index: 20; overflow: hidden; isolation: isolate;
+  color: #f2edf7; background: #030207; font-family: "Segoe UI Variable Text","Segoe UI",sans-serif; font-size: 16px; color-scheme: dark;
+}
+#au-starmap[hidden] { display: none !important; }
+#au-starmap .ag-stage { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; overflow: hidden; isolation: isolate; }
+#au-starmap .ag-stage > canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+#au-starmap .ag-title {
+  position: absolute; z-index: 4; left: 31px; top: 25px; margin: 0; pointer-events: none;
+  color: #c6b8d29e; font-size: 17px; font-weight: 350; letter-spacing: 1px; line-height: 1.4; text-shadow: 0 2px 8px #000;
+}
+#au-starmap .ag-back {
+  position: absolute; z-index: 10; right: 30px; top: 24px; min-height: 34px; padding: 6px 0 6px 10px;
+  color: #dbcde4; background: transparent; border: 0; border-bottom: 1px solid #d7bcd52e; border-radius: 0;
+  font: 400 13px/1.4 "Segoe UI Variable Text","Segoe UI",sans-serif; letter-spacing: .3px; cursor: pointer; text-shadow: 0 2px 7px #000;
+}
+#au-starmap .ag-back:hover { color: #ffe3c6; border-bottom-color: #f3d2b38c; }
+#au-starmap .ag-objects { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+#au-starmap .ag-object {
+  --ag-x: 50%; --ag-y: 50%; --ag-light: #d3b2f0;
+  position: absolute; left: var(--ag-x); top: var(--ag-y); transform: translate(-50%,-50%);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: .8em;
+  width: 11em; height: 9.2em; padding: .7em .25em 0; margin: 0; border: 0; border-radius: 50%; outline: 0;
+  color: #f4edf8; background: transparent; box-shadow: none; cursor: pointer; pointer-events: auto;
+  font-family: inherit; font-size: clamp(14px,1.03vw,23px); -webkit-tap-highlight-color: transparent;
+}
+#au-starmap .ag-object::before {
+  content: ""; position: absolute; pointer-events: none; left: 14%; right: 14%; top: 13%; height: 48%;
+  border: 1px solid; border-color: #d8c4ff00; border-radius: 50%; opacity: 0;
+  transform: rotate(-22deg) scaleY(.58) scale(.82); transition: opacity .35s,transform .55s cubic-bezier(.18,.7,.2,1),border-color .35s;
+}
+#au-starmap .ag-object::after {
+  content: ""; position: absolute; top: 53%; left: 50%; width: 1px; height: .8em;
+  background: linear-gradient(transparent,#ddc6e259); opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+#au-starmap .ag-object:is(:hover,:focus-visible,[aria-expanded="true"],.is-selected)::before { opacity: .9; border-color: #f1d5b680 #a9b9f62b #d5abdf4d #d3b1f47d; transform: rotate(-22deg) scaleY(.58) scale(1.1); }
+#au-starmap .ag-object:is(:hover,:focus-visible,[aria-expanded="true"],.is-selected)::after { opacity: 1; }
+#au-starmap .ag-object:focus-visible .ag-caption { outline: 1px solid #eed4bc9c; outline-offset: 6px; border-radius: 2px; }
+#au-starmap .ag-model {
+  position: relative; display: block; width: 5.2em; height: 5.2em; flex: 0 0 auto; pointer-events: none;
+  filter: drop-shadow(0 0 .7em #b192dd16); transform: translateY(0); transition: transform .55s cubic-bezier(.18,.7,.2,1),filter .4s;
+}
+#au-starmap .ag-object:is(:hover,:focus-visible) .ag-model { transform: translateY(-.3em) scale(1.07); filter: drop-shadow(0 0 .8em color-mix(in srgb,var(--ag-light) 40%,transparent)); }
+#au-starmap .ag-caption { display: flex; flex-direction: column; align-items: center; gap: .25em; max-width: 100%; pointer-events: none; text-align: center; text-shadow: 0 1px 3px #000,0 2px 9px #000,0 0 18px #030207; }
+#au-starmap .ag-name { color: #eee5f4; font-weight: 450; font-size: 1em; line-height: 1.25; letter-spacing: .55px; }
+#au-starmap .ag-reading { color: #c1b3cc; font-size: clamp(12px,.83vw,18px); line-height: 1.35; font-weight: 400; letter-spacing: .05px; max-width: 13em; }
+#au-starmap .ag-object:is(:hover,:focus-visible,[aria-expanded="true"],.is-selected) .ag-name { color: #ffe4c9; }
+#au-starmap .ag-object:is(:hover,:focus-visible) .ag-reading { color: #e2d5e9; }
+#au-starmap .ag-object[data-body="time"] { --ag-x: 16%; --ag-y: 23%; --ag-light: #c5e7ff; }
+#au-starmap .ag-object[data-body="calendar"] { --ag-x: 84%; --ag-y: 23%; --ag-light: #f3caa4; }
+#au-starmap .ag-object[data-body="weather"] { --ag-x: 10%; --ag-y: 56%; --ag-light: #a4dded; }
+#au-starmap .ag-object[data-body="library"] { --ag-x: 89%; --ag-y: 56%; --ag-light: #afc8ff; }
+#au-starmap .ag-object[data-body="system"] { --ag-x: 27%; --ag-y: 80%; --ag-light: #c4a6f5; }
+#au-starmap .ag-object[data-body="frequent"] { --ag-x: 75%; --ag-y: 80%; --ag-light: #fac9ab; }
+#au-starmap .ag-object[data-body="tools"] { --ag-x: 49%; --ag-y: 86%; --ag-light: #d7d1d7; }
+#au-starmap .ag-object[data-body="search"] { --ag-x: 53%; --ag-y: 14%; --ag-light: #b6affc; }
+#au-starmap .ag-object[data-body="core"] { --ag-x: 50%; --ag-y: 44%; width: 20em; height: 15em; padding: 0; justify-content: flex-end; border-radius: 50%; }
+#au-starmap .ag-object[data-body="core"] .ag-model { display: none; }
+#au-starmap .ag-object[data-body="core"] .ag-caption { position: relative; isolation: isolate; margin-bottom: -.75em; }
+#au-starmap .ag-object[data-body="core"] .ag-caption::before { content: ""; position: absolute; pointer-events: none; z-index: -1; inset: -1.1em -2.8em; background: radial-gradient(ellipse,#020309ed 0,#020309bd 29%,#02030952 57%,transparent 76%); filter: blur(7px); }
+#au-starmap .ag-object[data-body="core"] .ag-name { letter-spacing: 1.9px; font-size: .9em; font-weight: 600; text-transform: uppercase; color: #fff2e6; text-shadow: 0 1px 2px #000,0 0 8px #000,0 0 15px #000; }
+#au-starmap .ag-object[data-body="core"] .ag-reading { color: #eee2f0; font-weight: 450; text-shadow: 0 1px 3px #000,0 0 9px #000; }
+#au-starmap .ag-object[data-body="core"]::before { left: 12%; right: 12%; top: 21%; height: 49%; border-color: #efb7ce00; }
+#au-starmap .ag-object[data-body="core"]:is(:hover,:focus-visible)::before { border-color: #f7dabd57 #d5b0de26 #d5b0de44 #f7dabd57; }
+#au-starmap .ag-object[data-body="core"]::after { top: auto; bottom: 1.7em; }
+
+/* A pulsar dial uses the actual wall-clock hand angles supplied by the host. */
+#au-starmap [data-body="time"] .ag-model {
+  border-radius: 50%; border: 1px solid #d3e6f789;
+  background: radial-gradient(circle,#0a1728 0 3%,transparent 4%),radial-gradient(circle,transparent 60%,#b3dbed5e 61%,transparent 62%,transparent 70%),radial-gradient(circle,#0b1525 0 56%,transparent 57%),repeating-conic-gradient(from -1deg,#bad4ec80 0deg 1deg,transparent 1deg 30deg),radial-gradient(circle at 32% 20%,#abd9ef25,#101b2d 47%,#040810 71%);
+  box-shadow: inset 0 0 0 .3em #040b16,inset 0 0 0 calc(.3em + 1px) #a4cce74d,inset -.35em -.4em .6em #0009,inset .2em .25em .5em #d5efff14,0 0 1.1em #8ab8e31a,0 .2em .5em #0008;
+}
+#au-starmap [data-body="time"] .ag-model::before {
+  content: ""; position: absolute; width: 2px; height: 34%; left: calc(50% - 1px); top: 16%;
+  transform-origin: 50% 100%; transform: rotate(var(--ag-minute-angle,0deg)); background: linear-gradient(#e6ffff,#9acbea); border-radius: 2px; box-shadow: 0 0 .45em #c5e7ff85;
+}
+#au-starmap [data-body="time"] .ag-model::after {
+  content: ""; position: absolute; width: 3px; height: 24%; left: calc(50% - 1.5px); top: 26%;
+  transform-origin: 50% 100%; transform: rotate(var(--ag-hour-angle,0deg)); background: linear-gradient(#f5d8bb,#c2b2b0); border-radius: 2px; box-shadow: 0 0 .4em #f1d2af75;
+}
+
+/* A crescent calendar world carries an etched orbital date scale. */
+#au-starmap [data-body="calendar"] .ag-model {
+  width: 4.8em; height: 4.8em; margin: .2em 0; border-radius: 50%;
+  background: radial-gradient(ellipse at 30% 29%,#fff0d335,transparent 25%),radial-gradient(circle at 65% 65%,#b7947740 0 8%,transparent 10%),radial-gradient(circle at 32% 60%,#e6ba9226 0 7%,transparent 9%),radial-gradient(circle at 30% 26%,#e5c19f,#937388 56%,#2f223c 78%);
+  box-shadow: inset -1.4em -.3em .3em #08050ef2,inset -.35em .1em .7em #140d24,inset .18em .1em .25em #ffe8bb60,0 0 .9em #dda98816;
+}
+#au-starmap [data-body="calendar"] .ag-model::before {
+  content: ""; position: absolute; inset: 17% -30%; border: 1px solid #e3c3a45e; border-top-color: #f9e1c594; border-radius: 50%; transform: rotate(-28deg); box-shadow: 0 0 0 .3em #d6afc808,0 0 0 calc(.3em + 1px) #dfb7d021;
+}
+#au-starmap [data-body="calendar"] .ag-model::after { content: ""; position: absolute; width: .55em; height: .55em; right: -.6em; top: .4em; border-radius: 50%; background: radial-gradient(circle at 30% 25%,#fff6da,#d6b4a2 45%,#49384f 80%); box-shadow: 0 0 .6em #f0d1a733; }
+
+/* Library is a compact blue cluster with clear stars at different depths. */
+#au-starmap [data-body="library"] .ag-model {
+  width: 6.2em; height: 5.2em;
+  background: radial-gradient(circle at 25% 28%,#eef6ff 0 1px,#8eaeff90 2px,transparent 7px),radial-gradient(circle at 69% 32%,#e6e7ff 0 1px,#97bbffb3 2px,transparent 8px),radial-gradient(circle at 74% 70%,#c0ceff 0 1px,#86afff80 2px,transparent 6px),radial-gradient(circle at 31% 77%,#e5dfff 0 1px,#9b8cdb85 2px,transparent 7px),radial-gradient(circle at 46% 13%,#fff 0 1px,transparent 4px),radial-gradient(circle at 15% 57%,#d7f0ff 0 1px,transparent 4px),radial-gradient(ellipse at 49% 49%,#7694ff3d,transparent 64%);
+}
+#au-starmap [data-body="library"] .ag-model::before { content: ""; position: absolute; width: .65em; height: .65em; left: 45%; top: 42%; border-radius: 50%; background: #e0efff; box-shadow: 0 0 .25em #f6faff,0 0 .7em #b4cfff,0 0 1.5em #6485ff9c,-1.25em .45em 0 -.2em #c9d3ff,.9em -1em 0 -.19em #c3d5ff,.85em .9em 0 -.22em #b2c6ff; }
+#au-starmap [data-body="library"] .ag-model::after { content: ""; position: absolute; left: 49%; top: 16%; width: 1px; height: 72%; background: linear-gradient(transparent,#e4ebffb3 40%,#fff 50%,#e4ebffb3 60%,transparent); transform: rotate(28deg); box-shadow: 0 0 .2em #a2baff4d; }
+
+/* Weather is an ocean world under broken, illuminated cloud bands. */
+#au-starmap [data-body="weather"] .ag-model {
+  width: 4.8em; height: 4.8em; margin: .2em 0; border-radius: 50%;
+  background: radial-gradient(ellipse at 34% 34%,#e2f6f270 0 5%,#87b9c76b 6% 11%,transparent 14%),radial-gradient(ellipse at 52% 60%,#82ac9d70 0 8%,transparent 17%),radial-gradient(ellipse at 71% 32%,#b4d5d170 0 4%,transparent 14%),radial-gradient(circle at 28% 23%,#a6dfec,#37789d 30%,#113a64 62%,#061222 82%);
+  box-shadow: inset -.75em -.4em .85em #020713d9,inset .1em .05em .18em #def5ffb8,0 0 0 1px #aad9ec38,0 0 .7em #89d8ff26;
+}
+#au-starmap [data-body="weather"] .ag-model::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: repeating-linear-gradient(155deg,transparent 0 10%,#edf7ee33 11% 14%,transparent 16% 23%); mask-image: radial-gradient(circle at 34% 35%,#000,transparent 73%); filter: blur(.5px);
+}
+#au-starmap [data-body="weather"] .ag-model::after { content: ""; position: absolute; inset: -.23em; border: 1px solid #b6e9ff20; border-left-color: #d0f7ff65; border-radius: 50%; box-shadow: -.15em -.05em .5em #afeaff15; }
+
+/* System is a neutron binary. Its two stars are physically separate bodies. */
+#au-starmap [data-body="system"] .ag-model {
+  width: 6em; height: 5.2em;
+  background: radial-gradient(circle at 32% 54%,#fff7f0 0 3%,#f1c8d9 4%,#b080cf66 8%,transparent 22%),radial-gradient(circle at 72% 38%,#f4f1ff 0 2%,#d3c2ff 3%,#a181ff70 7%,transparent 20%),radial-gradient(ellipse at 53% 48%,#ac7bcb1f,transparent 61%);
+}
+#au-starmap [data-body="system"] .ag-model::before { content: ""; position: absolute; left: 13%; right: 8%; top: 28%; height: 37%; border: 1px solid #c5a4e64d; border-top-color: #e8bedd73; border-radius: 50%; transform: rotate(-22deg); }
+#au-starmap [data-body="system"] .ag-model::after { content: ""; position: absolute; left: 5%; right: 9%; height: 1px; top: 53%; background: linear-gradient(transparent,#f1cee969 24%,#fff0f1 31%,#c1a9ed5c 42%,transparent 80%); transform: rotate(-24deg); box-shadow: 0 0 .35em #d5bbf23b; }
+
+/* Frequently used is a warm comet with a soft, directional dust tail. */
+#au-starmap [data-body="frequent"] .ag-model { width: 7em; height: 5.2em; background: radial-gradient(ellipse at 70% 47%,#f2bba11f,transparent 45%); }
+#au-starmap [data-body="frequent"] .ag-model::before { content: ""; position: absolute; width: 1.1em; height: 1.1em; left: 70%; top: 31%; border-radius: 50%; background: radial-gradient(circle at 32% 25%,#fff9e9,#f3cba7 37%,#b77c7f 77%); box-shadow: 0 0 .35em #ffe8cba6,0 0 .85em #efb0aa5c; }
+#au-starmap [data-body="frequent"] .ag-model::after { content: ""; position: absolute; width: 5.4em; height: 1.5em; right: 19%; top: 32%; background: linear-gradient(90deg,transparent,#b786b31a 28%,#c596b25c 65%,#f4c5a7ad); clip-path: polygon(0 50%,100% 10%,100% 80%,17% 64%); border-radius: 60%; transform-origin: right center; transform: rotate(-13deg); filter: blur(.4px); }
+
+/* Desk tools is a small metallic geodesic beacon with an illuminated lens. */
+#au-starmap [data-body="tools"] .ag-model {
+  width: 4.1em; height: 4.8em; margin: .2em .55em;
+  background: conic-gradient(from 30deg at 50% 42%,#d6d0dc,#5b647b 60deg,#a89cba 120deg,#3f455e 180deg,#a8a7b1 240deg,#e8ded4 300deg,#d6d0dc);
+  clip-path: polygon(50% 0,94% 25%,94% 75%,50% 100%,6% 75%,6% 25%); filter: drop-shadow(0 0 .55em #d0c9e533);
+}
+#au-starmap [data-body="tools"] .ag-model::before { content: ""; position: absolute; inset: 1px; clip-path: polygon(50% 0,94% 25%,94% 75%,50% 100%,6% 75%,6% 25%); background: conic-gradient(from 0deg at 50% 46%,#2a3144 0 60deg,#53566d 60deg 120deg,#171d32 120deg 180deg,#33394f 180deg 240deg,#53566e 240deg 300deg,#7b7c8d 300deg); opacity: .85; }
+#au-starmap [data-body="tools"] .ag-model::after { content: ""; position: absolute; left: 39%; top: 35%; width: 22%; height: 22%; border: 1px solid #f3e9dbbf; border-radius: 50%; background: radial-gradient(circle,#fff1ce,#d6c4a3 25%,#474760 62%); box-shadow: 0 0 .4em #f5e0bb90,0 0 1em #c9c0f252; }
+
+/* Search is a deep optical lens with chromatic rings and a fine diffraction ray. */
+#au-starmap [data-body="search"] .ag-model {
+  width: 4.6em; height: 4.6em; margin: .3em; border-radius: 50%;
+  background: radial-gradient(circle at 37% 32%,#bcd4ff26,transparent 28%),radial-gradient(circle,#070411 0 31%,#7f77be 32%,#b3bef0 34%,#2a2041 36%,#100a1b 46%,#a390bc 48%,#cfc0d1 49%,#3c3453 52%,#100b1d 60%,#d2bbcc 62%,#272036 65%,#080511 68%);
+  box-shadow: inset -.25em -.3em .4em #0008,inset .15em .12em .4em #eee4ff1f,0 0 .8em #aaa4ff21;
+}
+#au-starmap [data-body="search"] .ag-model::before { content: ""; position: absolute; left: 50%; top: -13%; width: 1px; height: 125%; transform: rotate(38deg); background: linear-gradient(transparent,#c7c5f659 33%,transparent 44%,transparent 57%,#a8b2f44d 68%,transparent); }
+#au-starmap [data-body="search"] .ag-model::after { content: ""; position: absolute; left: 22%; top: 17%; width: 40%; height: 20%; border-top: 1px solid #dce4ff7d; border-radius: 50%; transform: rotate(-35deg); }
+
+/* One selected object's ephemeris. Only its real host widget is mounted here. */
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail {
+  position: absolute; z-index: 14; right: 26px; bottom: 24px; width: min(420px,calc(100% - 48px)); max-height: calc(100% - 105px); padding: 26px 24px 23px 30px;
+  display: flex; flex-direction: column; gap: 15px; overflow: visible; border: 0; border-left: 1px solid #e6c5b75c; border-radius: 0; color: #f2edf7;
+  background: linear-gradient(90deg,#08050ff2,#08050fed 85%,#08050fba); box-shadow: -12px 0 40px #03020733;
+  backdrop-filter: blur(10px); text-shadow: 0 1px 3px #0008;
+}
+#au-starmap .ag-detail[hidden] { display: none !important; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail[data-side="left"] { left: 26px; right: auto; }
+#au-starmap .ag-detail::before { content: ""; position: absolute; pointer-events: none; width: 76px; height: 76px; left: -25px; top: -25px; border: 1px solid; border-color: #e1c4b780 transparent transparent #b69ac14d; border-radius: 50%; transform: rotate(22deg); }
+#au-starmap .ag-detail::after { content: ""; position: absolute; pointer-events: none; top: 0; left: 30px; right: 0; height: 1px; background: linear-gradient(90deg,#eac9b25e,#c7abd32b,transparent); }
+#au-starmap .ag-detail-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex: none; }
+#au-starmap .ag-detail-title { margin: 0; font-weight: 350; font-size: 24px; line-height: 1.25; letter-spacing: -.4px; color: #f2e8ed; }
+#au-starmap .ag-detail :is(h2,h3) { color: #f2e8ed; }
+#au-starmap .ag-detail-close { flex: none; padding: 4px 0 4px 8px; border: 0; border-bottom: 1px solid #cba9c23b; background: transparent; color: #cbbbd5; font: 13px/1.4 "Segoe UI",sans-serif; cursor: pointer; }
+#au-starmap .ag-detail-close:hover { color: #ffe4c9; border-color: #e2c5af91; }
+#au-starmap .ag-detail-content { min-width: 0; min-height: 0; max-height: 100%; overflow: auto; scrollbar-width: thin; scrollbar-color: #b99abe55 transparent; padding: 1px 3px 5px 0; }
+#au-starmap .ag-detail-content > p { margin: 0; color: #c8bad2; font-size: 15px; line-height: 1.6; }
+#au-starmap .ag-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px 17px; margin-top: 14px; }
+#au-starmap .ag-action { min-height: 32px; padding: 6px 0; border: 0; border-bottom: 1px solid #cbb0cb4d; border-radius: 0; background: transparent; color: #f2d4b8; font: 14px/1.4 "Segoe UI",sans-serif; text-align: left; cursor: pointer; }
+#au-starmap .ag-action:hover { color: #fff0df; border-bottom-color: #efd3b6b3; }
+#au-starmap :is(.ag-back,.ag-detail-close,.ag-action):focus-visible { outline: 2px solid #f0d5b5; outline-offset: 5px; }
+#au-starmap button:disabled { opacity: .5; cursor: default; }
+#au-starmap .ag-core-tools {
+  position: absolute; z-index: 8; left: 50%; top: calc(44% + clamp(130px,9.2vw,205px)); transform: translateX(-50%);
+  min-height: 30px; padding: 5px 0; border: 0; border-bottom: 1px solid #e6c6d373; border-radius: 0; background: transparent;
+  color: #f0e3f3; font: 500 12px/1.4 "Segoe UI",sans-serif; letter-spacing: .35px; text-shadow: 0 1px 3px #000,0 0 8px #000; cursor: pointer; isolation: isolate;
+}
+#au-starmap .ag-core-tools::before { content: ""; position: absolute; z-index: -1; pointer-events: none; inset: -8px -22px; background: radial-gradient(ellipse,#020309ed 0,#020309b8 35%,transparent 75%); filter: blur(5px); }
+#au-starmap .ag-core-tools:hover { color: #f7d8bf; border-bottom-color: #e6c9b38c; }
+#au-starmap .ag-core-tools:focus-visible { outline: 2px solid #f0d5b5; outline-offset: 5px; }
+#au-starmap .ag-help { position: absolute; z-index: 4; bottom: 17px; left: 28px; transform: none; margin: 0; color: #c4b3cdbd; font: 11px/1.4 "Segoe UI",sans-serif; letter-spacing: .2px; pointer-events: none; text-align: left; text-shadow: 0 1px 3px #000,0 0 7px #000; max-width: 40%; }
+#au-starmap .ag-status { position: absolute; z-index: 16; left: 28px; bottom: 20px; margin: 0; max-width: min(400px,40%); color: #e6d0c0; font: 13px/1.5 "Segoe UI",sans-serif; text-shadow: 0 1px 7px #000; }
+#au-starmap .ag-status:empty { display: none; }
+#au-starmap .ag-control-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 17px; padding-top: 13px; border-top: 1px solid #d0b1cb21; font-size: 14px; color: #d1c1da; }
+#au-starmap .ag-control-row select { width: auto; min-width: 95px; padding: 6px 24px 6px 8px; border: 1px solid #c7a6cb30; border-radius: 8px; font: 13px/1.4 "Segoe UI",sans-serif; }
+#au-starmap .ag-workspaces { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 13px; }
+#au-starmap .ag-workspaces .ag-action { min-width: 65px; text-align: center; }
+#au-starmap .ag-workspaces [aria-pressed="true"] { color: #ffe4c9; border-bottom-color: #f2d4b9bf; }
+#au-starmap .ag-theme-controls { position: relative; margin-top: 16px; padding-top: 13px; border-top: 1px solid #d0b1cb21; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-theme-controls .au-theme-selector { margin: 0; width: 100%; font-size: 14px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-theme-controls .au-theme-selector summary { display: flex; justify-content: flex-start; width: fit-content; color: #ddcde4 !important; background: transparent !important; border: 0 !important; border-bottom: 1px solid #c9a7ca4d !important; border-radius: 0; padding: 6px 0; font-size: 13px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-theme-controls .au-theme-menu { position: static; width: 100%; max-height: none; margin-top: 9px; left: auto; right: auto; }
+
+/* Mounted widgets shed their old frame, grid slot and dashboard materials. */
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content > :is(.ah-clock,.ah-calendar,.ah-weather,.ah-library,.ah-sensors,.ah-frequent) {
+  position: relative !important; inset: auto !important; width: 100% !important; height: auto !important; max-width: none !important; max-height: none !important; min-height: 0 !important;
+  padding: 0 !important; margin: 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; backdrop-filter: none !important;
+  transform: none !important; aspect-ratio: auto !important; overflow: visible !important; text-shadow: none !important;
+}
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content > :is(.ah-clock,.ah-calendar,.ah-weather,.ah-library,.ah-sensors,.ah-frequent)::before,
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content > :is(.ah-clock,.ah-calendar,.ah-weather,.ah-library,.ah-sensors,.ah-frequent)::after { content: none !important; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-section-head { margin-bottom: 12px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-folders { grid-template-columns: repeat(2,minmax(0,1fr)) !important; grid-auto-rows: minmax(52px,auto) !important; gap: 9px; overflow: visible !important; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-folder { min-height: 52px; padding: 10px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-folder-label { font-size: 13px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-clock[data-world-clock] { gap: 7px; padding: 0 !important; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .awc-time { color: #f4d4b9 !important; font-size: clamp(44px,18cqw,76px); font-weight: 300; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-clock .asc-status { margin-top: 7px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-calendar-days button,
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-calendar-days > span { height: 34px; font-size: 14px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-forecast { max-width: 100%; justify-content: flex-start; overflow-x: auto; padding-bottom: 9px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .ah-weather-day { flex-basis: 61px; width: 61px; min-width: 61px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content :is(.ah-folder,.ah-sensor,.afq-item,.asc-chip) { border-color: #d0acc933 !important; background: #c7a0d008 !important; border-radius: 12px; box-shadow: none !important; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .afq-groups { min-height: 80px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail-content .afq-status { margin-top: 9px; font-size: 12px; }
+
+/* Existing functional windows remain above the map and retain their behaviour. */
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active :is(.ah-window,.ac-window,.afx-shell,.afb-shell,.asp-dialog,.adt-dialog) { background: linear-gradient(145deg,#1b1024f7,#080610fc) !important; border-color: #e3c4d15e #b59bc030 #7b63872e #cfb0bc55 !important; box-shadow: inset 0 1px #ffe3ee16,0 30px 100px #000c !important; border-radius: 24px; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active :is(.ah-window-bar,.ac-bar,.afx-toolbar,.afx-tabs,.afx-sidebar,.afb-sidebar,.afx-preview,.afx-details,.afx-inspector,.asp-footer) { background: #c8a4d006 !important; border-color: #c7a3cc21 !important; }
+
+@media (min-width:2500px) and (min-height:1400px) {
+  #au-starmap .ag-title { left: 55px; top: 45px; font-size: 26px; letter-spacing: 2px; }
+  #au-starmap .ag-back { right: 55px; top: 43px; font-size: 21px; min-height: 46px; }
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail { right: 55px; bottom: 45px; width: 610px; padding: 38px 34px 34px 44px; max-height: calc(100% - 160px); gap: 25px; }
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail[data-side="left"] { left: 55px; right: auto; }
+  #au-starmap .ag-detail-title { font-size: 34px; }
+  #au-starmap :is(.ag-detail-close,.ag-action) { font-size: 20px; }
+  #au-starmap .ag-detail-content > p { font-size: 22px; }
+  #au-starmap .ag-core-tools { min-height: 42px; font-size: 19px; }
+  #au-starmap .ag-help { bottom: 25px; left: 55px; font-size: 17px; }
+}
+@media (min-width:1000px) and (max-width:1180px) {
+  #au-starmap .ag-object { font-size: 14px; width: 10em; }
+  #au-starmap .ag-object[data-body="time"] { --ag-x: 15%; }
+  #au-starmap .ag-object[data-body="calendar"] { --ag-x: 85%; }
+  #au-starmap .ag-object[data-body="weather"] { --ag-x: 10%; --ag-y: 55%; }
+  #au-starmap .ag-object[data-body="library"] { --ag-x: 89%; --ag-y: 55%; }
+  #au-starmap .ag-object[data-body="tools"] { --ag-y: 85%; }
+  #au-starmap .ag-object[data-body="core"] { width: 19em; height: 15em; }
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail { width: 365px; padding: 22px 19px 20px 25px; right: 20px; bottom: 20px; }
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail[data-side="left"] { left: 20px; right: auto; }
+}
+@media (max-width:999px) {
+  #au-starmap .ag-object { font-size: 13px; width: 10em; height: 9em; }
+  #au-starmap .ag-model { width: 4.8em; height: 4.8em; }
+  #au-starmap .ag-title { left: 20px; top: 18px; font-size: 15px; }
+  #au-starmap .ag-back { right: 20px; top: 15px; font-size: 12px; }
+  #au-starmap .ag-object[data-body="time"] { --ag-x: 17%; --ag-y: 22%; }
+  #au-starmap .ag-object[data-body="calendar"] { --ag-x: 83%; --ag-y: 22%; }
+  #au-starmap .ag-object[data-body="weather"] { --ag-x: 12%; --ag-y: 52%; }
+  #au-starmap .ag-object[data-body="library"] { --ag-x: 88%; --ag-y: 52%; }
+  #au-starmap .ag-object[data-body="search"] { --ag-x: 50%; --ag-y: 16%; }
+  #au-starmap .ag-object[data-body="system"] { --ag-x: 25%; --ag-y: 78%; }
+  #au-starmap .ag-object[data-body="frequent"] { --ag-x: 76%; --ag-y: 78%; }
+  #au-starmap .ag-object[data-body="tools"] { --ag-x: 50%; --ag-y: 87%; }
+  #au-starmap .ag-object[data-body="core"] { --ag-y: 43%; width: 17em; height: 13em; }
+}
+@media (max-width:540px) {
+  #au-starmap .ag-object { font-size: 12px; width: 9em; height: 9em; }
+  #au-starmap .ag-name { font-size: 13px; letter-spacing: .2px; }
+  #au-starmap .ag-reading { font-size: 11px; max-width: 9em; }
+  #au-starmap .ag-object[data-body="weather"] { --ag-x: 15%; }
+  #au-starmap .ag-object[data-body="library"] { --ag-x: 85%; }
+  #au-starmap .ag-object[data-body="system"] { --ag-x: 18%; --ag-y: 77%; }
+  #au-starmap .ag-object[data-body="frequent"] { --ag-x: 84%; --ag-y: 77%; }
+  #au-starmap .ag-object[data-body="tools"] { --ag-y: 85%; }
+  #au-starmap .ag-object[data-body="core"] { --ag-y: 43%; width: 15em; height: 12em; }
+  #au-starmap .ag-help { left: 14px; bottom: 12px; max-width: 56%; font-size: 10px; }
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail,
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail[data-side="left"] { width: calc(100% - 28px); left: 14px; right: 14px; bottom: 14px; padding: 21px 18px 18px 23px; max-height: calc(100% - 80px); }
+}
+@media (max-height:650px) and (min-width:1000px) {
+  #au-starmap .ag-object { font-size: 12px; height: 8.5em; }
+  #au-starmap .ag-object[data-body="core"] { height: 11em; width: 18em; }
+  #au-starmap .ag-object[data-body="time"],#au-starmap .ag-object[data-body="calendar"] { --ag-y: 25%; }
+  #au-starmap .ag-object[data-body="tools"] { --ag-y: 84%; }
+  #au-starmap .ag-title { top: 17px; }
+  #au-starmap .ag-back { top: 14px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  #au-starmap .ag-object,#au-starmap .ag-object::before,#au-starmap .ag-object::after,#au-starmap .ag-model { animation: none !important; transition: none !important; }
+  #au-starmap .ag-object:is(:hover,:focus-visible) .ag-model { transform: none; }
+}
+#aurora-home-preview:is([data-motion="reduced"],[data-motion="off"],[data-paused="true"]) #au-starmap :is(.ag-object,.ag-model),
+#aurora-home-preview:is([data-motion="reduced"],[data-motion="off"],[data-paused="true"]) #au-starmap .ag-object::before,
+#aurora-home-preview:is([data-motion="reduced"],[data-motion="off"],[data-paused="true"]) #au-starmap .ag-object::after { animation: none !important; transition: none !important; }
+#aurora-home-preview:is([data-motion="reduced"],[data-motion="off"],[data-paused="true"]) #au-starmap .ag-object:is(:hover,:focus-visible) .ag-model { transform: none; }
+@media (prefers-reduced-transparency:reduce) {
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail { background: #0a0611; backdrop-filter: none; }
+}
+
+/* Deliberate selection first advances the world, then reveals its live ephemeris.
+   WAAPI owns the two finite transforms. CSS defines only their resting states. */
+#au-starmap .ag-objects { perspective: 1200px; perspective-origin: 50% 45%; }
+#au-starmap .ag-object { transform-style: preserve-3d; }
+#au-starmap .ag-object[data-focused="true"] {
+  transform: translate(-50%,-50%) scale(1.24); z-index: 11;
+}
+#au-starmap .ag-object[data-focused="true"] .ag-model {
+  filter: drop-shadow(0 .3em .35em #000b) drop-shadow(0 0 1.05em color-mix(in srgb,var(--ag-light) 42%,transparent)) brightness(1.16) saturate(1.08);
+}
+#au-starmap .ag-object[data-focused="true"]::before {
+  opacity: 1; border-color: #f6e1c7ad #b2c9ff4d #dbb4e570 #e8c7f3a6;
+  transform: rotate(-22deg) scaleY(.58) scale(1.12); box-shadow: 0 0 .8em #c6a9f00b;
+}
+#au-starmap .ag-object[data-focused="true"]::after { opacity: 1; }
+#au-starmap .ag-object[data-focused="true"] .ag-name { color: #fff0dc; text-shadow: 0 1px 3px #000,0 0 11px #000; }
+#au-starmap .ag-object[data-focused="true"] .ag-reading { color: #e5d6ee; }
+#au-starmap .ag-stage[data-focus-phase="approach"] .ag-object[data-focused="true"] .ag-model { filter: drop-shadow(0 .35em .4em #000c) drop-shadow(0 0 1.15em color-mix(in srgb,var(--ag-light) 50%,transparent)) brightness(1.23) saturate(1.1); }
+#au-starmap .ag-stage:is([data-focus-phase="approach"],[data-focus-phase="reveal"]) .ag-object[data-focused="true"] { will-change: transform; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail {
+  transform-origin: var(--ag-origin-x,50%) var(--ag-origin-y,50%);
+  transition: none; animation: none;
+}
+#au-starmap .ag-stage[data-focus-phase="approach"] .ag-detail { opacity: 0; pointer-events: none; }
+#au-starmap .ag-stage[data-focus-phase="reveal"] .ag-detail { pointer-events: none; will-change: transform,opacity; }
+#au-starmap .ag-stage[data-focus-phase="focused"] .ag-detail { pointer-events: auto; }
+#au-starmap .ag-stage[data-focus-phase="focused"] .ag-detail::before { border-top-color: #f3d7b8a1; border-left-color: #c7a8dd7d; }
+#au-starmap .ag-preview-heading { margin: 15px 0 7px; color: #e8c9b5; font-size: 13px; font-weight: 550; line-height: 1.4; letter-spacing: .7px; }
+#au-starmap .ag-preview-intro { margin: 0 0 12px; color: #cabbcf; font-size: 14px; line-height: 1.6; }
+#au-starmap .ag-note-preview { max-height: 140px; padding: 0 5px 0 11px; margin: 0; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; border-left: 1px solid #d0b1cb35; color: #e9ddea; font-size: 14px; line-height: 1.6; scrollbar-width: thin; }
+@media (prefers-reduced-motion:no-preference) {
+  #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap .ag-object[data-body="core"] .ag-caption { transform-origin: 50% 100%; transition: transform 340ms cubic-bezier(.2,.75,.25,1); }
+  #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap .ag-object[data-body="core"][data-focused="true"] .ag-caption { transform: translateY(-1.6em) scale(.80645); }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  #au-starmap .ag-object[data-focused="true"] { transform: translate(-50%,-50%) !important; }
+  #au-starmap .ag-object[data-focused="true"] .ag-model { transform: none !important; transition: none !important; }
+  #aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active #au-starmap .ag-detail { transform: none !important; opacity: 1 !important; }
+}
+#aurora-home-preview:is([data-motion="reduced"],[data-motion="off"],[data-paused="true"]) #au-starmap .ag-object[data-focused="true"] { transform: translate(-50%,-50%) !important; }
+#aurora-home-preview:is([data-motion="reduced"],[data-motion="off"],[data-paused="true"]) #au-starmap .ag-object[data-focused="true"] .ag-model { transform: none !important; transition: none !important; }
+#aurora-home-preview#aurora-home-preview#aurora-home-preview.au-starmap-active:is([data-motion="reduced"],[data-motion="off"],[data-paused="true"]) #au-starmap .ag-detail { transform: none !important; opacity: 1 !important; }
+
+#au-starmap [data-body="system"] .ag-model { background: radial-gradient(ellipse,#cea0ef24,transparent 65%); }
+#au-starmap [data-body="system"] .ag-model::before { inset: 23% 6%; transform: rotate(-18deg); }
+#au-starmap [data-body="system"] .ag-model::after, #au-starmap [data-body="calendar"] .ag-model::after { content: none; }
+#au-starmap .ag-binary-plane { position: absolute; width: 84%; height: 96.92%; left: 8%; top: 1.54%; transform: rotate(-18deg) scaleY(.55); }
+#au-starmap .ag-binary-disc { display: block; width: 100%; height: 100%; }
+#au-starmap .ag-binary-disc i { position:absolute; top:50%; border-radius:50%; translate:-50% -50%; background:#fff8eb; }
+#au-starmap .ag-binary-a { left:2%; width:.87em; height:.87em; box-shadow:0 0 .18em .12em #ffdcca,0 0 .5em .21em #ebadac,0 0 1.05em .28em #c566a092; }
+#au-starmap .ag-binary-b { left:98%; width:.67em; height:.67em; box-shadow:0 0 .18em .12em #e0edff,0 0 .5em .21em #aaaaf1,0 0 .9em .3em #7771dc80; }
+#au-starmap [data-body="calendar"] .ag-model::before { inset:-4% -22%; transform:none; border-color:#edd3b44f; }
+#au-starmap .ag-month-sun { position:absolute; left:calc(50% + var(--month-x)); top:calc(50% + var(--month-y)); translate:-50% -50%; width:.6em; height:.6em; border-radius:50%; background:#fff7d2; box-shadow:0 0 .18em .1em #ffd8a9,0 0 .6em .17em #e9a274bd; }
+#au-starmap .ag-planet-atmosphere { position:absolute; inset:0; border-radius:50%; overflow:hidden; pointer-events:none; background:linear-gradient(115deg,transparent 15%,#07142300 49%,#040b1cc7 85%); }
+#au-starmap .ag-weather-clouds { position:absolute; inset:-11%; opacity:0; background:radial-gradient(ellipse at 24% 38%,#f3f7fc 2%,#ccdce6ae 11%,transparent 19%),radial-gradient(ellipse at 47% 40%,#e1eaf1 4%,#acc0d5cd 14%,transparent 22%),radial-gradient(ellipse at 72% 52%,#a1b0c2 2%,#8296b6b3 12%,transparent 22%); }
+#au-starmap [data-sky="sunny"] .ag-planet-atmosphere { background:radial-gradient(circle at 24% 23%,#ffed9eb8,transparent 43%),linear-gradient(115deg,transparent 43%,#020d23a8 85%); }
+#au-starmap [data-sky="partly"] .ag-weather-clouds { opacity:.58; }
+#au-starmap :is([data-sky="cloudy"],[data-sky="rain"],[data-sky="snow"],[data-sky="thunder"]) .ag-weather-clouds { opacity:1; }
+#au-starmap .ag-precipitation { position:absolute; inset:35% 0 -35%; mask-image:radial-gradient(ellipse,#000 15%,transparent 70%); }
+#au-starmap [data-sky="rain"] .ag-precipitation,#au-starmap [data-sky="thunder"] .ag-precipitation { background:repeating-linear-gradient(110deg,transparent 0 8px,#b7e6ffcf 9px,transparent 10px); }
+#au-starmap [data-sky="snow"] .ag-precipitation { background:radial-gradient(circle,#f3f8ff 1px,transparent 2px) 0 0/8px 11px; }
+#au-starmap [data-sky="thunder"] .ag-planet-atmosphere { background:linear-gradient(125deg,#2d12444a,#6c4e9488 50%,#1c152fd9); }
+#au-starmap [data-sky="thunder"] .ag-planet-atmosphere::after { content:""; position:absolute; inset:35% 33% 18% 41%; background:#ffe9bb; clip-path:polygon(61% 0,16% 56%,41% 55%,28% 100%,89% 41%,57% 45%,91% 0); }
+#au-starmap [data-body="weather"] .ag-model[data-sky="unknown"] { background:radial-gradient(circle at 32% 28%,#8995a5,#475362 38%,#202939 67%,#131722); }
+#au-starmap [data-body="weather"] .ag-model[data-sky="unknown"]::before { opacity:0; }
+@keyframes ag-instrument-drift { from { translate:0 .14em; rotate:-5deg; } to { translate:0 -.24em; rotate:5deg; } }
+@keyframes ag-cloud-drift { from { translate:-3% 0; } to { translate:4% 2%; } }
+@media (prefers-reduced-motion:no-preference) {
+  #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-body="tools"] .ag-model { animation:ag-instrument-drift 6s ease-in-out infinite alternate; }
+  #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-reading="current"] .ag-weather-clouds { animation:ag-cloud-drift 10s ease-in-out infinite alternate; }
+}
+
+
+/* Burning comet. Decorative motion never touches the button or its caption. */
+#au-starmap [data-body="frequent"] .ag-model.ag-burning-comet{width:7em;height:5.2em;background:none;overflow:visible;isolation:isolate}
+#au-starmap [data-body="frequent"] .ag-model.ag-burning-comet::before,#au-starmap [data-body="frequent"] .ag-model.ag-burning-comet::after{content:none;display:none}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-train{position:absolute;inset:0;display:block;transform:rotate(-13deg);transform-origin:76% 48%;pointer-events:none}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-train>*{position:absolute;display:block;pointer-events:none}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-veil{left:-7%;right:9%;top:16%;height:66%;border-radius:50%;background:radial-gradient(ellipse at 78% 48%,#ffd87648,#fa6a1c2d 26%,#b52c0c16 51%,transparent 73%);filter:blur(.28em);opacity:.78}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-outer,#au-starmap [data-body="frequent"] .ag-model .ag-comet-inner,#au-starmap [data-body="frequent"] .ag-model .ag-comet-tongue{right:19%;top:33%;width:92%;height:29%;transform-origin:98% 50%;clip-path:polygon(100% 23%,86% 5%,72% 27%,51% 12%,61% 42%,30% 29%,39% 50%,0 55%,38% 67%,26% 83%,60% 72%,69% 95%,84% 77%,100% 76%);border-radius:58% 24% 29% 60%;background:linear-gradient(90deg,transparent,#ee401513 17%,#fb5d2460 40%,#ff8c36bf 68%,#ffe497 93%,#fff8d8);opacity:.86;filter:blur(.035em)}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-inner{top:37%;height:22%;width:71%;background:linear-gradient(90deg,transparent,#ff6b241e 20%,#ffb43b9e 53%,#ffe891e8 84%,#fffde6);clip-path:polygon(100% 20%,80% 0,60% 32%,32% 19%,41% 46%,0 57%,42% 65%,28% 87%,67% 72%,83% 98%,100% 77%);opacity:.96}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-tongue{top:42%;height:12%;width:56%;background:linear-gradient(90deg,transparent,#ffc85e77 42%,#fff2b9 80%,#fffef0);clip-path:polygon(100% 14%,69% 4%,49% 27%,0 52%,38% 77%,70% 89%,100% 85%);filter:blur(.025em)}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-flare{left:66%;top:29%;width:25%;height:36%;border-radius:50%;background:radial-gradient(ellipse,#fff6bb 2%,#ffd75dbb 26%,#ff8c326b 46%,#ff4c1812 68%,transparent 77%);filter:blur(.14em);opacity:.9}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-core{left:72%;top:37%;width:1.14em;height:1.14em;border-radius:50%;background:radial-gradient(circle at 35% 28%,#fffef2 0 18%,#fff7cd 38%,#ffd074 62%,#ed773a 85%,#933312);box-shadow:0 0 .18em #fff8cdee,0 0 .5em #ffc96ba8,0 0 1.2em #ff793951,inset -.09em -.08em .15em #7f2f2438}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-embers{inset:0;overflow:visible}
+#au-starmap [data-body="frequent"] .ag-model .ag-comet-ember{position:absolute;left:76%;top:48%;width:var(--ember-size);height:var(--ember-size);border-radius:50%;background:#ffe8ad;box-shadow:0 0 .24em #ff9d4b;opacity:0;transform:translate3d(0,0,0)}
+@keyframes ag-comet-outer-flame{0%,100%{transform:scale3d(.95,.9,1) skewY(-2deg);opacity:.72}19%{transform:scale3d(1.08,1.14,1) skewY(3deg);opacity:.95}42%{transform:scale3d(.98,.83,1) skewY(-3deg);opacity:.79}67%{transform:scale3d(1.13,1.05,1) skewY(1deg);opacity:1}84%{transform:scale3d(1.01,1.18,1) skewY(-1deg);opacity:.87}}
+@keyframes ag-comet-inner-flame{0%,100%{transform:scale3d(1,.86,1) skewY(2deg);opacity:.9}33%{transform:scale3d(.89,1.2,1) skewY(-3deg);opacity:1}61%{transform:scale3d(1.15,.97,1) skewY(1deg);opacity:.78}82%{transform:scale3d(.97,1.13,1) skewY(-2deg);opacity:.98}}
+@keyframes ag-comet-heat{0%,100%{opacity:.81;transform:scale(.97)}35%{opacity:1;transform:scale(1.1)}72%{opacity:.91;transform:scale(1.03)}}
+@keyframes ag-comet-ember-drift{0%{opacity:0;transform:translate3d(0,0,0) scale(.8)}12%{opacity:1}44%{opacity:.78}100%{opacity:0;transform:translate3d(-6.2em,var(--ember-lane),0) scale(.18)}}
+@media(prefers-reduced-motion:no-preference){
+ #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-body="frequent"] .ag-model .ag-comet-outer{animation:ag-comet-outer-flame 1.67s ease-in-out infinite}
+ #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-body="frequent"] .ag-model .ag-comet-inner{animation:ag-comet-inner-flame 1.13s -.4s ease-in-out infinite}
+ #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-body="frequent"] .ag-model .ag-comet-tongue{animation:ag-comet-inner-flame .73s -.2s ease-in-out infinite reverse}
+ #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-body="frequent"] .ag-model .ag-comet-flare{animation:ag-comet-heat 1.31s -.7s ease-in-out infinite}
+ #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-body="frequent"] .ag-model .ag-comet-core{animation:ag-comet-heat .89s -.3s ease-in-out infinite}
+ #aurora-home-preview[data-motion="full"]:not([data-paused="true"]) #au-starmap [data-body="frequent"] .ag-model .ag-comet-ember{animation:ag-comet-ember-drift var(--ember-duration) var(--ember-delay) linear infinite}
+}
+
+
+/* Loaded after the starmap theme. Only the decorative Library model is affected. */
+#au-starmap [data-body="library"] .ag-model.ag-library-atom{background:none;isolation:isolate;overflow:visible}
+#au-starmap [data-body="library"] .ag-model.ag-library-atom::before,
+#au-starmap [data-body="library"] .ag-model.ag-library-atom::after{content:none;display:none}
+#au-starmap [data-body="library"] .ag-model.ag-library-atom>.ag-library-atom-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;margin:0;padding:0;pointer-events:none;background:transparent;filter:drop-shadow(0 0 .4em #8bbdff14)}
